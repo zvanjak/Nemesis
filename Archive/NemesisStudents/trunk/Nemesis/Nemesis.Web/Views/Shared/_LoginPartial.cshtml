@@ -1,0 +1,41 @@
+﻿@using Nemesis.BLL.Services;
+@using Nemesis.Domain.Security;
+
+@{
+	ViewBag.Title = "_LoginPartial";
+	SecurityService secService = SecurityService.GetInstance();
+}
+
+@if (Request.IsAuthenticated) {
+    <div class="btn-group pull-right">
+      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+        Account
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a href="#">Settings</a></li>
+        @if (secService.IsUserInRole(User.Identity.Name, RoleType.ADMIN))
+        {
+          <li>@Html.ActionLink("Administration", "Index", "Admin")</li>
+        }
+        <li class="divider"></li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+      </ul>
+    </div>
+    <p class="navbar-text pull-right" style="margin-right:20px">
+        Logged in as <b>@User.Identity.Name</b>
+    </p>
+    <div style="visibility:hidden">
+        @(Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
+            @Html.AntiForgeryToken()
+        }
+    </div>
+}else 
+{
+    <div class="nav-collapse collapse pull-right">
+        <ul class="nav">
+            <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        </ul>
+    </div><!--/.nav-collapse -->
+}
+

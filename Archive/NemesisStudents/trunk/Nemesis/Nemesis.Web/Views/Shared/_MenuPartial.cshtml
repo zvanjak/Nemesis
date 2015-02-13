@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "_MenuPartial";
+}
+
+@if (Request.IsAuthenticated)
+{
+    <ul class="nav nav-tabs">
+        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+        <li>@Html.ActionLink("Daily activites", "Index", "Home")</li>
+        <li>@Html.ActionLink("Objectives", "Index", "Home")</li>
+        <li>@Html.ActionLink("Projects", "Index", "Home")</li>
+        <li>@Html.ActionLink("Assets", "Index", "Home")</li>
+    </ul>
+}
+

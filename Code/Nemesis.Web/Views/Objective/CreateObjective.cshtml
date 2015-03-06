@@ -1,0 +1,35 @@
+﻿@model Nemesis.Web.Models.ObjectiveViewModel
+
+@{
+	ViewBag.Title = "CreateObjective";
+}
+
+<h2>Create objective</h2>
+
+@*<form method="post" action="">
+		<fieldset>
+			Objective title: <br />
+			<input type="text" name="Title" maxlength="200" />
+			<br /><br />
+			Description: <br />
+			<textarea name="Description" rows="10" cols="40"></textarea>
+			<br /><br />
+			<input type="submit" value="Create Objective" />
+		</fieldset>
+	</form>*@
+
+@using (Html.BeginForm())
+{
+	<p>Your name: @Html.TextBoxFor(x => x.Title) </p>
+	<p>Your email: @Html.TextBoxFor(x => x.Description)</p>
+	<p>
+		Priority
+		@Html.DropDownListFor(x => x.Priority,
+													new[] {
+																	new SelectListItem() {Text = "Yes, I'll be there", Value = bool.TrueString},
+																	new SelectListItem() {Text = "No, I can't come",  Value = bool.FalseString}
+																},
+													"Choose an option")
+	</p>
+	<input type="submit" value="Submit RSVP" />
+}

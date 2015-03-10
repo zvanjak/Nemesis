@@ -22,15 +22,39 @@
             <div class="navbar-collapse collapse">
 							<ul class="nav navbar-nav">
 								<li>@Html.ActionLink("Home", "Index", "Home")</li>
-								<li>@Html.ActionLink("Objectives", "Index", "Objective")</li>
-								<li>@Html.ActionLink("Activities", "Index", "Activity")</li>
+								@*<li>@Html.ActionLink("Objectives", "Index", "Objective")</li>*@
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" id="dropdownCommonMenu" data-toggle="dropdown">Objectives</a>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownCommonMenu">
+										<li role="menuitem" class="nav-header">Show</li>
+										<li role="menuitem">@Html.ActionLink("Week objectives", "Index", "Home")</li>
+										<li role="menuitem">@Html.ActionLink("Month objectives", "Index", "Home")</li>
+										<li role="menuitem">@Html.ActionLink("Quartal objectives", "Index", "Home")</li>
+										<li role="menuitem" class="divider"></li>
+										<li role="menuitem" class="nav-header">Create</li>
+										<li role="menuitem">@Html.ActionLink("Week objective", "Index", "Home")</li>
+										<li role="menuitem">@Html.ActionLink("Month objective", "Index", "Home")</li>
+										<li role="menuitem">@Html.ActionLink("Quartal objective", "Index", "Home")</li>
+									</ul>
+								</li>
+@*								<li>@Html.ActionLink("Activities", "Index", "Activity")</li>*@
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" id="dropdownCommonMenu" data-toggle="dropdown">Activities</a>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownCommonMenu">
+										<li role="menuitem">@Html.ActionLink("Show today", "Index", "Home")</li>
+										<li role="menuitem">@Html.ActionLink("Show whole week", "Index", "Home")</li>
+										<li role="menuitem" class="divider"></li>
+										<li role="menuitem">@Html.ActionLink("Create activity", "Index", "Home")</li>
+									</ul>
+								</li>
 								<li>@Html.ActionLink("Projects", "Index", "Project")</li>
 								<li>@Html.ActionLink("Assets", "Index", "Asset")</li>
 								<li>@Html.ActionLink("Teams", "Index", "Team")</li>
+								<li>@Html.ActionLink("Work orders", "Index", "Team")</li>
 								<li>@Html.ActionLink("About", "About", "Home")</li>
 								<li>@Html.ActionLink("Contact", "Contact", "Home")</li>
 								<!-- DropDown example -->
-								<li class="dropdown">
+								@*<li class="dropdown">
 									<a href="#" class="dropdown-toggle" id="dropdownCommonMenu" data-toggle="dropdown">DropDown</a>
 									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownCommonMenu">
 										<li role="menuitem" class="nav-header">Header 1</li>
@@ -40,7 +64,7 @@
 										<li role="menuitem" class="nav-header">Header 2</li>
 										<li role="menuitem">@Html.ActionLink("Item 3", "Index", "Home")</li>
 									</ul>
-								</li>
+								</li>*@
 							</ul>
                 @Html.Partial("_LoginPartial")
             </div>

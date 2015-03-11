@@ -39,7 +39,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Asset.cs" />
+    <Compile Include="Assets\Asset.cs" />
+    <Compile Include="Assets\AssetAssignments.cs" />
+    <Compile Include="Assets\AssetAttribute.cs" />
+    <Compile Include="Assets\AssetAttributeEnumItem.cs" />
+    <Compile Include="Assets\AssetAttributeValue.cs" />
+    <Compile Include="Assets\AssetType.cs" />
+    <Compile Include="Assets\Enum\AssetAttributeType.cs" />
+    <Compile Include="Assets\Exception\InvalidAttributeTypeException.cs" />
+    <Compile Include="Assets\PlannedVersion.cs" />
+    <Compile Include="Assets\Repository\IAssetAttributeRepository.cs" />
+    <Compile Include="Assets\Repository\IAssetManagementRepositoryFactory.cs" />
+    <Compile Include="Assets\Repository\IAssetRepository.cs" />
+    <Compile Include="Assets\Repository\IAssetTypeRepository.cs" />
+    <Compile Include="Assets\Repository\IPlannedVersionRepository.cs" />
+    <Compile Include="Assets\Repository\IVersionRepository.cs" />
+    <Compile Include="Assets\Version.cs" />
     <Compile Include="Bug.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="EntityBase.cs" />

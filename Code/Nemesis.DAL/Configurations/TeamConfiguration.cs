@@ -17,7 +17,7 @@ namespace Nemesis.DAL.Configurations
 			// this.Property(t => t.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
 			this.Property(t => t.Name).IsRequired();
-			this.HasMany(d => d.TeamMembers).WithOptional(l => l.MemberOfTheTeam);
+			this.HasMany(d => d.Members).WithOptional(l => l.MemberOfTheTeam);
 
 			//this.HasMany(t => t.SubTeams).WithOptional(p => p.Parent).Map(m => m.MapKey("ParentTeamId2"));
 			//this.HasOptional(d => d.Parent).WithMany(t => t.SubTeams).HasForeignKey(k => k.ParentTeamId);

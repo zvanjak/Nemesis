@@ -15,7 +15,7 @@ namespace Nemesis.DAL.Configurations
 		public ObjectiveConfiguration()
 		{
 			this.HasKey(t => t.Id);
-			this.Property(t => t.Title).IsRequired();
+			this.Property(t => t.ShortDescription).IsRequired();
 			this.Property(t => t.Description);
 
 		}

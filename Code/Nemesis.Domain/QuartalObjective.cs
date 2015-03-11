@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Nemesis.Domain
 {
-	class QuartalObjective : Objective
+	public class QuartalObjective : Objective
 	{
+		public virtual int QuartalOrdNum { get; set; }
 	}
 }

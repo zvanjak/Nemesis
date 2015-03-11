@@ -9,9 +9,8 @@ namespace Nemesis.Domain
 	{
 		public string Name { get; set; }
 
-		//public virtual int ParentTeamId { get; set; }
 		public virtual Team Parent { get; set; }
-		//public ICollection<Team> SubTeams { get; set; }
+		public ICollection<Team> SubTeams { get; set; }
 
 		/// <summary>
 		/// Dohvaća ili postavlja vrstu tima.

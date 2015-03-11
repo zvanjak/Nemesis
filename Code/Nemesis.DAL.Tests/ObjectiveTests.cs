@@ -19,7 +19,7 @@ namespace Nemesis.DAL.Tests
 				Database.SetInitializer(new NemesisInitializer());
 
 				var obj = new Objective();
-				obj.Title = "Prvi iter obj";
+				obj.ShortDescription = "Prvi iter obj";
 				obj.CreatedOn = DateTime.Now;
 				obj.Description = "Testni Iteration objective";
 				obj.Priority = ObjectivePriority.HIGH;

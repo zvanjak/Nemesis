@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nemesis.Domain
+namespace Nemesis.Domain.Security
 {
-	public class WeekObjective : Objective
+	public enum UserActionType
 	{
-		public virtual int WeekOrdNum { get; set; }
+		OBJECTIVE_ADD,
+		OBJECTIVE_DELETE,
+		OBJECTIVE_EDIT,
+		ADMIN_HOME
 	}
 }

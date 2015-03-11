@@ -39,7 +39,7 @@ namespace Nemesis.Web.Controllers
 					{
 						Objective obj = new Objective();
 
-						obj.Title = entry.Title;
+						obj.ShortDescription = entry.Title;
 						obj.Description = entry.Description;
 
 						obj.CreatedOn = DateTime.Now;

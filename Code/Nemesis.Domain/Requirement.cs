@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Nemesis.Domain
 {
-	class Requirement : Issue
+	public class Requirement : Issue
 	{
+		public string Display
+		{
+			get { return string.Format("{0} - {1}", Code, Name); }
+		}
+
+		public virtual Project BelongsToProject { get; set; }
 	}
 }

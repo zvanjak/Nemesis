@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nemesis.Domain
+namespace Nemesis.Domain.Security
 {
-	public class WeekObjective : Objective
+	public enum RoleType
 	{
-		public virtual int WeekOrdNum { get; set; }
+		ADMIN, TEAM_LEADER, TEAM_MEMBER
 	}
 }

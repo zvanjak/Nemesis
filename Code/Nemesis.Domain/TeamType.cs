@@ -13,17 +13,9 @@ namespace Nemesis.Domain
 		/// </summary>
 		Company,
 		/// <summary>
-		/// Predstavlja sektor.
-		/// </summary>
-		Sector,
-		/// <summary>
-		/// Predstavlja poslovnu jedinicu.
-		/// </summary>
-		BusinessUnit,
-		/// <summary>
 		/// Predstavlja odjel.
 		/// </summary>
-		Section,
+		Department,
 		/// <summary>
 		/// Predstavlja tim.
 		/// </summary>

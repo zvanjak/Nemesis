@@ -14,7 +14,8 @@ namespace Nemesis.DAL.Configurations
 		public TeamMemberConfiguration()
 		{
 			this.HasKey(t => t.Id);
-			this.Property(t => t.Name).IsRequired();
+			this.Property(t => t.FirstName).IsRequired();
+            this.Property(t => t.LastName).IsRequired();
 		}
 	}
 }

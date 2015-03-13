@@ -160,6 +160,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
+    <Compile Include="Controllers\AssetController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ObjectiveController.cs" />
@@ -235,6 +236,10 @@
     <Content Include="Views\Objective\Index.cshtml" />
     <Content Include="Views\Objective\CreateObjective.cshtml" />
     <Content Include="Views\Activity\Index.cshtml" />
+    <Content Include="Views\Asset\AssetList.cshtml" />
+    <Content Include="Views\Asset\AssetListHierarchical.cshtml" />
+    <Content Include="Views\Asset\AssetTypes.cshtml" />
+    <Content Include="Views\Asset\AssetAttributes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

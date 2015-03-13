@@ -48,7 +48,16 @@
 									</ul>
 								</li>
 								<li>@Html.ActionLink("Projects", "Index", "Project")</li>
-								<li>@Html.ActionLink("Assets", "Index", "Asset")</li>
+								@*<li>@Html.ActionLink("Assets", "Index", "Asset")</li>*@
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" id="dropdownCommonMenu" data-toggle="dropdown">Assets</a>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownCommonMenu">
+										<li role="menuitem">@Html.ActionLink("Asset list", "AssetList", "Asset")</li>
+										<li role="menuitem">@Html.ActionLink("Asset list hierarchical", "AssetListHierarchical", "Asset")</li>
+										<li role="menuitem">@Html.ActionLink("Asset types", "AssetTypes", "Asset")</li>
+										<li role="menuitem">@Html.ActionLink("Asset attributes", "AssetAttributes", "Asset")</li>
+									</ul>
+								</li>
 								<li>@Html.ActionLink("Teams", "Index", "Team")</li>
 @*								<li>@Html.ActionLink("Work orders", "Index", "Team")</li>*@
 								<li class="dropdown">

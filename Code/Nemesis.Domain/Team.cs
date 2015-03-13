@@ -16,7 +16,7 @@ namespace Nemesis.Domain
 		/// <summary>
 		/// Dohvaća ili postavlja vrstu tima.
 		/// </summary>
-		public virtual TeamType Type { get; set; }
+		public virtual TeamTypes Type { get; set; }
 
 		public virtual List<TeamMember> Members { get; set; }
 

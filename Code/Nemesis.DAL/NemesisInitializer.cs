@@ -14,37 +14,35 @@ namespace Nemesis.DAL
 	{
 		protected override void Seed(NemesisContext context)
 		{
-			//var director = new TeamMember() { Name = "Direktor" };
-			//var voditeljRazvoja = new TeamMember() { Name = "Voditelj razvoja" };
-			//var teamLead1 = new TeamMember() { Name = "Lead 1" };
-			//var teamLead2 = new TeamMember() { Name = "Lead 2" };
 
-			//context.TeamMembers.Add(director);
-			//context.TeamMembers.Add(voditeljRazvoja);
-			//context.TeamMembers.Add(teamLead1);
-			//context.TeamMembers.Add(teamLead2);
+
+            var director = new TeamMember() { FirstName = "Mirna", LastName = "Domančić" };
+            var voditeljRazvoja = new TeamMember() { FirstName = "Samo", LastName = "Mirna" };
+            var tomo = new TeamMember() { FirstName = "Tomislav", LastName = "Bradarić" };
+
+            var test = new TeamMember() { FirstName = "Testna", LastName = "Osoba" };
+
+            var teamLead2 = new TeamMember() { FirstName = "Mirna", LastName = "Hotfix 1.1." };
+
+            context.TeamMembers.Add(director);
+            context.TeamMembers.Add(voditeljRazvoja);
+            context.TeamMembers.Add(teamLead2);
 
 			//// NEVJEROJATNO - ako ovdje inicijaliziram TeamLeader-a dobijem exception od Entity Frameworka, a u konkretnim testovima definiranje leadera SVE RADI!!!???
 			//// POPRAVLJENO
-			//var firma = new Team() { Name = "Naša firma d.o.o", TeamLeader = director };
-			//var odjelRazvoja = new Team() { Name = "Odjel razvoja", TeamLeader = voditeljRazvoja };
-			//var team1 = new Team() { Name = "Tim 1", TeamLeader = teamLead1 };
-			//var team2 = new Team() { Name = "Tim 2", TeamLeader = teamLead2 };
+            var firma = new Team() { Name = "PalaĆinke", Leader = director };
+            var odjelRazvoja = new Team() { Name = "Obiteljski pogrebni obrt Adams", Leader = voditeljRazvoja };
 
-			//context.Teams.Add(firma);
-			//context.Teams.Add(odjelRazvoja);
-			//context.Teams.Add(team1);
-			//context.Teams.Add(team2);
+            firma.Members.Add(test);
 
-			//var members = new List<TeamMember>
-			//								{
-			//									new TeamMember() {Name = "Zvone", MemberOfTheTeam = team1},
-			//									new TeamMember() {Name = "Ivica", MemberOfTheTeam = team1},
-			//									new TeamMember() {Name = "Tomislav", MemberOfTheTeam = team1},
-			//									new TeamMember() {Name = "Josip", MemberOfTheTeam = team2}
-			//									//new TeamMember() {Name = "Pero", MemberOfTheTeam = team2}
-			//								};
-			//members.ForEach(m => context.TeamMembers.Add(m));
+            firma.Members.Add(tomo);
+            odjelRazvoja.Members.Add(tomo);
+
+            firma.Members.Add(teamLead2);
+            odjelRazvoja.Members.Add(teamLead2);
+
+            context.Teams.Add(firma);
+            context.Teams.Add(odjelRazvoja);
 
 			//Asset prog1 = new Asset() { Name = "Prva komponenta", Description = "Prva", ShortDescription = "Short", ResponsibleTeam = odjelRazvoja };
 			//context.Assets.Add(prog1);

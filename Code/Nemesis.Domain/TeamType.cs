@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Nemesis.Domain
 {
-	public enum TeamType
+	public enum TeamTypes
 	{
 		/// <summary>
 		/// Predstavlja cijelu firmu.

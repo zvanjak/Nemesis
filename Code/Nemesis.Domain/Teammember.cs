@@ -11,8 +11,6 @@ namespace Nemesis.Domain
 
 		public virtual string LastName { get; set; }
 
-		public virtual string Name { get; set; }
-
 		public virtual Team MemberOfTheTeam { get; set; }
 		//{
 		//  get { return _memberOfTheTeam; }
@@ -28,14 +26,15 @@ namespace Nemesis.Domain
 
 		public override string Display
 		{
-			get { return Name; }
+            get { return FirstName + " " + LastName; }
 		}
 
 		public TeamMember() { }
 
-		public TeamMember(string inName)
+		public TeamMember(string firstName, string lastName)
 		{
-			Name = inName;
+            FirstName = firstName;
+            LastName = lastName;
 		}
 
 	}

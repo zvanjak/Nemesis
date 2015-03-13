@@ -1,0 +1,39 @@
+﻿@model Nemesis.Web.Models.TeamCreateModel
+
+@{
+    ViewBag.Title = "Create new team";
+}
+
+<h2>Create team</h2>
+@using (Html.BeginForm()) {
+    List<SelectListItem> memberItems = new List<SelectListItem>();
+    Model.AvailableMembers.ForEach(m => memberItems.Add(new SelectListItem { Text = m }));
+
+    List<SelectListItem> teamTypeItems = new List<SelectListItem>();
+    Model.AvailableTeamTypes.ForEach(m => teamTypeItems.Add(new SelectListItem { Text = m }));
+
+    List<SelectListItem> teamItems = new List<SelectListItem>();
+    Model.CurrentTeams.ForEach(m => teamItems.Add(new
+    SelectListItem { Text = m }));
+
+    <div>@Html.LabelFor(m => m.Name)</div>
+    <div>@Html.EditorFor(m => m.Name)</div>
+
+    <br />
+    
+    <div>@Html.LabelFor(m => m.TeamLeader)</div>
+    <div>@Html.DropDownListFor(m => m.TeamLeader, memberItems)</div>
+
+    <br />
+    
+    <div>@Html.LabelFor(m => m.TeamType)</div>
+    <div>@Html.DropDownListFor(m => m.TeamType, teamTypeItems)</div>
+
+    <br />
+
+    <div>@Html.LabelFor(m => m.ParentTeam)</div>
+    <div>@Html.DropDownListFor(m => m.ParentTeam, teamItems)</div>
+    
+    <br />
+    <input type="submit" class="btn btn-primary btn-lg" value="Create team" />
+}

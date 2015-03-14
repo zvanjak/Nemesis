@@ -8,6 +8,7 @@ using Nemesis.Domain;
 using Nemesis.DAL;
 
 using Nemesis.Web.Models;
+using Nemesis.DAL.Repositories;
 
 namespace Nemesis.Web.Controllers
 {
@@ -16,50 +17,128 @@ namespace Nemesis.Web.Controllers
         // GET: Objective
         public ActionResult Index()
         {
-					using (var repo = new GenericRepository<Objective>(new NemesisContext()))
-					{
-						IList<Objective> listObj = repo.Get().ToList();
-
-						ViewBag.Entries = listObj;
-					}
-
-          return View();
+            return View();
         }
 
-				public ActionResult CreateWeekObjective()
-				{
-					return View();
+        public ActionResult CreateWeekObjective()
+        {
+            return CreateObjective();
+        }
 
-				}
-				
-				[HttpPost]		
-				public ActionResult CreateWeekObjective(ObjectiveViewModel entry)
-				{
-					using (var repo = new GenericRepository<Objective>(new NemesisContext()))
-					{
-						Objective obj = new Objective();
+        public ActionResult CreateMonthObjective()
+        {
+            return CreateObjective();
+        }
 
-						obj.ShortDescription = entry.Title;
-						obj.Description = entry.Description;
+        public ActionResult CreateQuartalObjective()
+        {
+            return CreateObjective();
+        }
 
-						obj.CreatedOn = DateTime.Now;
-						obj.Priority = ObjectivePriority.HIGH;
-						//obj.AssignedToTeam = new Team() { Name = "TestTeam23" };
-						//            obj.AssignedToTeam = new Team() { Name = "TestTeam", TeamLeader = new TeamMember() { Name = "TestTeam leader" } };
+        private ActionResult CreateObjective()
+        {
+            ObjectiveViewModel model = new ObjectiveViewModel();
 
-						repo.Insert(obj);
-						repo.Save();
-					}
+            model.ParentObjectives = GetParentObjectives();
+            model.TeamMembers = GetTeamMembers();
 
-					using (var repo = new GenericRepository<Team>(new NemesisContext()))
-					{
-						Team obj = new Team();
-						obj.Name = "Prdo";
+            return View("CreateObjective", model);
+        }
 
-						repo.Insert(obj);
-						repo.Save();
-					}
-					return View();
-				}
-		}
+        private IEnumerable<SelectListItem> GetTeamMembers()
+        {
+            IEnumerable<TeamMember> teamMembers = null;
+
+            using (var repo = new GenericRepository<TeamMember>(new NemesisContext()))
+            {
+                teamMembers = repo.Get();
+            }
+
+            return ToSelectList(teamMembers);
+        }
+
+        private IEnumerable<SelectListItem> GetParentObjectives()
+        {
+            IEnumerable<Objective> objectives = null;
+
+            using (var repo = new ObjectiveRepository(new NemesisContext()))
+            {
+                objectives = repo.Get();
+            }
+
+            return ToSelectList(objectives);
+        }
+
+        private IEnumerable<SelectListItem> ToSelectList<T>(IEnumerable<T> objectives)
+        {
+            return new SelectList(objectives, "Id", "Display");
+        }
+
+        [HttpPost]
+        public ActionResult CreateWeekObjective(ObjectiveViewModel entry)
+        {
+            WeekObjective obj = new WeekObjective();
+            return CreateObjective(obj, entry);
+        }
+
+        [HttpPost]
+        public ActionResult CreateMonthObjective(ObjectiveViewModel entry) 
+        {
+            MonthObjective obj = new MonthObjective();
+            return CreateObjective(obj, entry);
+        }
+
+        [HttpPost]
+        public ActionResult CreateQuartalObjective(ObjectiveViewModel entry)
+        {
+            QuartalObjective obj = new QuartalObjective();
+            return CreateObjective(obj, entry);
+        }
+
+
+        private ActionResult CreateObjective(Objective obj, ObjectiveViewModel entry)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var objRepo = new GenericRepository<Objective>(new NemesisContext()))
+                {
+                    obj.Parent = objRepo.GetByID(entry.ParentId);
+                    obj.ShortDescription = entry.Title;
+                    obj.Description = entry.Description;
+                    obj.Priority = GetPriorityFromString(entry.Priority);
+                    obj.EstimatedTime = entry.EstimatedTime;
+
+                    List<TeamMember> members = new List<TeamMember>();
+
+                    using (var membersRepo = new GenericRepository<TeamMember>(new NemesisContext()))
+                    {
+                        members.Add(membersRepo.GetByID(entry.LeaderId));
+                    }
+
+                    obj.AssignedToTeamMembers = members;
+
+                    obj.CreatedOn = DateTime.Now;
+
+                    objRepo.Insert(obj);
+                    objRepo.Save();
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                entry.ParentObjectives = GetParentObjectives();
+                entry.TeamMembers = GetTeamMembers();
+                return View("CreateObjective", entry);
+            }
+        }
+
+        private ObjectivePriority GetPriorityFromString(string p)
+        {
+            if (Enum.IsDefined(typeof(ObjectivePriority), p))
+            {
+                return (ObjectivePriority)Enum.Parse(typeof(ObjectivePriority), p);
+            }
+            return ObjectivePriority.LOW;
+        }
+    }
 }

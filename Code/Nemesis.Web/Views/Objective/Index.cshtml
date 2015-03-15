@@ -6,18 +6,20 @@
 
 <h2>Objectives</h2>
 
+<!--
 @Html.ActionLink("Week", "CreateObjective", "Objective")
 @Html.ActionLink("Month", "CreateObjective", "Objective")
 @Html.ActionLink("Quartal", "CreateObjective", "Objective")
+-->
 @Html.ActionLink("Create week objective", "CreateWeekObjective", "Objective")
 @Html.ActionLink("Create month objective", "CreateMonthObjective", "Objective")
-@Html.ActionLink("Create wuartal objective", "CreateQuartalObjective", "Objective")
+@Html.ActionLink("Create quartal objective", "CreateQuartalObjective", "Objective")
 
 @foreach (var entry in ViewBag.Entries)
 {
 	<section class="contact">
 		<header>
-			<h3>@entry.Title</h3>
+			<h3>@entry.ShortDescription</h3>
 		</header>
 		<p>
 			Posted on @entry.CreatedOn.ToLongDateString()

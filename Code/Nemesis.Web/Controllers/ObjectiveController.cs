@@ -17,6 +17,11 @@ namespace Nemesis.Web.Controllers
         // GET: Objective
         public ActionResult Index()
         {
+            using (var repo = new GenericRepository<Objective>(new NemesisContext()))
+			{
+				IList<Objective> listObj = repo.Get().ToList();
+                ViewBag.Entries = listObj;
+            }
             return View();
         }
 

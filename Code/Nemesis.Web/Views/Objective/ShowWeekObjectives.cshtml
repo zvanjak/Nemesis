@@ -17,10 +17,32 @@
 {
     <section class="contact">
         <header>
-            <h3>@entry.ShortDescription</h3>
+            <h3>@entry.ShortDescription</h3> <b>Number: </b> @entry.WeekOrdNum
         </header>
         <p>
             Posted on @entry.CreatedOn.ToLongDateString()
+        </p>
+        <p>
+            <b>Priority: </b> @entry.Priority
+        </p>
+        <p>
+            <b>Estimated time: </b> @entry.EstimatedTime
+        </p>
+        <p>
+            <b>Assigned to: </b>
+        @*
+            @foreach (var member in entry.TeamMembers)
+            {
+                <p>
+                    @member.Value
+                </p>
+            }
+        *@
+        </p>
+        <p>
+            <b>Description:</b>
+
+            @entry.Description
         </p>
     </section>
 }

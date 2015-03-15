@@ -37,10 +37,13 @@ namespace Nemesis.Web.Controllers
 
         private ActionResult ShowObjectives<T>() where T : Objective
         {
-            using (var repo = new GenericRepository<T>(new NemesisContext()))
+            using (NemesisContext context = new NemesisContext())
             {
-                IEnumerable<Objective> listObj = repo.Get();
-                ViewBag.Entries = listObj;
+                using (var repo = new GenericRepository<T>(context))
+                {
+                    IEnumerable<Objective> listObj = repo.Get();
+                    ViewBag.Entries = listObj;
+                }
             }
             return View();
         }

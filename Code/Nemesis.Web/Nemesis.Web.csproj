@@ -259,6 +259,9 @@
     <Content Include="Views\Asset\AssetAttributes.cshtml" />
     <Content Include="Views\Team\Index.cshtml" />
     <Content Include="Views\Team\Create.cshtml" />
+    <Content Include="Views\Objective\ShowWeekObjectives.cshtml" />
+    <Content Include="Views\Objective\ShowMonthObjectives.cshtml" />
+    <Content Include="Views\Objective\ShowQuartalObjectives.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,26 @@
+﻿@model Nemesis.Web.Models.ObjectiveViewModel
+
+@{
+    ViewBag.Title = "ShowQuartalObjectives";
+}
+
+<h2>Quartal Objectives</h2>
+
+@Html.ActionLink("Objectives", "Index", "Objective")
+@Html.ActionLink("Week", "ShowWeekObjectives", "Objective")
+@Html.ActionLink("Month", "ShowMonthObjectives", "Objective")
+@Html.ActionLink("Create week objective", "CreateWeekObjective", "Objective")
+@Html.ActionLink("Create month objective", "CreateMonthObjective", "Objective")
+@Html.ActionLink("Create quartal objective", "CreateQuartalObjective", "Objective")
+
+@foreach (var entry in ViewBag.Entries)
+{
+    <section class="contact">
+        <header>
+            <h3>@entry.ShortDescription</h3>
+        </header>
+        <p>
+            Posted on @entry.CreatedOn.ToLongDateString()
+        </p>
+    </section>
+}

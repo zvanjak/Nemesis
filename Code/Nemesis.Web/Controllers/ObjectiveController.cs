@@ -25,6 +25,45 @@ namespace Nemesis.Web.Controllers
             return View();
         }
 
+        public ActionResult ShowWeekObjectives()
+        {
+            using(NemesisContext context = new NemesisContext())
+            {
+                using (ObjectiveRepository repo = new ObjectiveRepository(context))
+                {
+                    IList<Objective> listObj = repo.Get().Where(x => x.GetType() == typeof(WeekObjective)).ToList();
+                    ViewBag.Entries = listObj;
+                }
+            }
+            return View();
+        }
+
+        public ActionResult ShowMonthObjectives()
+        {
+            using (NemesisContext context = new NemesisContext())
+            {
+                using (ObjectiveRepository repo = new ObjectiveRepository(context))
+                {
+                    IList<Objective> listObj = repo.Get().Where(x => x.GetType() == typeof(MonthObjective)).ToList();
+                    ViewBag.Entries = listObj;
+                }
+            }
+            return View();
+        }
+
+        public ActionResult ShowQuartalObjectives()
+        {
+            using (NemesisContext context = new NemesisContext())
+            {
+                using (ObjectiveRepository repo = new ObjectiveRepository(context))
+                {
+                    IList<Objective> listObj = repo.Get().Where(x => x.GetType() == typeof(QuartalObjective)).ToList();
+                    ViewBag.Entries = listObj;
+                }
+            }
+            return View();
+        }
+
         public ActionResult CreateWeekObjective()
         {
             return CreateObjective();

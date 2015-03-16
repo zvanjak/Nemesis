@@ -17,32 +17,76 @@ namespace Nemesis.Web.Controllers
         // GET: Objective
         public ActionResult Index()
         {
-            return ShowObjectives<Objective>();
+            return ShowObjectives<Objective>("");
         }
 
-        public ActionResult ShowWeekObjectives()
+        public ActionResult Details(int id, string filter)
         {
-            return ShowObjectives<WeekObjective>();
+            using (NemesisContext nc = new NemesisContext())
+            {
+                using (var repo = new GenericRepository<Objective>(nc))
+                {
+                    if (String.IsNullOrEmpty(filter))
+                    {
+                        IEnumerable<Objective> listObj = repo.Get();
+                        ViewBag.Entries = listObj;
+                    }
+                    else
+                    {
+                        IEnumerable<Objective> listObj = repo.Get().Where(x => x.CreatedOn.ToString("yyyy-MM-dd").Equals(filter));
+                        ViewBag.Entries = listObj;
+                        ViewBag.Filter = filter;
+                    }
+
+                }
+            }
+            ViewBag.ObjId = id;
+
+            return View();
+        }
+
+        public ActionResult ShowWeekObjectives(string datumFilter)
+        {
+            if (!String.IsNullOrEmpty(datumFilter))
+            {
+                return ShowObjectives<WeekObjective>(datumFilter);
+            }
+            else
+            {
+                return ShowObjectives<WeekObjective>("");
+            }
+
         }
 
         public ActionResult ShowMonthObjectives()
         {
-            return ShowObjectives<MonthObjective>();
+            return ShowObjectives<MonthObjective>("");
         }
 
         public ActionResult ShowQuartalObjectives()
         {
-            return ShowObjectives<QuartalObjective>();
+            return ShowObjectives<QuartalObjective>("");
         }
 
-        private ActionResult ShowObjectives<T>() where T : Objective
+        private ActionResult ShowObjectives<T>(string filter) where T : Objective
         {
             using (NemesisContext context = new NemesisContext())
             {
                 using (var repo = new GenericRepository<T>(context))
                 {
-                    IEnumerable<Objective> listObj = repo.Get();
-                    ViewBag.Entries = listObj;
+                    if (!String.IsNullOrEmpty(filter))
+                    {
+                        IEnumerable<Objective> listObj = repo.Get().Where(x => x.CreatedOn.ToString("yyyy-MM-dd").Equals(filter));
+                        ViewBag.Entries = listObj;
+                        ViewBag.Filter = filter;
+                    }
+                    else
+                    {
+                        IEnumerable<Objective> listObj = repo.Get();
+                        ViewBag.Entries = listObj;
+                    }
+
+
                 }
             }
             return View();

@@ -37,6 +37,8 @@ namespace Nemesis.Web.Controllers
         // GET: Team/Create
         public ActionResult Create()
         {
+            
+            
             TeamCreateModel m = new TeamCreateModel();
 
             return View(m);
@@ -50,7 +52,7 @@ namespace Nemesis.Web.Controllers
             {
                 // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
+                return View(model);
             }
             catch
             {

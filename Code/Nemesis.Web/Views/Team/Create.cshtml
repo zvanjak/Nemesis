@@ -6,6 +6,7 @@
 
 <h2>Create team</h2>
 @using (Html.BeginForm()) {
+@Html.ValidationSummary(true)
     List<SelectListItem> memberItems = new List<SelectListItem>();
     Model.AvailableMembers.ForEach(m => memberItems.Add(new SelectListItem { Text = m }));
 
@@ -16,16 +17,23 @@
     Model.CurrentTeams.ForEach(m => teamItems.Add(new
     SelectListItem { Text = m }));
 
-    <div>@Html.LabelFor(m => m.Name)</div>
+    <div>
+      @Html.LabelFor(m => m.Name)
+     <p> @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })</p>
+    </div>
     <div>@Html.EditorFor(m => m.Name)</div>
 
     <br />
-    
-    <div>@Html.LabelFor(m => m.TeamLeader)</div>
+
+    <div>
+      @Html.LabelFor(m => m.TeamLeader)
+      @Html.ValidationMessageFor(m => m.TeamLeader, "", new { @class = "text-danger" })
+    </div>
     <div>@Html.DropDownListFor(m => m.TeamLeader, memberItems)</div>
 
     <br />
-    
+
+    <p>@Html.ValidationMessageFor(m => m.TeamType)</p>  
     <div>@Html.LabelFor(m => m.TeamType)</div>
     <div>@Html.DropDownListFor(m => m.TeamType, teamTypeItems)</div>
 

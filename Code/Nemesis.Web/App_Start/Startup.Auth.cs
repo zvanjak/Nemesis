@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using Nemesis.Web.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Nemesis.Web
 {
@@ -44,6 +45,30 @@ namespace Nemesis.Web
             // Once you check this option, your second step of verification during the login process will be remembered on the device where you logged in from.
             // This is similar to the RememberMe option when you log in.
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
+
+            var c = ApplicationDbContext.Create();
+            var rm = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(c));
+
+            if (! rm.RoleExists("Admins")) {
+                //HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                //UserManager<ApplicationUser> bl = new UserManager<ApplicationUser>()
+                var dbContext = ApplicationDbContext.Create();
+                ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(dbContext));
+                var user1 = new ApplicationUser { UserName = "admin@admin.hr", Email = "admin@admin.hr" };
+                var status = userManager.Create(user1, "Mdomancic1!");
+                dbContext = ApplicationDbContext.Create();
+                var RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(dbContext));
+
+                string roleName = "Admins";
+                IdentityResult roleResult;
+
+                roleResult = RoleManager.Create(new IdentityRole(roleName));
+
+                userManager.AddToRole(user1.Id, "Admins");   
+            }
+            
+                     
+
 
             // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(

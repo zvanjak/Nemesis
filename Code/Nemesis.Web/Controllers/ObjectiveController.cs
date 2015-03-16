@@ -20,24 +20,49 @@ namespace Nemesis.Web.Controllers
             return ShowObjectives<Objective>("");
         }
 
-        public ActionResult Details(int id, string filter)
+        public ActionResult ShowWeekObjective(int id, string filter)
+        {
+            ViewBag.ChildObjectiveType = "Child";
+            return ShowObjective<WeekObjective>(id, filter);
+        }
+
+        public ActionResult ShowMonthObjective(int id, string filter)
+        {
+            ViewBag.ChildObjectiveType = "Week";
+            return ShowObjective<MonthObjective>(id, filter);
+        }
+
+        public ActionResult ShowQuartalObjective(int id, string filter)
+        {
+            ViewBag.ChildObjectiveType = "Month";
+            return ShowObjective<QuartalObjective>(id, filter);
+        }
+
+        private ActionResult ShowObjective<T>(int id, string filter) where T : Objective
         {
             using (NemesisContext nc = new NemesisContext())
             {
-                using (var repo = new GenericRepository<Objective>(nc))
+                using (var repo = new GenericRepository<T>(nc))
                 {
+                    List<Objective> listObj = new List<Objective>();
                     if (String.IsNullOrEmpty(filter))
                     {
-                        IEnumerable<Objective> listObj = repo.Get();
-                        ViewBag.Entries = listObj;
+                        listObj = repo.Get().ToList<Objective>();
+
                     }
                     else
                     {
-                        IEnumerable<Objective> listObj = repo.Get().Where(x => x.CreatedOn.ToString("yyyy-MM-dd").Equals(filter));
-                        ViewBag.Entries = listObj;
+                        listObj = repo.Get().Where(x => x.CreatedOn.ToString("yyyy-MM-dd").Equals(filter)).ToList<Objective>();
                         ViewBag.Filter = filter;
                     }
+                    foreach (Objective obj in listObj)
+                    {
+                        if (obj.Objectives.Count > 0)
+                        {
 
+                        }
+                    }
+                    ViewBag.Entries = listObj;
                 }
             }
             ViewBag.ObjId = id;
@@ -47,25 +72,24 @@ namespace Nemesis.Web.Controllers
 
         public ActionResult ShowWeekObjectives(string datumFilter)
         {
-            if (!String.IsNullOrEmpty(datumFilter))
-            {
-                return ShowObjectives<WeekObjective>(datumFilter);
-            }
-            else
-            {
-                return ShowObjectives<WeekObjective>("");
-            }
+            if (String.IsNullOrEmpty(datumFilter)) datumFilter = "";
+            ViewBag.ObjectiveType = "Week";
+            return ShowObjectives<WeekObjective>(datumFilter);
 
         }
 
-        public ActionResult ShowMonthObjectives()
+        public ActionResult ShowMonthObjectives(string datumFilter)
         {
-            return ShowObjectives<MonthObjective>("");
+            if (String.IsNullOrEmpty(datumFilter)) datumFilter = "";
+            ViewBag.ObjectiveType = "Month";
+            return ShowObjectives<MonthObjective>(datumFilter);
         }
 
-        public ActionResult ShowQuartalObjectives()
+        public ActionResult ShowQuartalObjectives(string datumFilter)
         {
-            return ShowObjectives<QuartalObjective>("");
+            if (String.IsNullOrEmpty(datumFilter)) datumFilter = "";
+            ViewBag.ObjectiveType = "Quartal";
+            return ShowObjectives<QuartalObjective>(datumFilter);
         }
 
         private ActionResult ShowObjectives<T>(string filter) where T : Objective
@@ -74,22 +98,20 @@ namespace Nemesis.Web.Controllers
             {
                 using (var repo = new GenericRepository<T>(context))
                 {
+                    IEnumerable<Objective> listObj = new List<Objective>();
                     if (!String.IsNullOrEmpty(filter))
                     {
-                        IEnumerable<Objective> listObj = repo.Get().Where(x => x.CreatedOn.ToString("yyyy-MM-dd").Equals(filter));
-                        ViewBag.Entries = listObj;
+                        listObj = repo.Get().Where(x => x.CreatedOn.ToString("yyyy-MM-dd").Equals(filter));
                         ViewBag.Filter = filter;
                     }
                     else
                     {
-                        IEnumerable<Objective> listObj = repo.Get();
-                        ViewBag.Entries = listObj;
+                        listObj = repo.Get();
                     }
-
-
+                    ViewBag.Entries = listObj;
                 }
             }
-            return View();
+            return View("ShowObjectives");
         }
 
         public ActionResult CreateWeekObjective()
@@ -131,7 +153,7 @@ namespace Nemesis.Web.Controllers
             return ToSelectList(teamMembers);
         }
 
-        private IEnumerable<SelectListItem> GetParentObjectives<T>() 
+        private IEnumerable<SelectListItem> GetParentObjectives<T>()
             where T : Objective
         {
             IEnumerable<Objective> objectives = null;
@@ -157,7 +179,7 @@ namespace Nemesis.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateMonthObjective(ObjectiveViewModel entry) 
+        public ActionResult CreateMonthObjective(ObjectiveViewModel entry)
         {
             MonthObjective obj = new MonthObjective();
             return CreateObjective<MonthObjective>(obj, entry);
@@ -171,7 +193,7 @@ namespace Nemesis.Web.Controllers
         }
 
 
-        private ActionResult CreateObjective<T>(Objective obj, ObjectiveViewModel entry) 
+        private ActionResult CreateObjective<T>(Objective obj, ObjectiveViewModel entry)
             where T : Objective
         {
             if (ModelState.IsValid)

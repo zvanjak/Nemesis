@@ -59,5 +59,7 @@ namespace Nemesis.DAL
             modelBuilder.Configurations.Add(new WorkOrderConfiguration());
 
 		}
+
+        public System.Data.Entity.DbSet<Nemesis.Domain.Client> Clients { get; set; }
 	}
 }

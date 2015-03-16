@@ -173,6 +173,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
     <Compile Include="Controllers\AssetController.cs" />
+    <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ObjectiveController.cs" />
@@ -327,6 +328,8 @@
     <Content Include="Views\Objective\ShowMonthObjectives.cshtml" />
     <Content Include="Views\Objective\ShowQuartalObjectives.cshtml" />
     <Content Include="Views\Objective\Details.cshtml" />
+    <Content Include="Views\WorkOrder\CreateWorkOrder.cshtml" />
+    <Content Include="Views\Client\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

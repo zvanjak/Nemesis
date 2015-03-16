@@ -40,7 +40,7 @@ namespace Nemesis.Web.Models {
 
         [Display(Name = "Team members")]
         public List<String> Members { get; set; }
-
+        
         [Display(Name = "Team type")]
         public String TeamType { get; set; }
 

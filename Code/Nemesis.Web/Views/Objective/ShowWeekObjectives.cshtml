@@ -13,43 +13,80 @@
 @Html.ActionLink("Create month objective", "CreateMonthObjective", "Objective")
 @Html.ActionLink("Create quartal objective", "CreateQuartalObjective", "Objective")
 
-<div id="accordion">
+<div class="list-group container" style="padding-right: 7px">
     @foreach (var entry in ViewBag.Entries)
     {
-        <h3>@entry.ShortDescription</h3>
-        <div>
-            <p>
-                Posted on @entry.CreatedOn.ToLongDateString()
-            </p>
-            <p>
-                <b>Priority: </b> @entry.Priority
-            </p>
-            <p>
-                <b>Estimated time: </b> @entry.EstimatedTime
-            </p>
-            <p>
-                <b>Assigned to: </b>
-                @*
-                    @foreach (var member in entry.TeamMembers)
-                    {
-                        <p>
-                            @member.Value
-                        </p>
-                    }
-                *@
-            </p>
-            <p>
-                <b>Description:</b> @entry.Description
-            </p>
+        <div class="col-md-3 list-group-item dashboard-frame" style="border-radius: 12px;">
+            <a class="list-group-item dashboard-item" href="@Url.Action("Details", "Objective", new { id = entry.Id, filter = ViewBag.Filter })">
+                <section class="contact">
+                    <header>
+                        <h3>@entry.ShortDescription</h3> <b>Number: </b> @entry.WeekOrdNum
+                    </header>
+                    <p>
+                        Posted on @entry.CreatedOn.ToLongDateString()
+                    </p>
+                    <p>
+                        <b>Priority: </b>
+                        @{
+        if (entry.Priority == Nemesis.Domain.ObjectivePriority.HIGH)
+        {
+            <span class="high-priority">@entry.Priority</span>
+        }
+        else if (entry.Priority == Nemesis.Domain.ObjectivePriority.MEDIUM)
+        {
+            <span class="medium-priority">@entry.Priority</span>
+        }
+        else
+        {
+            <span class="low-priority">@entry.Priority</span>
+        }
+                        }
+                    </p>
+                    <p>
+                        <b>Estimated time: </b> @entry.EstimatedTime
+                    </p>
+                    <p>
+                        <b>Assigned to: </b>
+                        @*
+                            @foreach (var member in entry.TeamMembers)
+                            {
+                                <p>
+                                    @member.Value
+                                </p>
+                            }
+                        *@
+                    </p>
+                    <p>
+                        <b>Description:</b>
+                        @entry.Description
+                    </p>
+                </section>
+            </a>
         </div>
     }
 </div>
+@using (Html.BeginForm())
+{
+    <div class="form-group col-md-4">
+        <div class='input-group date' id='datetimepicker1'>
+            @Html.TextBox("datumFilter", "", new { @class = "form-control", @id = "searchDatum" })
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+    </div>
 
-<script language="JavaScript" type="text/javascript">
-    $(document).ready(function () {
-        $("#accordion").accordion({
-            heightStyle: "content",
-            collapsible: true
-        });
-    });
-</script>
+    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+}
+
+
+@section Scripts{
+    <script>
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                format: 'YYYY-MM-DD'
+            });
+
+        })
+    </script>
+}

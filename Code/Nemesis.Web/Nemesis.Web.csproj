@@ -324,12 +324,14 @@
     <Content Include="Views\Asset\AssetAttributes.cshtml" />
     <Content Include="Views\Team\Index.cshtml" />
     <Content Include="Views\Team\Create.cshtml" />
-    <Content Include="Views\Objective\ShowWeekObjectives.cshtml" />
-    <Content Include="Views\Objective\ShowMonthObjectives.cshtml" />
-    <Content Include="Views\Objective\ShowQuartalObjectives.cshtml" />
-    <Content Include="Views\Objective\Details.cshtml" />
+
     <Content Include="Views\WorkOrder\CreateWorkOrder.cshtml" />
     <Content Include="Views\Client\Create.cshtml" />
+    <Content Include="Views\Objective\ShowWeekObjective.cshtml" />
+    <Content Include="Views\Objective\ShowMonthObjective.cshtml" />
+    <Content Include="Views\Objective\ShowQuartalObjective.cshtml" />
+    <Content Include="Views\Objective\ShowObjectives.cshtml" />
+    <Content Include="Views\Objective\ShowObjective.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

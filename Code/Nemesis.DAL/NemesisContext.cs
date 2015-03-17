@@ -55,6 +55,11 @@ namespace Nemesis.DAL
 			//modelBuilder.Configurations.Add(new BugConfiguration());
 			//modelBuilder.Configurations.Add(new RequirementConfiguration());
 
+            modelBuilder.Configurations.Add(new ClientConfiguration());
+            modelBuilder.Configurations.Add(new WorkOrderConfiguration());
+
 		}
+
+        public System.Data.Entity.DbSet<Nemesis.Domain.Client> Clients { get; set; }
 	}
 }

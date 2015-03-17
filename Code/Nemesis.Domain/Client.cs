@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace Nemesis.Domain
 {
-	class Client
+	public class Client : EntityBase
 	{
-	}
+        public virtual string Name { get; set; }
+
+        public virtual string Description { get; set; }
+
+        public override string Display
+        {
+            get { return Description; }
+        }
+    }
 }

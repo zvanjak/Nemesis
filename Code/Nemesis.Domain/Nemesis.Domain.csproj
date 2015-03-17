@@ -81,6 +81,7 @@
     <Compile Include="WorkActivity.cs" />
     <Compile Include="WorkActivityGrade.cs" />
     <Compile Include="WorkItem.cs" />
+    <Compile Include="WorkOrder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />

@@ -156,6 +156,8 @@ ClientBin/
 *.dbmdl
 *.dbproj.schemaview
 *.pfx
+*.mdf
+*.ldf
 *.publishsettings
 node_modules/
 bower_components/

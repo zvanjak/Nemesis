@@ -1,26 +1,15 @@
 ﻿@model Nemesis.Web.Models.ObjectiveViewModel
 
-@{
-    ViewBag.Title = "ShowWeekObjectives";
-}
-
-<h2>Week Objectives</h2>
-
-@Html.ActionLink("Objectives", "Index", "Objective")
-@Html.ActionLink("Month", "ShowMonthObjectives", "Objective")
-@Html.ActionLink("Quartal", "ShowQuartalObjectives", "Objective")
-@Html.ActionLink("Create week objective", "CreateWeekObjective", "Objective")
-@Html.ActionLink("Create month objective", "CreateMonthObjective", "Objective")
-@Html.ActionLink("Create quartal objective", "CreateQuartalObjective", "Objective")
+<h2>@ViewBag.ObjectiveType Objectives</h2>
 
 <div class="list-group container" style="padding-right: 7px">
     @foreach (var entry in ViewBag.Entries)
     {
         <div class="col-md-3 list-group-item dashboard-frame" style="border-radius: 12px;">
-            <a class="list-group-item dashboard-item" href="@Url.Action("Details", "Objective", new { id = entry.Id, filter = ViewBag.Filter })">
+            <a class="list-group-item dashboard-item" href="@Url.Action("Show"+ViewBag.ObjectiveType+"Objective", "Objective", new { id = entry.Id, filter = ViewBag.Filter })">
                 <section class="contact">
                     <header>
-                        <h3>@entry.ShortDescription</h3> <b>Number: </b> @entry.WeekOrdNum
+                        <h3>@entry.ShortDescription</h3>
                     </header>
                     <p>
                         Posted on @entry.CreatedOn.ToLongDateString()
@@ -41,24 +30,6 @@
             <span class="low-priority">@entry.Priority</span>
         }
                         }
-                    </p>
-                    <p>
-                        <b>Estimated time: </b> @entry.EstimatedTime
-                    </p>
-                    <p>
-                        <b>Assigned to: </b>
-                        @*
-                            @foreach (var member in entry.TeamMembers)
-                            {
-                                <p>
-                                    @member.Value
-                                </p>
-                            }
-                        *@
-                    </p>
-                    <p>
-                        <b>Description:</b>
-                        @entry.Description
                     </p>
                 </section>
             </a>
@@ -90,3 +61,4 @@
         })
     </script>
 }
+

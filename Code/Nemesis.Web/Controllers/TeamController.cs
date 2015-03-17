@@ -37,6 +37,8 @@ namespace Nemesis.Web.Controllers
         // GET: Team/Create
         public ActionResult Create()
         {
+            
+            
             TeamCreateModel m = new TeamCreateModel();
 
             return View(m);
@@ -76,7 +78,7 @@ namespace Nemesis.Web.Controllers
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Details";
 }
 
@@ -12,7 +13,7 @@
             <a href="#" style="height: 100%; display: inline-block" class="btn btn-default" id="previous-objective"><span class="glyphicon glyphicon-arrow-left"></span></a>
             <section class="contact" style="display: inline-block">
                 <header>
-                    <h3>@entry.ShortDescription</h3> <b>Number: </b> @entry.WeekOrdNum
+                    <h3>@entry.ShortDescription</h3>
                 </header>
                 <p>
                     Posted on @entry.CreatedOn.ToLongDateString()
@@ -52,6 +53,18 @@
                     <b>Description:</b>
                     @entry.Description
                 </p>
+                <div id="accordion">
+                    <h3>@ViewBag.ChildObjectiveType Objectives</h3>
+                    <div>
+                        @foreach (var obj in entry.Objectives)
+                        {
+                            <a href="@Url.Action("Show" + ViewBag.ChildObjectiveType + "Objective", "Objective", new { id = obj.Id })">
+                                <p>@obj.ShortDescription</p>
+                            </a>
+                        }
+                    </div>
+                </div>
+                @RenderSection("Specific", false)
             </section>
             <a href="#" style=" height: 100%; display: inline-block" class="btn btn-default" id="next-objective"><span class="glyphicon glyphicon-arrow-right"></span></a>
         </div>
@@ -70,7 +83,7 @@
                         objectiveShortDescription = obj.ShortDescription
                     })
                 )
-            );
+            )
 
             entries.sort(function(a, b){
                 if (a.CreatedOn - b.CreatedOn){
@@ -81,7 +94,7 @@
                 }
             })
 
-            var current = @ViewBag.ObjId;
+            var current = @ViewBag.ObjId
 
 
 
@@ -125,5 +138,14 @@
             }).toggle(previous ? true : false)
 
         })
+    </script>
+
+    <script language="JavaScript" type="text/javascript">
+        $(document).ready(function () {
+            $("#accordion").accordion({
+                heightStyle: "content",
+                collapsible: true
+            });
+        });
     </script>
 }

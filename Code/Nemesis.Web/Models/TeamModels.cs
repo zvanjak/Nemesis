@@ -36,8 +36,10 @@ namespace Nemesis.Web.Models {
 
         #region SUBMIT VALUES
         [Display(Name = "Team name")]
+        [Required(ErrorMessage = "Team name is required!")]
         public String Name { get; set; }
 
+        [Required(ErrorMessage = "Team leader is required!")]
         [Display(Name = "Team leader")]
         public String TeamLeader { get; set; }
 

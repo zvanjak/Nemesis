@@ -173,10 +173,12 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
     <Compile Include="Controllers\AssetController.cs" />
+    <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ObjectiveController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
+    <Compile Include="Controllers\WorkOrderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -185,6 +187,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ObjectiveViewModel.cs" />
     <Compile Include="Models\TeamModels.cs" />
+    <Compile Include="Models\WorkOrderViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ValuesController1.cs" />
@@ -320,11 +323,19 @@
     <Content Include="Views\Asset\AssetTypes.cshtml" />
     <Content Include="Views\Asset\AssetAttributes.cshtml" />
     <Content Include="Views\Team\Index.cshtml" />
-    <Content Include="Views\Team\Create.cshtml" />
-    <Content Include="Views\Objective\ShowWeekObjectives.cshtml" />
-    <Content Include="Views\Objective\ShowMonthObjectives.cshtml" />
-    <Content Include="Views\Objective\ShowQuartalObjectives.cshtml" />
-    <Content Include="Views\Objective\Details.cshtml" />
+    <Content Include="Views\Account\Index.cshtml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Team\Create.cshtml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\WorkOrder\CreateWorkOrder.cshtml" />
+    <Content Include="Views\Client\Create.cshtml" />
+    <Content Include="Views\Objective\ShowWeekObjective.cshtml" />
+    <Content Include="Views\Objective\ShowMonthObjective.cshtml" />
+    <Content Include="Views\Objective\ShowQuartalObjective.cshtml" />
+    <Content Include="Views\Objective\ShowObjectives.cshtml" />
+    <Content Include="Views\Objective\ShowObjective.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

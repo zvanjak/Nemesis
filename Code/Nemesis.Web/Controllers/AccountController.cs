@@ -9,6 +9,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Nemesis.Web.Models;
+using Nemesis.DAL;
+using Nemesis.Domain.Security;
+using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Nemesis.Web.Controllers
 {
@@ -38,6 +42,22 @@ namespace Nemesis.Web.Controllers
                 _userManager = value;
             }
         }
+
+        [Authorize(Roles="Admins")]
+        public ActionResult Index(int? id)
+        {
+
+            var users = UserManager.Users.ToList();
+                
+            IList<AccountViewModel> usersView = new List<AccountViewModel>();
+                foreach (ApplicationUser u in users)
+                {
+                    usersView.Add(new AccountViewModel(u));
+                }
+
+                return View(usersView);
+        }
+
 
         //
         // GET: /Account/Login
@@ -156,6 +176,8 @@ namespace Nemesis.Web.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+                
+
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);

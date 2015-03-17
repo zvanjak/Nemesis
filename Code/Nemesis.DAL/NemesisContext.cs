@@ -13,6 +13,9 @@ namespace Nemesis.DAL
 {
 	public class NemesisContext : DbContext
 	{
+		public NemesisContext() : base("NemesisContext")
+		{ }
+
 		public DbSet<Team> Teams { get; set; }
 		public DbSet<TeamMember> TeamMembers { get; set; }
 		public DbSet<Objective> Objectives { get; set; }

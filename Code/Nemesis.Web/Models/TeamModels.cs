@@ -14,9 +14,10 @@ namespace Nemesis.Web.Models {
 
         public TeamCreateModel()
         {
-            Subteams = new List<String>();
-            Members = new List<String>();
-
+            SubteamIDs = new List<String>();
+            MemberIDs = new List<String>();
+            SubteamNames = new List<String>();
+            MemberNames = new List<String>();
 
             using (var repo = new GenericRepository<TeamMember>(new NemesisContext())) {
                 List<TeamMember> availableMembers = repo.Get().ToList();
@@ -35,13 +36,18 @@ namespace Nemesis.Web.Models {
 
         #region SUBMIT VALUES
         [Display(Name = "Team name")]
+        [Required(ErrorMessage = "Team name is required!")]
         public String Name { get; set; }
 
+        [Required(ErrorMessage = "Team leader is required!")]
         [Display(Name = "Team leader")]
         public String TeamLeader { get; set; }
 
         [Display(Name = "Team members")]
-        public List<String> Members { get; set; }
+        public List<String> MemberIDs { get; set; }
+
+        [Display(Name = "Team members")]
+        public List<String> MemberNames { get; set; }
 
         [Display(Name = "Team members")]
         public String CurrentMember { get; set; }
@@ -56,7 +62,10 @@ namespace Nemesis.Web.Models {
         public String ParentTeam { get; set; }
 
         [Display(Name = "Subteams")]
-        public List<String> Subteams { get; set; }
+        public List<String> SubteamIDs { get; set; }
+
+        [Display(Name = "Subteams")]
+        public List<String> SubteamNames { get; set; }
 
         [Display(Name = "Subteams")]
         public String CurrentSubteam { get; set; }
@@ -117,6 +126,11 @@ namespace Nemesis.Web.Models {
             foreach (TeamMember m in team.Members) {
                 MemberNames.Add(m.Display);
             }
+
+            SubteamNames = new List<string>();
+            foreach (Team subteam in team.SubTeams) {
+                SubteamNames.Add(subteam.Display);
+            }
         }
 
         public string Name { get; set; }
@@ -124,5 +138,7 @@ namespace Nemesis.Web.Models {
         public string LeaderFullName { get; set; }
 
         public List<String> MemberNames { get; set; }
+
+        public List<String> SubteamNames { get; set; }
     }
 }

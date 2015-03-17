@@ -183,6 +183,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ActivityModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ObjectiveViewModel.cs" />
@@ -257,6 +258,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -322,9 +324,14 @@
     <Content Include="Views\Asset\AssetListHierarchical.cshtml" />
     <Content Include="Views\Asset\AssetTypes.cshtml" />
     <Content Include="Views\Asset\AssetAttributes.cshtml" />
+    <Content Include="Views\Activity\Create.cshtml" />
     <Content Include="Views\Team\Index.cshtml" />
-    <Content Include="Views\Team\Create.cshtml" />
-
+    <Content Include="Views\Account\Index.cshtml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Team\Create.cshtml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\WorkOrder\CreateWorkOrder.cshtml" />
     <Content Include="Views\Client\Create.cshtml" />
     <Content Include="Views\Objective\ShowWeekObjective.cshtml" />
@@ -351,6 +358,10 @@
     <ProjectReference Include="..\Nemesis.Domain\Nemesis.Domain.csproj">
       <Project>{20d3fd4e-7fab-4720-83da-b7ee23c80801}</Project>
       <Name>Nemesis.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nemesis.Services\Nemesis.Services.csproj">
+      <Project>{c669160c-8f00-4353-985a-c297d84e053a}</Project>
+      <Name>Nemesis.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

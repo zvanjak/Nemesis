@@ -6,17 +6,24 @@
 
 <h2>Create team</h2>
 @using (Html.BeginForm()) {
+@Html.ValidationSummary(true)
 
-    <div>@Html.LabelFor(m => m.Name)</div>
+    <div>
+      @Html.LabelFor(m => m.Name)
+     <p> @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })</p>
+    </div>
     <div>@Html.EditorFor(m => m.Name)</div>
 
     <br />
     
-    <div>@Html.LabelFor(m => m.TeamLeader)</div>
+    <div>@Html.LabelFor(m => m.TeamLeader)
+    @Html.ValidationMessageFor(m => m.TeamLeader, "", new { @class = "text-danger" })
+    </div>
     <div>@Html.DropDownListFor(m => m.TeamLeader, Model.MemberItems)</div>
 
     <br />
-    
+
+    <p>@Html.ValidationMessageFor(m => m.TeamType)</p>  
     <div>@Html.LabelFor(m => m.TeamType)</div>
     <div>@Html.DropDownListFor(m => m.TeamType, Model.TeamTypes)</div>
     <br />
@@ -24,30 +31,47 @@
     <div>@Html.LabelFor(m => m.CurrentSubteam)</div>
     <div>@Html.DropDownListFor(m => m.CurrentSubteam, Model.TeamItems)</div>
     
-    <input type="submit" name="continueSubmitting" class="btn" value="Add subteam" />
+    <input type="submit" name="submitSubteam" class="btn" value="Add subteam" />
     <br />
+    foreach (String name in Model.SubteamNames) {
+        <h5>@name </h5>
+    }
     <br />
 
     <div>@Html.LabelFor(m => m.CurrentMember)</div>
     <div>@Html.DropDownListFor(m => m.CurrentMember, Model.MemberItems)</div>
     
-    <input type="submit" name="continueSubmitting" class="btn" value="Add member" />
+    <input type="submit" name="submitMember" class="btn" value="Add member" />
+    
     <br />
+    foreach (String name in Model.MemberNames) {
+        <h5>@name </h5>
+    }
     <br />
     
     <div>@Html.LabelFor(m => m.ParentTeam)</div>
     <div>@Html.DropDownListFor(m => m.ParentTeam, Model.TeamItems)</div>
     
-    for(int i = 0; i < Model.Subteams.Count; i++)
+    // hidden fors(used to not lose essential background model items
+    for(int i = 0; i < Model.SubteamIDs.Count; i++)
     {
-        @Html.HiddenFor(model => Model.Subteams[i])
+        @Html.HiddenFor(model => Model.SubteamIDs[i])
     }
     
-    for(int i = 0; i < Model.Members.Count; i++)
+    for(int i = 0; i < Model.MemberIDs.Count; i++)
     {
-        @Html.HiddenFor(model => Model.Members[i])
+        @Html.HiddenFor(model => Model.MemberIDs[i])
+    }
+    
+    for(int i = 0; i < Model.MemberNames.Count; i++)
+    {
+        @Html.HiddenFor(model => Model.MemberNames[i])
     }
 
+    for (int i = 0; i < Model.SubteamNames.Count; i++) {
+        @Html.HiddenFor(model => Model.SubteamNames[i])
+    }
+    
     <br />
     <input type="submit" name="finishedSubmitButton" class="btn btn-primary btn-lg" value="Create team" />
     

@@ -57,10 +57,8 @@ namespace Nemesis.Web.Controllers
                     }
                     foreach (Objective obj in listObj)
                     {
-                        if (obj.Objectives.Count > 0)
-                        {
-
-                        }
+                        obj.AssignedToTeamMembers = obj.AssignedToTeamMembers;
+                        obj.Objectives = obj.Objectives;
                     }
                     ViewBag.Entries = listObj;
                 }

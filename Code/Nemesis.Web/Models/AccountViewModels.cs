@@ -10,6 +10,28 @@ namespace Nemesis.Web.Models
         public string Email { get; set; }
     }
 
+
+    public class AccountViewModel
+    {
+        [Required]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+
+		//public virtual TeamMember TeamMember { get; set; }
+
+        public AccountViewModel(ApplicationUser user)
+        {
+            this.Username = user.UserName;
+            this.Email = user.Email;
+        }
+
+    }
+
     public class ExternalLoginListViewModel
     {
         public string ReturnUrl { get; set; }

@@ -181,6 +181,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ActivityModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ObjectiveViewModel.cs" />
@@ -199,6 +200,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -262,6 +264,7 @@
     <Content Include="Views\Objective\ShowWeekObjectives.cshtml" />
     <Content Include="Views\Objective\ShowMonthObjectives.cshtml" />
     <Content Include="Views\Objective\ShowQuartalObjectives.cshtml" />
+    <Content Include="Views\Activity\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -281,6 +284,10 @@
     <ProjectReference Include="..\Nemesis.Domain\Nemesis.Domain.csproj">
       <Project>{20d3fd4e-7fab-4720-83da-b7ee23c80801}</Project>
       <Name>Nemesis.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nemesis.Services\Nemesis.Services.csproj">
+      <Project>{c669160c-8f00-4353-985a-c297d84e053a}</Project>
+      <Name>Nemesis.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

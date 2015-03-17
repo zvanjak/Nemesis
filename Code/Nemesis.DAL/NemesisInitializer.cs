@@ -79,6 +79,15 @@ namespace Nemesis.DAL
 			//	context.UserActions.Add(userAction);
 			//}
 
+		    var activity = new WorkActivity()
+		    {
+		        Title = "Aktivnost",
+		        Description = "Opis......",
+                Date = DateTime.Now,
+                DoneBy = tomo
+		    };
+		    context.Activities.Add(activity);
+
 			context.SaveChanges();
 		}
 	}

@@ -40,22 +40,27 @@ namespace Nemesis.Domain
         /// Dohvaća ili postavlja identifikator ocjene dnevnih aktivnosti.
         /// </summary>
         public int Id { get; set; }
+
         /// <summary>
         /// Dohvaća ili postavlja člana tima na kojeg se ocjena odnosi.
         /// </summary>
         public TeamMember TeamMember { get; set; }
+
         /// <summary>
         /// Dohvaća ili postavlja tim kojem pripada član koji se ocjenjuje.
         /// </summary>
         public Team Team { get; set; }
+
         /// <summary>
         /// Dohvaća ili postavlja datum ocjene dnevnih aktivnosti.
         /// </summary>
         public DateTime Date { get; set; }
+
         /// <summary>
         /// Dohvaća ili postavlja ocjenu dnevnih aktivnosti.
         /// </summary>
-				public WorkActivitiyGradeEnum Grade { get; set; }
+		public WorkActivitiyGradeEnum Grade { get; set; }
+
         /// <summary>
         /// Dohvaća ili postavlja podatak jesu li dnevne aktivnosti
         /// ažurirane nakon ocjenjivanja.
@@ -65,7 +70,7 @@ namespace Nemesis.Domain
         /// <summary>
         /// Instancira novi <b>GradeWorkActivities</b> objekt.
         /// </summary>
-				public WorkActivityGrade()
+		public WorkActivityGrade()
         {
             Id = -1;
             TeamMember = null;

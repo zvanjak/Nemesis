@@ -15,8 +15,14 @@ namespace Nemesis.DAL.Configurations
 		public WorkActivityConfiguration()
 		{
 			this.HasKey(t => t.Id);
-			//this.HasMany(t => t.FeatureList).WithRequired(d => d.BelongsToAsset);
-			//this.HasRequired(t => t.ResponsibleTeam);
+		    this.Property(t => t.Title);
+		    this.Property(t => t.Description);
+		    this.Property(t => t.EstimatedDuration);
+		    this.Property(t => t.OvertimeDuration);
+		    this.Property(t => t.ActualDuration);
+		    this.HasOptional(t => t.DoneBy);
+		    //this.HasMany(t => t.FeatureList).WithRequired(d => d.BelongsToAsset);
+		    //this.HasRequired(t => t.ResponsibleTeam);
 		}
 	}
 }

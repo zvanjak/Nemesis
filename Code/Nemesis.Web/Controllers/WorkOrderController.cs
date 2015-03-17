@@ -17,6 +17,8 @@ namespace Nemesis.Web.Controllers
         public ActionResult CreateWorkOrder()
         {
             WorkOrderViewModel wovm = new WorkOrderViewModel();
+            wovm.StartDate = DateTime.Now;
+            wovm.EstimatedEndDate = DateTime.Now;
 
             wovm.Clients = GetClients<Client>();
             return View(wovm);

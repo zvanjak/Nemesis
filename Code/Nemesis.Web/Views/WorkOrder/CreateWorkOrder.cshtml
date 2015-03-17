@@ -10,37 +10,56 @@
     <fieldset>
         <legend>Create work order</legend>
 
-        <div>
-            @Html.LabelFor(x => x.Name)
-            @Html.TextBoxFor(x => x.Name)
-            @Html.ValidationMessageFor(x => x.Name)
+        <div class="form-group">
+            @Html.LabelFor(x => x.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Name)
+            </div>
         </div>
 
-        <div>
-            @Html.LabelFor(x => x.Description)
-            @Html.TextBoxFor(x => x.Description)
-            @Html.ValidationMessageFor(x => x.Description)
+        <div class="form-group">
+            @Html.LabelFor(x => x.Description, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Description)
+            </div>
         </div>
 
-        <div>
-            @Html.LabelFor(x => x.StartDate)
-            @Html.TextBoxFor(x => x.StartDate)
-            @Html.ValidationMessageFor(x => x.StartDate)
+        <div class="form-group">
+            @Html.LabelFor(x => x.StartDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.StartDate, "{0:dd.MM.yyyy}",new { @class = "form-control datepicker"})
+                @Html.ValidationMessageFor(x => x.StartDate)
+            </div>
         </div>
 
-        <div>
-            @Html.LabelFor(x => x.EstimatedEndDate)
-            @Html.TextBoxFor(x => x.EstimatedEndDate)
-            @Html.ValidationMessageFor(x => x.EstimatedEndDate)
+        <div class="form-group">
+            @Html.LabelFor(x => x.EstimatedEndDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.EstimatedEndDate,"{0:dd.MM.yyyy}", new { @class = "form-control datepicker" })
+                @Html.ValidationMessageFor(x => x.EstimatedEndDate)
+            </div>
         </div>
 
-        <div>
-            @Html.LabelFor(x => x.ClientId)
-            @Html.DropDownListFor(x => x.ClientId, Model.Clients)
-            @Html.ValidationMessageFor(x => x.ClientId)
+        <script type="text/javascript">
+            $(function () { // will trigger when the document is ready
+                $('.datepicker').datepicker({ dateFormat: "dd.mm.yy." }); //Initialise any date pickers
+            });
+        </script>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.ClientId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.ClientId, Model.Clients, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.ClientId)
+            </div>
         </div>
 
-        <input type="submit" value="Create" />
-
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
     </fieldset>
 }

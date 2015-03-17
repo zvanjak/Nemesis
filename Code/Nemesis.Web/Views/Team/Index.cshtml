@@ -1,10 +1,12 @@
 ﻿@model System.Collections.Generic.List<Nemesis.Web.Models.TeamViewModel>
 
 @{
-    ViewBag.Title = "Team uozbilji se (kratica: TUS)";
+    ViewBag.Title = "Teams overview";
 }
 
 <h2>Teams overview</h2>
+
+@Html.ActionLink("Create new team", "Create", "Team")
 @foreach (var team in Model) {
     <section>
         <header> 

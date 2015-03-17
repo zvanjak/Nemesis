@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Data.Entity;
+using Microsoft.Owin.Security;
+using Microsoft.AspNet.Identity;
 
 using Nemesis.Domain;
 
@@ -14,8 +16,6 @@ namespace Nemesis.DAL
 	{
 		protected override void Seed(NemesisContext context)
 		{
-
-
             var director = new TeamMember() { FirstName = "Mirna", LastName = "Domančić" };
             var voditeljRazvoja = new TeamMember() { FirstName = "Samo", LastName = "Mirna" };
             var tomo = new TeamMember() { FirstName = "Tomislav", LastName = "Bradarić" };

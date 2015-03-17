@@ -1,0 +1,14 @@
+﻿@model System.Collections.Generic.List<Nemesis.Web.Models.AccountViewModel>
+
+@{
+    ViewBag.Title = "Popis usera";
+}
+
+<h2>Users overview</h2>
+@foreach (var user in Model) {
+    <section>
+        <header> 
+            <h2>@user.Username </h2>
+        </header>
+    </section>
+}

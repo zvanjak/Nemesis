@@ -8,12 +8,16 @@
 @foreach (var team in Model) {
     <section>
         <header> 
-            <h2>@team.Name </h2>
+            <h3><u>@team.Name </u></h3>
             <h4>Team leader: </h4>
             <h5>&emsp;&emsp;@team.LeaderFullName</h5>
             <h4>Members:</h4>
             @foreach (var member in team.MemberNames) {
                 <h5>&emsp;&emsp;@member</h5>
+            }
+            <h4>Subteams:</h4>
+            @foreach (var subteam in team.SubteamNames) {
+                <h5>&emsp;&emsp;@subteam</h5>
             }
         </header>
     </section>

@@ -37,6 +37,8 @@ namespace Nemesis.Web.Controllers
         // GET: Team/Create
         public ActionResult Create()
         {
+            
+            
             TeamCreateModel m = new TeamCreateModel();
 
             return View(m);
@@ -44,52 +46,28 @@ namespace Nemesis.Web.Controllers
 
         // POST: Team/Create
         [HttpPost]
-        public ActionResult Create(TeamCreateModel model, String finishedSubmitButton, string continueSubmitting)
+        public ActionResult Create(TeamCreateModel model, string finishedSubmitButton, string submitSubteam, string submitMember)
         {
             try
             {
-                NemesisContext c = new NemesisContext();
-                // TODO: Add insert logic here
+                // Save the new team
                 if (finishedSubmitButton != null) {
-                    Team newTeam = new Team();
-                    using (var memberRepo = new GenericRepository<TeamMember>(c)) {
-
-                        newTeam.Name = model.Name;
-                        newTeam.Type = (TeamTypes) Enum.Parse(typeof(TeamTypes), model.TeamType);
-
-                        // add members to team
-                        foreach (String memberID in model.Members) {
-                            int id = int.Parse(memberID);
-                            TeamMember member = memberRepo.GetByID(id);
-
-                            newTeam.Members.Add(member);
-                            member.MemberOfTheTeam = newTeam;
-                        }
-
-                        newTeam.Leader = memberRepo.GetByID(int.Parse(model.TeamLeader));
-                    }
-                        // add subteams to team
-                    using (var teamRepo = new GenericRepository<Team>(c)) {
-                        foreach (String teamID in model.Subteams) {
-                            int id = int.Parse(teamID);
-                            newTeam.SubTeams.Add(teamRepo.GetByID(id));
-                        }
-
-                        newTeam.Parent = teamRepo.GetByID(int.Parse(model.ParentTeam));
-
-                        teamRepo.Insert(newTeam);
-                        teamRepo.Save();
-                    }
+                    SaveNewTeam(model);
 
                     return RedirectToAction("Index");
                 }
-                else if (continueSubmitting != null) {
+                else if (submitSubteam != null) {
                     if (model.CurrentSubteam != null) {
-                        model.Subteams.Add(model.CurrentSubteam);
+                        model.SubteamIDs.Add(model.CurrentSubteam);
+                        model.SubteamNames.Add(model.TeamItems.Where(i => i.Value == model.CurrentSubteam).First().Text);
                     }
 
+                    return View(model);
+                }
+                else if (submitMember != null) {
                     if (model.CurrentMember != null) {
-                        model.Members.Add(model.CurrentMember);
+                        model.MemberIDs.Add(model.CurrentMember);
+                        model.MemberNames.Add(model.MemberItems.Where(i => i.Value == model.CurrentMember).First().Text);
                     }
 
                     return View(model);
@@ -100,7 +78,47 @@ namespace Nemesis.Web.Controllers
             }
             catch
             {
-                return View();
+                return View(model);
+            }
+        }
+
+        private static void SaveNewTeam(TeamCreateModel model)
+        {
+            NemesisContext c = new NemesisContext();
+            Team newTeam = new Team();
+            using (var memberRepo = new GenericRepository<TeamMember>(c)) {
+
+                newTeam.Name = model.Name;
+                newTeam.Type = (TeamTypes)Enum.Parse(typeof(TeamTypes), model.TeamType);
+
+                // add members to team
+                foreach (String memberID in model.MemberIDs) {
+                    int id = int.Parse(memberID);
+                    TeamMember member = memberRepo.GetByID(id);
+
+                    newTeam.Members.Add(member);
+                    member.MemberOfTheTeam = newTeam;
+
+                    memberRepo.Update(member);
+                }
+
+                newTeam.Leader = memberRepo.GetByID(int.Parse(model.TeamLeader));
+
+
+
+                // add subteams to team
+                using (var teamRepo = new GenericRepository<Team>(c)) {
+                    foreach (String teamID in model.SubteamIDs) {
+                        int id = int.Parse(teamID);
+                        newTeam.SubTeams.Add(teamRepo.GetByID(id));
+                    }
+
+                    newTeam.Parent = teamRepo.GetByID(int.Parse(model.ParentTeam));
+
+                    teamRepo.Insert(newTeam);
+                    teamRepo.Save();
+                    memberRepo.Save();
+                }
             }
         }
 

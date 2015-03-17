@@ -324,12 +324,14 @@
     <Content Include="Views\Asset\AssetListHierarchical.cshtml" />
     <Content Include="Views\Asset\AssetTypes.cshtml" />
     <Content Include="Views\Asset\AssetAttributes.cshtml" />
-    <Content Include="Views\Team\Index.cshtml" />
-    <Content Include="Views\Team\Create.cshtml" />
-    <Content Include="Views\Objective\ShowWeekObjectives.cshtml" />
-    <Content Include="Views\Objective\ShowMonthObjectives.cshtml" />
-    <Content Include="Views\Objective\ShowQuartalObjectives.cshtml" />
     <Content Include="Views\Activity\Create.cshtml" />
+    <Content Include="Views\Team\Index.cshtml" />
+    <Content Include="Views\Account\Index.cshtml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Team\Create.cshtml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\WorkOrder\CreateWorkOrder.cshtml" />
     <Content Include="Views\Client\Create.cshtml" />
     <Content Include="Views\Objective\ShowWeekObjective.cshtml" />

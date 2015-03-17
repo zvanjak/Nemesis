@@ -40,14 +40,13 @@
                 </p>
                 <p>
                     <b>Assigned to: </b>
-                    @*
-                        @foreach (var member in entry.TeamMembers)
+                        @foreach (var member in entry.AssignedToTeamMembers)
                         {
                             <p>
-                                @member.Value
+                                @member.Display
                             </p>
                         }
-                    *@
+                    
                 </p>
                 <p>
                     <b>Description:</b>

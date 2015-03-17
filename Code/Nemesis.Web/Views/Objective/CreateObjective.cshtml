@@ -2,52 +2,67 @@
 @model Nemesis.Web.Models.ObjectiveViewModel
 
 @{
-	ViewBag.Title = "CreateObjective";
+    ViewBag.Title = "CreateObjective";
 }
+<div class="row">
+    <div class="col-md-8">
+        @using (Html.BeginForm(null, "Objective", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.ValidationSummary(true)
+            <fieldset>
+                <legend>Create objective</legend>
 
-@using (Html.BeginForm())
-{
-    @Html.ValidationSummary(true)
-    <fieldset>
-        <legend>Create objective</legend>
+                <div class="form-group">
+                    @Html.Label("Parent", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(x => x.ParentId, Model.ParentObjectives, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Title, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(x => x.Title, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Description, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Description, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Priority, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(x => x.Priority, Model.Priorities, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Priority, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Leader", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(x => x.LeaderId, Model.TeamMembers, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Duration", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(x => x.EstimatedTime, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(x => x.EstimatedTime, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </fieldset>
 
-        <div>
-            @Html.Label("Parent")
-            @Html.DropDownListFor(x => x.ParentId, Model.ParentObjectives)
-        </div>
 
-        <div>
-            @Html.LabelFor(x => x.Title)
-            @Html.TextBoxFor(x => x.Title)
-            @Html.ValidationMessageFor(x => x.Title)
-        </div>
-
-        <div>
-            @Html.LabelFor(x => x.Description)
-            @Html.TextBoxFor(x => x.Description)
-            @Html.ValidationMessageFor(x => x.Description)
-        </div>
-
-        <div>
-            @Html.LabelFor(x => x.Priority)
-            @Html.DropDownListFor(x => x.Priority, Model.Priorities)
-            @Html.ValidationMessageFor(x => x.Priority)
-        </div>
-
-        <div>
-            @Html.Label("Leader")
-            @Html.DropDownListFor(x => x.LeaderId, Model.TeamMembers)
-        </div>
-
-        <div>
-            @Html.Label("EstimatedTime")
-            @Html.EditorFor(x => x.EstimatedTime)
-            @Html.ValidationMessageFor(x => x.EstimatedTime)
-        </div>
-
-        <input type="submit" value="Create" />
-
-    </fieldset>
-    
-	
-}
+        }
+    </div>
+    <div class="col-md-4">
+        <fieldset></fieldset>
+    </div>
+</div>

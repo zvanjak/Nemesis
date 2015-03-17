@@ -11,7 +11,8 @@ namespace Nemesis.Web.Models
 {
 	// TODO - staviti kompletno sve aktivnosti i ciljeve unutra
 	public class ObjectiveViewModel
-	{   
+	{
+
         public virtual int ParentId { get; set; }
 
         public virtual IEnumerable<SelectListItem> ParentObjectives { get; set; }

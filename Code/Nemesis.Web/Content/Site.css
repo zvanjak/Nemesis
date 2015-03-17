@@ -17,8 +17,34 @@
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
+/*input,
 select,
 textarea {
     max-width: 280px;
+}*/
+
+.high-priority{
+    color: red;
+    font-weight: bolder;
+    display: inline-block;
+}
+.medium-priority{
+    color: gray;
+    font-weight: bolder;
+    display: inline-block;
+}
+.low-priority{
+    color: yellowgreen;
+    font-weight: bolder;
+    display: inline-block;
+}
+
+.dashboard-item{
+    color: black;
+    text-decoration: none;  
+    text-align: center;    
+}
+.dashboard-frame{
+    padding: 2px 2px 2px 2px;
+    border: none;
 }

@@ -31,6 +31,7 @@ namespace Nemesis.Domain
 		public Team()
 		{
 			Members = new List<TeamMember>();
+            SubTeams = new List<Team>();
 		}
 
 		public override string Display

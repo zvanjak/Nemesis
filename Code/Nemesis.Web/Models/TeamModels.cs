@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 using Nemesis.Domain;
 using Nemesis.DAL;
@@ -13,22 +14,23 @@ namespace Nemesis.Web.Models {
 
         public TeamCreateModel()
         {
-            using (var repo = new GenericRepository<TeamMember>(new NemesisContext())) {
-                AvailableMembers = repo.Get().Select(s => s.Display).ToList();
-            }
+            Subteams = new List<String>();
+            Members = new List<String>();
 
-            //using (var repo = new GenericRepository<TeamMember>(c)) {
-            //    AvailableMembers = repo.Get().Select(s => s.Display).ToList();
-            //}
+
+            using (var repo = new GenericRepository<TeamMember>(new NemesisContext())) {
+                List<TeamMember> availableMembers = repo.Get().ToList();
+
+                fillMemberItems(availableMembers);
+            }
 
             using (var repo = new GenericRepository<Team>(new NemesisContext())) {
-                CurrentTeams = repo.Get().Select(s => s.Name).ToList();
+                List<Team> teams = repo.Get().ToList();
+
+                fillTeamItems(teams);
             }
 
-            AvailableTeamTypes = new List<string>();
-            foreach (TeamTypes t in Enum.GetValues(typeof(TeamTypes))) {
-                AvailableTeamTypes.Add(t.ToString());
-            }
+            
         }
 
         #region SUBMIT VALUES
@@ -42,6 +44,9 @@ namespace Nemesis.Web.Models {
 
         [Display(Name = "Team members")]
         public List<String> Members { get; set; }
+
+        [Display(Name = "Team members")]
+        public String CurrentMember { get; set; }
         
         [Display(Name = "Team type")]
         public String TeamType { get; set; }
@@ -54,15 +59,51 @@ namespace Nemesis.Web.Models {
 
         [Display(Name = "Subteams")]
         public List<String> Subteams { get; set; }
+
+        [Display(Name = "Subteams")]
+        public String CurrentSubteam { get; set; }
         #endregion
 
         ///////////////////////
         #region DATA SOURCE PROPERTIES
-        public List<String> AvailableMembers { get; set; }
-        //public List<String> AvailableQualityManagers { get; set; }
-        public List<String> CurrentTeams { get; set; }
+        public IEnumerable<SelectListItem> TeamItems;
 
-        public List<String> AvailableTeamTypes { get; set; }
+        public IEnumerable<SelectListItem> MemberItems;
+
+        public IEnumerable<SelectListItem> TeamTypes {
+            get 
+            {
+                List<SelectListItem> types = new List<SelectListItem>();
+                foreach (TeamTypes t in Enum.GetValues(typeof(TeamTypes))) {
+                    types.Add(new SelectListItem() { Value = t.ToString(), Text = t.ToString() });
+                }
+
+                return types;
+            }
+        }
+
+        private void fillTeamItems(IEnumerable<Team> teams)
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            foreach (Team t in teams) {
+                items.Add(new SelectListItem() { Text = t.Display, Value = t.Id.ToString()});
+            }
+
+            TeamItems = items;
+        }
+
+        private void fillMemberItems(IEnumerable<TeamMember> members)
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            foreach (TeamMember t in members) {
+                items.Add(new SelectListItem() { Text = t.Display, Value = t.Id.ToString() });
+            }
+
+            MemberItems = items;
+        }
+
         #endregion
     }
 

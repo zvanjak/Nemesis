@@ -67,6 +67,7 @@ namespace Nemesis.Web
                 userManager.AddToRole(user1.Id, "Admins");   
             }
             
+            
                      
 
 

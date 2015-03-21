@@ -12,12 +12,13 @@ namespace Nemesis.DAL.Configurations
     {
         public WorkOrderConfiguration()
 		{
-			this.HasKey(t => t.Id);
-			this.Property(t => t.Name);
-			this.Property(t => t.Description);
+            this.HasKey(t => t.Id);
+            this.Property(t => t.Name);
+            this.Property(t => t.Description);
             this.Property(t => t.StartDate);
             this.Property(t => t.EstimatedEndDate);
-            this.HasRequired(t => t.Client);
+            this.HasOptional(t => t.Client);
+            
 
 		}
     }

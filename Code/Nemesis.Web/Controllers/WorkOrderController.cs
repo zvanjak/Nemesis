@@ -12,6 +12,21 @@ namespace Nemesis.Web.Controllers
     public class WorkOrderController : Controller
     {
         // GET: WorkOrder
+        public ActionResult Index()
+        {
+            return GetWorkOrders<WorkOrder>();
+        }
+
+        private ActionResult GetWorkOrders<T>() where T : WorkOrder
+        {
+            using (var repo = new GenericRepository<T>(new NemesisContext()))
+            {
+                IList<WorkOrder> workOrders = repo.Get(null, null, "Client").ToList<WorkOrder>();
+                return View(workOrders);
+            }
+
+        }
+
 
         [HttpGet]
         public ActionResult CreateWorkOrder()
@@ -49,7 +64,8 @@ namespace Nemesis.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var repo = new GenericRepository<WorkOrder>(new NemesisContext()))
+                var ctx = new NemesisContext();
+                using (var repo = new GenericRepository<WorkOrder>(ctx))
                 {
                     wo.Name = wovm.Name;
                     wo.Description = wovm.Description;
@@ -58,15 +74,17 @@ namespace Nemesis.Web.Controllers
 
                     Client client = new Client();
 
-                    using (var clRepo = new GenericRepository<Client>(new NemesisContext()))
+                    using (var clRepo = new GenericRepository<Client>(ctx))
                     {
                         client = clRepo.GetByID(wovm.ClientId);
+
+                        wo.Client = client;
+
+                        repo.Insert(wo);
+                        repo.Save();
                     }
 
-                    wo.Client = client;
-
-                    repo.Insert(wo);
-                    repo.Save();
+                    
                 }
                 return RedirectToAction("Index", "Home");
             }

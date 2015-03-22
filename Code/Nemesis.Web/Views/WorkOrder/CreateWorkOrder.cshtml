@@ -64,7 +64,14 @@
                 <div class="col-md-10">
                     @Html.TextBoxFor(x => x.Document, new { @type = "file", @accept = "application/pdf", @id = "exampleInputFile" })
                     @Html.ValidationMessageFor(x => x.Document)
-                 </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Teams, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(x => x.IdTeams, Model.Teams, new { @class = "form-control", multiple = "multiple" })
+                </div>
             </div>
 
             <div class="form-group">

@@ -22,7 +22,7 @@ namespace Nemesis.Web.Controllers
         {
             using (var repo = new GenericRepository<T>(new NemesisContext()))
             {
-                IList<WorkOrder> workOrders = repo.Get(null, null, "Client").ToList<WorkOrder>();
+                IList<WorkOrder> workOrders = repo.Get(null, null, "Client, AssignedToTeams").ToList<WorkOrder>();
                 return View(workOrders);
             }
 
@@ -37,7 +37,21 @@ namespace Nemesis.Web.Controllers
             wovm.EstimatedEndDate = DateTime.Now;
 
             wovm.Clients = GetClients<Client>();
+            wovm.Teams = GetTeams<Team>();
             return View(wovm);
+        }
+
+        private MultiSelectList GetTeams<T>()
+            where T : Team
+        {
+            IEnumerable<Team> team = new List<Team>();
+
+            using (var repo = new GenericRepository<Team>(new NemesisContext()))
+            {
+                team = repo.Get();
+            }
+
+            return new MultiSelectList(team, "Id", "Display");
         }
 
         private IEnumerable<SelectListItem> GetClients<T>()
@@ -86,12 +100,27 @@ namespace Nemesis.Web.Controllers
 
                     using (var clRepo = new GenericRepository<Client>(ctx))
                     {
-                        client = clRepo.GetByID(wovm.ClientId);
+                        using (var teamRepo = new GenericRepository<Team>(ctx))
+                        {
+                            client = clRepo.GetByID(wovm.ClientId);
 
-                        wo.Client = client;
+                            wo.Client = client;
 
-                        repo.Insert(wo);
-                        repo.Save();
+                            List<Team> teams = new List<Team>();
+
+                            if (wovm.IdTeams != null)
+                            {
+                                foreach (int id in wovm.IdTeams)
+                                {
+                                    Team team = teamRepo.GetByID(id);
+                                    teams.Add(team);
+                                }
+                            }
+                            wo.AssignedToTeams = teams;
+
+                            repo.Insert(wo);
+                            repo.Save();
+                        }
                     }
 
 
@@ -101,6 +130,7 @@ namespace Nemesis.Web.Controllers
             else
             {
                 wovm.Clients = GetClients<Client>();
+                wovm.Teams = GetTeams<Team>();
                 return View("CreateWorkOrder", wovm);
             }
         }

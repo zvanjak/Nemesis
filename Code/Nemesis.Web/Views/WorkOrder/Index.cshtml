@@ -14,6 +14,7 @@
             <th>Estimated end date</th>
             <th>Client</th>
             <th>Document</th>
+            <th>Assigned to</th>
 
         </tr>
     </thead>
@@ -31,7 +32,8 @@
                     <td>Internal</td> }
                 else
                 {
-                    <td>@m.Client.Name</td>
+                    @*<td>@m.Client.Name</td>*@
+                    <td>@Html.ActionLink(m.Client.Name, "GetClientById", "Client",new { id = m.Client.Id }, null)</td>
                 }
                 @if (m.Document == null)
                 {
@@ -43,6 +45,11 @@
                         </a>
                     </td>
                 }
+                <td>
+                @foreach (var team in m.AssignedToTeams) { 
+                    <div>@team.Name</div>
+                }
+                    </td>
             </tr>
         }
     </tbody>

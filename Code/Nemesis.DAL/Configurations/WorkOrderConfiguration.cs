@@ -11,7 +11,7 @@ namespace Nemesis.DAL.Configurations
     public class WorkOrderConfiguration : EntityTypeConfiguration<WorkOrder>
     {
         public WorkOrderConfiguration()
-		{
+        {
             this.HasKey(t => t.Id);
             this.Property(t => t.Name);
             this.Property(t => t.Description);
@@ -19,8 +19,14 @@ namespace Nemesis.DAL.Configurations
             this.Property(t => t.EstimatedEndDate);
             this.HasOptional(t => t.Client);
             this.Property(t => t.Document);
-            
+            //this.HasMany(t => t.AssignedToTeams);
 
-		}
+            this.HasMany(t => t.AssignedToTeams).WithMany().Map(x =>
+            {
+                x.MapLeftKey("WorkOrder_Id");
+                x.MapRightKey("Team_Id");
+                x.ToTable("WorkOrderTeam");
+            });
+        }
     }
 }

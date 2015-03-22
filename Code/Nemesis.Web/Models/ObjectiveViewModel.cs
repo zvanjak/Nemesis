@@ -15,7 +15,7 @@ namespace Nemesis.Web.Models
 
         public virtual int ParentId { get; set; }
 
-        public virtual IEnumerable<SelectListItem> ParentObjectives { get; set; }
+        public virtual MultiSelectList ParentObjectives { get; set; }
 
         [Required]
         public virtual string Title { get; set; }
@@ -40,10 +40,8 @@ namespace Nemesis.Web.Models
             }
         }
 
-        [Required]
-        public virtual int LeaderId { get; set; }
-
-        public virtual IEnumerable<SelectListItem> TeamMembers {get; set; }
+        public virtual int[] TeamMembersId { get; set; }
+        public virtual MultiSelectList TeamMembers { get; set; }
 
         [DataType(DataType.Duration)]
         [Required]

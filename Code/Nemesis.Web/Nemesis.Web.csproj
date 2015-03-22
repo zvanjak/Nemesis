@@ -338,7 +338,7 @@
     <Content Include="Views\Objective\ShowMonthObjective.cshtml" />
     <Content Include="Views\Objective\ShowQuartalObjective.cshtml" />
     <Content Include="Views\Objective\ShowObjectives.cshtml" />
-    <Content Include="Views\Objective\ShowObjective.cshtml" />
+    <Content Include="Views\Objective\ShowSingleObjective.cshtml" />
     <Content Include="Views\WorkOrder\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

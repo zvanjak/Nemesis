@@ -18,6 +18,7 @@ namespace Nemesis.DAL.Configurations
             this.Property(t => t.StartDate);
             this.Property(t => t.EstimatedEndDate);
             this.HasOptional(t => t.Client);
+            this.Property(t => t.Document);
             
 
 		}

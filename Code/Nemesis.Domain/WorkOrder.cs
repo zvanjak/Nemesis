@@ -18,6 +18,7 @@ namespace Nemesis.Domain
 
         public virtual Client Client { get; set; }
 
+        public virtual byte[] Document { get; set; }
 
         public override string Display
         {

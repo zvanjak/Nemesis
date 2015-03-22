@@ -3,6 +3,7 @@ using Nemesis.Domain;
 using Nemesis.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -72,6 +73,15 @@ namespace Nemesis.Web.Controllers
                     wo.StartDate = wovm.StartDate;
                     wo.EstimatedEndDate = wovm.EstimatedEndDate;
 
+                    if (wovm.Document != null)
+                    {
+                        byte[] uploadedFile = new byte[wovm.Document.InputStream.Length];
+                        wovm.Document.InputStream.Read(uploadedFile, 0, uploadedFile.Length);
+
+                        wo.Document = uploadedFile;
+                    }
+
+
                     Client client = new Client();
 
                     using (var clRepo = new GenericRepository<Client>(ctx))
@@ -84,14 +94,24 @@ namespace Nemesis.Web.Controllers
                         repo.Save();
                     }
 
-                    
+
                 }
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "WorkOrder");
             }
             else
             {
                 wovm.Clients = GetClients<Client>();
                 return View("CreateWorkOrder", wovm);
+            }
+        }
+
+        public ActionResult DownloadFile(int id)
+        {
+            using (var repo = new GenericRepository<WorkOrder>(new NemesisContext()))
+            {
+                WorkOrder workOrder = repo.GetByID(id);
+                byte[] file = workOrder.Document;
+                return File(file, "application/pdf");
             }
         }
     }

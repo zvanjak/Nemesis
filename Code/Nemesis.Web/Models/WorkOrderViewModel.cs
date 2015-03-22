@@ -11,6 +11,7 @@ namespace Nemesis.Web.Models
 {
     public class WorkOrderViewModel
     {
+        [Required]
         public virtual string Name { get; set; }
 
         public virtual string Description { get; set; }
@@ -23,6 +24,8 @@ namespace Nemesis.Web.Models
 
         [DisplayName("Client")]
         public virtual int ClientId { get; set; }
+
+        public virtual HttpPostedFileBase Document { get; set; }
 
         public virtual IEnumerable<SelectListItem> Clients { get; set; }
 

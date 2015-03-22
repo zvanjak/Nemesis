@@ -49,6 +49,7 @@
     <Compile Include="ActivityService.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Interfaces\IActivityService.cs" />
+    <Compile Include="ObjectiveService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceProvider.cs" />
   </ItemGroup>

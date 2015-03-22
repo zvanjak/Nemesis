@@ -8,7 +8,7 @@ using Nemesis.Domain;
 using Nemesis.DAL;
 
 using Nemesis.Web.Models;
-using Nemesis.DAL.Repositories;
+using Nemesis.Services;
 
 namespace Nemesis.Web.Controllers
 {
@@ -68,13 +68,13 @@ namespace Nemesis.Web.Controllers
             return View();
         }
 
-        public ActionResult ShowWeekObjectives(string datumFilter)
-        {
-            if (String.IsNullOrEmpty(datumFilter)) datumFilter = "";
-            ViewBag.ObjectiveType = "Week";
-            return ShowObjectives<WeekObjective>(datumFilter);
 
+        public ActionResult ShowWeekObjectives()
+        {
+            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>();
+            return View();
         }
+
 
         public ActionResult ShowMonthObjectives(string datumFilter)
         {
@@ -148,7 +148,7 @@ namespace Nemesis.Web.Controllers
                 teamMembers = repo.Get();
             }
 
-            return new MultiSelectList(teamMembers,"Id","Display");
+            return new MultiSelectList(teamMembers, "Id", "Display");
         }
 
         private MultiSelectList GetParentObjectives<T>()
@@ -245,8 +245,8 @@ namespace Nemesis.Web.Controllers
                     objRepo.Insert(obj);
                     objRepo.Save();
                 }
-            } 
-            
+            }
+
         }
 
         private ObjectivePriority GetPriorityFromString(string p)

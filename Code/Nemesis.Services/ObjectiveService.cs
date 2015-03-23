@@ -2,16 +2,18 @@
 using System.Linq;
 using Nemesis.DAL;
 using Nemesis.Domain;
+using System.Linq.Expressions;
+using System;
 
 namespace Nemesis.Services
 {
     public class ObjectiveService
     {
-        public static ICollection<Objective> GetObjectives<T>() where T : Objective
+        public static ICollection<Objective> GetObjectives<T>(Expression<Func<T, bool>> filter = null) where T : Objective
         {
             using (var repository = new GenericRepository<T>(new NemesisContext()))
             {
-                return repository.Get().ToList<Objective>();
+                return repository.Get(filter).ToList<Objective>();
             }
         }
 

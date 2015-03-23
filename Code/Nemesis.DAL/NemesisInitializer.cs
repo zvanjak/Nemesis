@@ -9,6 +9,7 @@ using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity;
 
 using Nemesis.Domain;
+using Nemesis.Domain.Assets;
 
 namespace Nemesis.DAL
 {
@@ -16,37 +17,43 @@ namespace Nemesis.DAL
 	{
 		protected override void Seed(NemesisContext context)
 		{
-            var director = new TeamMember() { FirstName = "Mirna", LastName = "Domančić" };
-            var voditeljRazvoja = new TeamMember() { FirstName = "Samo", LastName = "Mirna" };
-            var tomo = new TeamMember() { FirstName = "Tomislav", LastName = "Bradarić" };
+      var director = new TeamMember() { FirstName = "Dogbert", LastName = "CEO" };
+      var teamLead= new TeamMember() { FirstName = "Zvonimir", LastName = "Vanjak" };
+			var tomo = new TeamMember() { FirstName = "Tomislav", LastName = "Bradarić" };
+			var mirna = new TeamMember() { FirstName = "Mirna", LastName = "Domančić" };
+			var mauro = new TeamMember() { FirstName = "Mauro", LastName = "Barešić" };
+			var ivan = new TeamMember() { FirstName = "Ivan", LastName = "Cutvarić" };
 
-            var test = new TeamMember() { FirstName = "Testna", LastName = "Osoba" };
+      context.TeamMembers.Add(director);
+			context.TeamMembers.Add(teamLead);
+			context.TeamMembers.Add(tomo);
+			context.TeamMembers.Add(mirna);
 
-            var teamLead2 = new TeamMember() { FirstName = "Mirna", LastName = "Hotfix 1.1." };
+			var firma = new Team() { Name = "Dilber & Co.", Leader = director };
+      
+			var teamTeam = new Team() { Name = "Team&Users team", Leader = tomo, Parent = firma };
+			teamTeam.Members.Add(mirna);
 
-            context.TeamMembers.Add(director);
-            context.TeamMembers.Add(voditeljRazvoja);
-            context.TeamMembers.Add(teamLead2);
+      var teamObjective = new Team() { Name = "Objectives team", Leader = mauro, Parent = firma };
+			teamObjective.Members.Add(ivan);
 
-			//// NEVJEROJATNO - ako ovdje inicijaliziram TeamLeader-a dobijem exception od Entity Frameworka, a u konkretnim testovima definiranje leadera SVE RADI!!!???
-			//// POPRAVLJENO
-            var firma = new Team() { Name = "PalaĆinke", Leader = director };
-            var odjelRazvoja = new Team() { Name = "Obiteljski pogrebni obrt Adams", Leader = voditeljRazvoja };
+      context.Teams.Add(firma);
+			context.Teams.Add(teamTeam);
+			context.Teams.Add(teamObjective);
 
-            firma.Members.Add(test);
+			AssetAttribute attr1 = new AssetAttribute() { Name = "SW Source Code Path", Type = AssetAttributeType.String };
+			AssetAttribute attr2 = new AssetAttribute() { Name = "SW Platform Type", Type = AssetAttributeType.Enum };
+			AssetAttribute attr3 = new AssetAttribute() { Name = "Documentation Path", Type = AssetAttributeType.String };
 
-            firma.Members.Add(tomo);
-            odjelRazvoja.Members.Add(tomo);
+			AssetType aType = new AssetType();
+			aType.Name = "SW Component";
+			aType.Attributes.Add(attr1);
 
-            firma.Members.Add(teamLead2);
-            odjelRazvoja.Members.Add(teamLead2);
-
-            context.Teams.Add(firma);
-            context.Teams.Add(odjelRazvoja);
-
-			//Asset prog1 = new Asset() { Name = "Prva komponenta", Description = "Prva", ShortDescription = "Short", ResponsibleTeam = odjelRazvoja };
-			//context.Assets.Add(prog1);
-
+			Asset prog1 = new Asset() { Name = "Prva komponenta", Description = "Prva" };
+			prog1.Type = aType;
+			
+			context.Assets.Add(prog1);
+			
 			//Feature feat1 = new Feature() { CreatedOn = DateTime.Now, BelongsToAsset = prog1, Name = "Feature 1", Description = "Detailed desc", Code = "FEAT-1" };
 			//context.Features.Add(feat1);
 

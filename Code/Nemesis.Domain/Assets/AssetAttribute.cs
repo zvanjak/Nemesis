@@ -18,6 +18,10 @@ namespace Nemesis.Domain.Assets
             return attribute;
         }
 
+			public AssetAttribute()
+				{
+					EnumValues = new List<AssetAttributeEnumItem>();
+				}
         #region Public methods
 
         private AssetAttributeValue CreateNewAssetAttributeValue()
@@ -49,7 +53,7 @@ namespace Nemesis.Domain.Assets
         {
             var value = CreateNewAssetAttributeValue();
 
-            value.AssetVersion = version;
+            //value.AssetVersion = version;
 
             return value;
         }
@@ -81,7 +85,7 @@ namespace Nemesis.Domain.Assets
                 var valueCopy = value;
                 if (EnumValues.Count(ev => ev.Name == valueCopy) == 0)
                 {
-                    var enumValue = new AssetAttributeEnumItem { Id = Guid.NewGuid(), Name = value, Attribute = this };
+                    var enumValue = new AssetAttributeEnumItem { Name = value, Attribute = this };
 
                     EnumValues.Add(enumValue);
                 }

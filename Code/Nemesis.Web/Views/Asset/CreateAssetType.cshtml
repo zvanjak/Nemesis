@@ -1,0 +1,20 @@
+﻿@model Nemesis.Web.Models.AssetTypeViewModel
+
+@{
+    ViewBag.Title = "CreateAssetType";
+}
+
+<h2>CreateAssetType</h2>
+
+@using (Html.BeginForm())
+{
+	@Html.ValidationSummary(true)
+	<fieldset>
+		<div>
+			@Html.LabelFor(m => m.Name)
+			@Html.EditorFor(m => m.Name)
+		</div>
+
+		<input type="submit" value="Create" />
+	</fieldset>
+}

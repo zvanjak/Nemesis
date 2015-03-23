@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\AssetConfiguration.cs" />
     <Compile Include="Configurations\ClientConfiguration.cs" />
     <Compile Include="Configurations\ObjectiveConfiguration.cs" />
     <Compile Include="Configurations\TeamConfiguration.cs" />

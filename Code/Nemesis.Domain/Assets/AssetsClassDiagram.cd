@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Nemesis.Domain.Assets.Asset">
+    <Position X="4.25" Y="4.25" Width="1.75" />
+    <AssociationLine Name="Children" Type="Nemesis.Domain.Assets.Asset" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.871" Y="6.896" />
+        <Point X="4.871" Y="7.292" />
+        <Point X="5.562" Y="7.292" />
+        <Point X="5.562" Y="6.896" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Parent" Type="Nemesis.Domain.Assets.Asset" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.688" Y="4.25" />
+        <Point X="4.688" Y="4" />
+        <Point X="5.392" Y="4" />
+        <Point X="5.392" Y="4.25" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAACAAABAAgAAAAAAAEQQQAAAAAAEIAEQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Asset.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Parent" />
+      <Property Name="Team" />
+      <Property Name="Type" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Children" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Nemesis.Domain.Assets.AssetAssignment">
+    <Position X="1" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAIAAABAAAAAAEAAAAAQACAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\AssetAssignments.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Nemesis.Domain.Assets.AssetAttribute">
+    <Position X="13.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AARABACAAAAAAAAAAAAAASQAAAAAAEAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\AssetAttribute.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Type" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="EnumValues" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Nemesis.Domain.Assets.AssetAttributeEnumItem">
+    <Position X="13.5" Y="10" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAEgAAAAQQAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\AssetAttributeEnumItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Attribute" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Nemesis.Domain.Assets.AssetAttributeValue">
+    <Position X="6.25" Y="8" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAQAAAgAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Assets\AssetAttributeValue.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Asset" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Nemesis.Domain.Assets.AssetAttributeValueText">
+    <Position X="4" Y="11.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAgAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Assets\AssetAttributeValue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Nemesis.Domain.Assets.AssetAttributeValueNumber">
+    <Position X="7" Y="11.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAEAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\AssetAttributeValue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Nemesis.Domain.Assets.AssetAttributeValueDocument">
+    <Position X="1" Y="11.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAACgAAAAACAAAAAAAAAgA=</HashCode>
+      <FileName>Assets\AssetAttributeValue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Nemesis.Domain.Assets.AssetAttributeValueEnum">
+    <Position X="10.25" Y="11.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAgAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\AssetAttributeValue.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="EnumValue" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Nemesis.Domain.Assets.AssetType">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQQQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\AssetType.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Attributes" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Nemesis.Domain.Assets.PlannedVersion">
+    <Position X="7.5" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gAABAEAAAABoAGAAAAAAAQAAAAAAAEABAAAgABIAAIA=</HashCode>
+      <FileName>Assets\PlannedVersion.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Asset" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Nemesis.Domain.Assets.Version">
+    <Position X="11" Y="4" Width="2.25" />
+    <AssociationLine Name="Asset" Type="Nemesis.Domain.Assets.Asset" FixedFromPoint="true">
+      <Path>
+        <Point X="11" Y="6.125" />
+        <Point X="6" Y="6.125" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAgASQAACABoAEAAAAAEQQBSgAAAAFACCQAgAAAAAIA=</HashCode>
+      <FileName>Assets\Version.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Asset" />
+      <Property Name="PlannedVersion" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Attributes" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Nemesis.Domain.Team">
+    <Position X="0.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAQUQAAAAAAAAAAQAEAAAAAAA=</HashCode>
+      <FileName>Team.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Nemesis.Domain.Assets.AssetAttributeType">
+    <Position X="15.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQQAAAAAAAAAAAAAACAAAgQAAAAAA=</HashCode>
+      <FileName>Assets\Enum\AssetAttributeType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

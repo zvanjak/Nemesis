@@ -45,7 +45,7 @@ namespace Nemesis.Domain.Assets
             }
         }
 
-        public virtual Guid? BaseVersion { get; set; }
+        public virtual int? BaseVersionId { get; set; }
         public virtual bool IsRevision { get; set; }
 
         public static PlannedVersion Create()

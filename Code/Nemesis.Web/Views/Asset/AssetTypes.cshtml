@@ -1,7 +1,22 @@
-﻿
+﻿@model System.Collections.Generic.List<Nemesis.Domain.Assets.AssetType>
+
 @{
     ViewBag.Title = "AssetTypes";
 }
 
 <h2>AssetTypes</h2>
+
+@Html.ActionLink("Create new asset type", "CreateAssetType", "Asset")
+
+<table>
+	<tr>
+		<th>Name</th>
+	</tr>
+	@foreach (var attr in Model)
+	{
+		<tr>
+			<td>@attr.Name</td>
+		</tr>
+	}
+</table>
 

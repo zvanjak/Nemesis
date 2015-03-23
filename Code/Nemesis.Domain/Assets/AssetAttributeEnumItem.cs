@@ -2,15 +2,13 @@
 
 namespace Nemesis.Domain.Assets
 {
-    public class AssetAttributeEnumItem
+    public class AssetAttributeEnumItem : EntityBase
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
         public AssetAttribute Attribute { get; set; }
 
         public AssetAttributeEnumItem()
         {
-            Id = Guid.Empty;
             Name = string.Empty;
             Attribute = null;
         }
@@ -30,5 +28,10 @@ namespace Nemesis.Domain.Assets
         {
             return Name;
         }
+
+				public override string Display
+				{
+					get { return this.ToString(); }
+				}
     }
 }

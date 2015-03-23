@@ -8,11 +8,10 @@ namespace Nemesis.Domain.Assets
         public virtual string Name { get; set; }
         public virtual ICollection<AssetAttribute> Attributes { get; set; }
 
-        public static AssetType Create()
-        {
-            var assetType = new AssetType {Attributes = new List<AssetAttribute>()};
-            return assetType;
-        }
+				public AssetType()
+				{
+					Attributes = new List<AssetAttribute>();
+				}
 
         #region Overrides of EntityBase
 

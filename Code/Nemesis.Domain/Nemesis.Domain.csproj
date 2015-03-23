@@ -84,7 +84,8 @@
     <Compile Include="WorkOrder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
+    <None Include="BaseClassDiagram.cd" />
+    <None Include="Assets\AssetsClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entity\" />

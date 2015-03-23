@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 
 using Nemesis.Domain;
+using Nemesis.Domain.Assets;
 using Nemesis.DAL.Configurations;
 
 namespace Nemesis.DAL
@@ -14,6 +15,10 @@ namespace Nemesis.DAL
 	public class NemesisContext : DbContext
 	{
 		public NemesisContext() : base("NemesisContext")
+		{ }
+
+		public NemesisContext(string contextName)
+			: base(contextName)
 		{ }
 
 		public DbSet<Team> Teams { get; set; }
@@ -37,6 +42,9 @@ namespace Nemesis.DAL
 
 		public DbSet<WorkActivity> Activities { get; set; }
 
+		public DbSet<Asset> Assets { get; set; }
+		public DbSet<AssetType> AssetTypes { get; set; }
+		public DbSet<AssetAttribute> AssetAttributes { get; set; }
 		//public DbSet<Asset> Assets { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -51,6 +59,7 @@ namespace Nemesis.DAL
 			modelBuilder.Configurations.Add(new WorkActivityConfiguration());
 
 			//modelBuilder.Configurations.Add(new ProjectConfiguration());
+			
 			//modelBuilder.Configurations.Add(new AssetConfiguration());
 
 			//modelBuilder.Configurations.Add(new IssueConfiguration());

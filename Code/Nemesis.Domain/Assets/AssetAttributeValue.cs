@@ -4,12 +4,11 @@ using System.IO;
 
 namespace Nemesis.Domain.Assets
 {
-    public class AssetAttributeValue
+    public class AssetAttributeValue : EntityBase
     {
-        public Guid Id { get; set; }
         public AssetAttribute Attribute { get; set; }
         public Asset Asset { get; set; }
-        public Version AssetVersion { get; set; }
+        //public Version AssetVersion { get; set; }
         public object Value { get; set; }
 
         protected AssetAttributeValue()
@@ -20,6 +19,11 @@ namespace Nemesis.Domain.Assets
         {
             return null;
         }
+
+				public override string Display
+				{
+					get { return this.ToString(); }
+				}
     }
 
     public class AssetAttributeValueText : AssetAttributeValue
@@ -41,7 +45,7 @@ namespace Nemesis.Domain.Assets
             {
                 Attribute = Attribute,
                 Asset = Asset,
-                AssetVersion = AssetVersion,
+                //AssetVersion = AssetVersion,
                 Text = Text
             };
 
@@ -73,7 +77,7 @@ namespace Nemesis.Domain.Assets
             {
                 Attribute = Attribute,
                 Asset = Asset,
-                AssetVersion = AssetVersion,
+                //AssetVersion = AssetVersion,
                 Number = Number
             };
 
@@ -121,7 +125,7 @@ namespace Nemesis.Domain.Assets
             {
                 Attribute = Attribute,
                 Asset = Asset,
-                AssetVersion = AssetVersion,
+                //AssetVersion = AssetVersion,
                 DocumentName = DocumentName,
                 Document = Document
             };
@@ -154,7 +158,7 @@ namespace Nemesis.Domain.Assets
             {
                 Attribute = Attribute,
                 Asset = Asset,
-                AssetVersion = AssetVersion,
+                //AssetVersion = AssetVersion,
                 EnumValue = EnumValue
             };
 

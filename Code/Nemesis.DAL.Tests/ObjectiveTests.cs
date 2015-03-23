@@ -12,16 +12,16 @@ namespace Nemesis.DAL.Tests
 	public class ObjectiveTests
 	{
 		[TestMethod]
-		public void TestAddIterationObjective2()
+		public void TestAddWeekObjective()
 		{
 			using (var repo = new GenericRepository<Objective>(new NemesisContext()))
 			{
 				Database.SetInitializer(new NemesisInitializer());
 
-				var obj = new Objective();
-				obj.ShortDescription = "Prvi iter obj";
+				var obj = new WeekObjective();
+				obj.ShortDescription = "Prvi Week objective";
 				obj.CreatedOn = DateTime.Now;
-				obj.Description = "Testni Iteration objective";
+				obj.Description = "Testni week objective";
 				obj.Priority = ObjectivePriority.HIGH;
 				obj.AssignedToTeam = new Team() { Name = "TestTeam" };
 				//            obj.AssignedToTeam = new Team() { Name = "TestTeam", TeamLeader = new TeamMember() { Name = "TestTeam leader" } };

@@ -5,7 +5,7 @@ using Nemesis.Domain.Security;
 
 namespace Nemesis.Domain.Assets
 {
-    public class AssetAssignments
+	public class AssetAssignment : EntityBase
     {
         public ICollection<User> Responsible { get; set; }
         public ICollection<User> Accountable { get; set; }
@@ -46,5 +46,16 @@ namespace Nemesis.Domain.Assets
 
             return builder.ToString();
         }
-    }
+
+				#region Overrides of EntityBase
+
+				public override string Display
+				{
+					get
+					{
+						return Id.ToString();
+					}
+				}
+				#endregion
+		}
 }

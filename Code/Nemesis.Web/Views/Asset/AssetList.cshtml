@@ -1,7 +1,26 @@
-﻿
+﻿@model System.Collections.Generic.List<Nemesis.Web.Models.AssetViewModel>
+
 @{
     ViewBag.Title = "AssetList";
 }
 
 <h2>AssetList</h2>
 
+@Html.ActionLink("Create new asset", "Create", "Asset")
+@Html.ActionLink("Create new asset attribute", "CreateAssetAttribute", "Asset")
+
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Description</th>
+		<th>Team</th>
+	</tr>
+@foreach (var asset in Model)
+{
+		<tr>
+			<td>@asset.Name</td>
+			<td>@asset.Description</td>
+			<td>@asset.Team.Name</td>
+		</tr>
+	}
+</table>

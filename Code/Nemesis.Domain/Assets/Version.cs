@@ -18,7 +18,7 @@ namespace Nemesis.Domain.Assets
         public virtual string Description { get; set; }
         public virtual ICollection<AssetAttributeValue> Attributes { get; set; }
 
-        public virtual Guid? BaseVersion { get; set; }
+        public virtual int? BaseVersionId { get; set; }
         public virtual bool IsRevision { get; set; }
 
         #endregion
@@ -35,13 +35,13 @@ namespace Nemesis.Domain.Assets
             {
                 if (Asset != null)
                 {
-                    var responsibles =
-                        Asset.Assignments.Responsible.All(responsibleMember => ApprovalList.Contains(responsibleMember));
+										//var responsibles =
+										//		Asset.Assignments.Responsible.All(responsibleMember => ApprovalList.Contains(responsibleMember));
 
                     var qualityManager = Asset.Team.QualityManager;
                     IsApprovedByQualityManager = qualityManager == null || IsApprovedByQualityManager;
 
-                    return responsibles && IsApprovedByQualityManager;
+                    return /*responsibles &&*/ IsApprovedByQualityManager;
                 }
 
                 return false;
@@ -81,13 +81,14 @@ namespace Nemesis.Domain.Assets
 
             // Ostali memberi mogu potvrditi Asset ako su navedeni
             // kao Responsible i ako je Quality Manager već potvrdio
-            if (qualityManager != null)
-            {
-                return Asset.Assignments.Responsible.Contains(user) && !ApprovalList.Contains(user) &&
-                       IsApprovedByQualityManager;
-            }
+						//if (qualityManager != null)
+						//{
+						//		return Asset.Assignments.Responsible.Contains(user) && !ApprovalList.Contains(user) &&
+						//					 IsApprovedByQualityManager;
+						//}
 
-            return Asset.Assignments.Responsible.Contains(user) && !ApprovalList.Contains(user);
+						//return Asset.Assignments.Responsible.Contains(user) && !ApprovalList.Contains(user);
+						return true;
         }
         public virtual bool AlreadyApproved(User user)
         {
@@ -100,17 +101,17 @@ namespace Nemesis.Domain.Assets
         {
             // Ako je korisnik Quality Manager, vrati true ako
             // nije potvrdio release
-            if (user.Equals(Asset.Team.QualityManager))
-                return !IsApprovedByQualityManager;
+						//if (user.Equals(Asset.Team.QualityManager))
+						//		return !IsApprovedByQualityManager;
 
-            // Ako je korisnik naveden kao Responsible, vrati true
-            // ako je Quality Manager potvrdio cilj, a korisnik još nije
-            if (Asset.Assignments.Responsible.Contains(user))
-            {
-                var approvedByQualityManager = Asset.Team.QualityManager == null || IsApprovedByQualityManager;
+						//// Ako je korisnik naveden kao Responsible, vrati true
+						//// ako je Quality Manager potvrdio cilj, a korisnik još nije
+						//if (Asset.Assignments.Responsible.Contains(user))
+						//{
+						//		var approvedByQualityManager = Asset.Team.QualityManager == null || IsApprovedByQualityManager;
 
-                return !ApprovalList.Contains(user) && approvedByQualityManager;
-            }
+						//		return !ApprovalList.Contains(user) && approvedByQualityManager;
+						//}
 
             return false;
         }
@@ -144,7 +145,7 @@ namespace Nemesis.Domain.Assets
                                   ReleaseDate = DateTime.Today,
                                   Attributes = new List<AssetAttributeValue>(),
                                   Children = new List<Version>(),
-                                  BaseVersion = plannedVersion.BaseVersion,
+                                  BaseVersionId = plannedVersion.BaseVersionId,
                                   IsRevision = plannedVersion.IsRevision
                               };
             version.FillAttributeValuesList();
@@ -162,13 +163,13 @@ namespace Nemesis.Domain.Assets
 
         private void FillAttributeValuesList()
         {
-            foreach (var defaultValue in Asset.DefaultTypeValues)
-            {
-                var value = defaultValue.Copy();
-                value.Asset = null;
-                value.AssetVersion = this;
-                Attributes.Add(value);
-            }
+						//foreach (var defaultValue in Asset.DefaultTypeValues)
+						//{
+						//		var value = defaultValue.Copy();
+						//		value.Asset = null;
+						//		value.AssetVersion = this;
+						//		Attributes.Add(value);
+						//}
         }
 
         #endregion

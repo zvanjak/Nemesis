@@ -15,26 +15,26 @@ namespace Nemesis.Domain.Assets
 
         public virtual AssetType Type { get; set; }
         public virtual Team Team { get; set; }
-        public virtual AssetAssignments Assignments { get; set; }
+        //public virtual AssetAssignment Assignments { get; set; }
 
-        public virtual ICollection<AssetAttributeValue> DefaultTypeValues { get; set; }
+        //public virtual ICollection<AssetAttributeValue> DefaultTypeValues { get; set; }
 
         #endregion
 
         #region Versions
 
-        public virtual ICollection<PlannedVersion> PlannedVersions { get; set; }
+				//public virtual ICollection<PlannedVersion> PlannedVersions { get; set; }
         
-        public virtual ICollection<Version> Versions { get; set; }
-        public virtual DateTime? LatestVersionDate
-        {
-            get
-            {
-                if (Versions != null && Versions.Any())
-                    return Versions.Max(item => item.ReleaseDate);
-                return null;
-            }
-        }
+				//public virtual ICollection<Version> Versions { get; set; }
+				//public virtual DateTime? LatestVersionDate
+				//{
+				//		get
+				//		{
+				//				if (Versions != null && Versions.Any())
+				//						return Versions.Max(item => item.ReleaseDate);
+				//				return null;
+				//		}
+				//}
 
         #endregion
 
@@ -49,11 +49,11 @@ namespace Nemesis.Domain.Assets
         {
             var asset = new Asset
                             {
-                                DefaultTypeValues = new List<AssetAttributeValue>(),
-                                PlannedVersions = new List<PlannedVersion>(),
-                                Versions = new List<Version>(),
-                                Children = new List<Asset>(),
-                                Assignments = new AssetAssignments()
+                                //DefaultTypeValues = new List<AssetAttributeValue>(),
+																//PlannedVersions = new List<PlannedVersion>(),
+																//Versions = new List<Version>(),
+                                Children = new List<Asset>()
+                                //Assignments = new AssetAssignment()
                             };
 
             return asset;
@@ -63,8 +63,8 @@ namespace Nemesis.Domain.Assets
 
         public virtual bool IsUsersAsset(User user)
         {
-            if (Assignments.IsUsersAsset(user))
-                return true;
+						//if (Assignments.IsUsersAsset(user))
+						//		return true;
 
             return Children.Any(item => item.IsUsersAsset(user));
         }
@@ -82,11 +82,11 @@ namespace Nemesis.Domain.Assets
         }
         public virtual void FillAttributeValuesList()
         {
-            DefaultTypeValues = new List<AssetAttributeValue>();
-            foreach (var attribute in Type.Attributes)
-            {
-                DefaultTypeValues.Add(attribute.GetNewAttributeValue(this));
-            }
+						//DefaultTypeValues = new List<AssetAttributeValue>();
+						//foreach (var attribute in Type.Attributes)
+						//{
+						//		DefaultTypeValues.Add(attribute.GetNewAttributeValue(this));
+						//}
         }
 
         #endregion

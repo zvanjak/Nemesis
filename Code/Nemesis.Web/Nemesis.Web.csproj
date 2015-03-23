@@ -339,16 +339,13 @@
     <Content Include="Views\Objective\ShowMonthObjective.cshtml" />
     <Content Include="Views\Objective\ShowQuartalObjective.cshtml" />
     <Content Include="Views\Objective\ShowObjectives.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Objective\ShowObjective.cshtml" />
     <Content Include="Views\Asset\CreateAssetAttribute.cshtml" />
     <Content Include="Views\Asset\CreateAssetType.cshtml" />
-=======
     <Content Include="Views\Objective\ShowSingleObjective.cshtml" />
     <Content Include="Views\WorkOrder\Index.cshtml" />
     <Content Include="Views\Client\ShowClient.cshtml" />
     <Content Include="Views\Objective\ShowWeekObjectives.cshtml" />
->>>>>>> 612cd2ec5afd02c9a5f409a2e9d4d2df63d1011b
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

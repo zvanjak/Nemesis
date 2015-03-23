@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using Nemesis.Domain;
 using Nemesis.DAL;
 
-using Nemesis.Web.Models;
+using Nemesis.Web.Models.Objective;
 using Nemesis.Services;
 
 namespace Nemesis.Web.Controllers
@@ -19,6 +19,8 @@ namespace Nemesis.Web.Controllers
         {
             return ShowObjectives<Objective>("");
         }
+
+        #region Show Objective
 
         public ActionResult ShowWeekObjective(int id, string filter)
         {
@@ -112,31 +114,35 @@ namespace Nemesis.Web.Controllers
             return View("ShowObjectives");
         }
 
+        #endregion
+
+        #region Create Objective
+
         public ActionResult CreateWeekObjective()
         {
-            ObjectiveViewModel model = new ObjectiveViewModel();
+            WeekObjectiveViewModel model = new WeekObjectiveViewModel();
 
             model.ParentObjectives = GetParentObjectives<MonthObjective>();
             model.TeamMembers = GetTeamMembers();
-            return View("CreateObjective", model);
+            return View(model);
         }
 
         public ActionResult CreateMonthObjective()
         {
-            ObjectiveViewModel model = new ObjectiveViewModel();
+            MonthObjectiveViewModel model = new MonthObjectiveViewModel();
 
             model.ParentObjectives = GetParentObjectives<QuartalObjective>();
             model.TeamMembers = GetTeamMembers();
-            return View("CreateObjective", model);
+            return View(model);
         }
 
         public ActionResult CreateQuartalObjective()
         {
-            ObjectiveViewModel model = new ObjectiveViewModel();
+            QuartalObjectiveViewModel model = new QuartalObjectiveViewModel();
 
             model.ParentObjectives = new MultiSelectList(new List<Objective>());
             model.TeamMembers = GetTeamMembers();
-            return View("CreateObjective", model);
+            return View(model);
         }
 
         private MultiSelectList GetTeamMembers()
@@ -165,11 +171,12 @@ namespace Nemesis.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateWeekObjective(ObjectiveViewModel entry)
+        public ActionResult CreateWeekObjective(WeekObjectiveViewModel entry)
         {
             if (ModelState.IsValid)
             {
                 WeekObjective obj = new WeekObjective();
+                obj.WeekOrdNum = entry.WeekOrdNum;
                 CreateObjective<WeekObjective>(obj, entry);
                 return RedirectToAction("Index", "Home");
             }
@@ -177,16 +184,17 @@ namespace Nemesis.Web.Controllers
             {
                 entry.ParentObjectives = GetParentObjectives<MonthObjective>();
                 entry.TeamMembers = GetTeamMembers();
-                return View("CreateObjective", entry);
+                return View(entry);
             }
         }
 
         [HttpPost]
-        public ActionResult CreateMonthObjective(ObjectiveViewModel entry)
+        public ActionResult CreateMonthObjective(MonthObjectiveViewModel entry)
         {
             if (ModelState.IsValid)
             {
                 MonthObjective obj = new MonthObjective();
+                obj.MonthOrdNum = entry.MonthOrdNum;
                 CreateObjective<MonthObjective>(obj, entry);
                 return RedirectToAction("Index", "Home");
             }
@@ -194,16 +202,17 @@ namespace Nemesis.Web.Controllers
             {
                 entry.ParentObjectives = GetParentObjectives<QuartalObjective>();
                 entry.TeamMembers = GetTeamMembers();
-                return View("CreateObjective", entry);
+                return View(entry);
             }
         }
 
         [HttpPost]
-        public ActionResult CreateQuartalObjective(ObjectiveViewModel entry)
+        public ActionResult CreateQuartalObjective(QuartalObjectiveViewModel entry)
         {
             if (ModelState.IsValid)
             {
                 QuartalObjective obj = new QuartalObjective();
+                obj.QuartalOrdNum = entry.QuartalOrdNum;
                 CreateObjective<QuartalObjective>(obj, entry);
                 return RedirectToAction("Index", "Home");
             }
@@ -211,7 +220,7 @@ namespace Nemesis.Web.Controllers
             {
                 entry.ParentObjectives = new MultiSelectList(new List<Objective>());
                 entry.TeamMembers = GetTeamMembers();
-                return View("CreateObjective", entry);
+                return View(entry);
             }
         }
 
@@ -257,5 +266,7 @@ namespace Nemesis.Web.Controllers
             }
             return ObjectivePriority.LOW;
         }
+
+        #endregion
     }
 }

@@ -18,6 +18,13 @@ namespace Nemesis.DAL.Configurations
 			this.Property(t => t.ShortDescription).IsRequired();
 			this.Property(t => t.Description);
 
+            this.HasMany(t => t.AssignedToTeamMembers).WithMany().Map(x =>
+            {
+                x.MapLeftKey("Objective_Id");
+                x.MapRightKey("TeamMember_Id");
+                x.ToTable("ObjectiveTeamMember");
+            });
+
 		}
 	}
 }

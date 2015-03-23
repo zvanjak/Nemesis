@@ -1,65 +1,108 @@
 ﻿@model Nemesis.Web.Models.WorkOrderViewModel
+
 @{
     ViewBag.Title = "CreateWorkOrder";
 }
 
 <br />
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.ValidationSummary(true)
-    <fieldset>
-        <legend>Create work order</legend>
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <legend>Create work order</legend>
 
-        <div class="form-group">
-            @Html.LabelFor(x => x.Name, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.Name)
+            <div class="form-group">
+                @Html.LabelFor(x => x.Name, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Name)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(x => x.Description, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.Description)
+            <div class="form-group">
+                @Html.LabelFor(x => x.Description, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Description)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(x => x.StartDate, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(x => x.StartDate, "{0:dd.MM.yyyy}",new { @class = "form-control datepicker"})
-                @Html.ValidationMessageFor(x => x.StartDate)
+            <div class="form-group">
+                @Html.LabelFor(x => x.StartDate, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.StartDate, "{0:dd.MM.yyyy}", new { @class = "form-control datepicker" })
+                    @Html.ValidationMessageFor(x => x.StartDate)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(x => x.EstimatedEndDate, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(x => x.EstimatedEndDate,"{0:dd.MM.yyyy}", new { @class = "form-control datepicker" })
-                @Html.ValidationMessageFor(x => x.EstimatedEndDate)
+            <div class="form-group">
+                @Html.LabelFor(x => x.EstimatedEndDate, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.EstimatedEndDate, "{0:dd.MM.yyyy}", new { @class = "form-control datepicker" })
+                    @Html.ValidationMessageFor(x => x.EstimatedEndDate)
+                </div>
             </div>
-        </div>
 
-        <script type="text/javascript">
-            $(function () { // will trigger when the document is ready
-                $('.datepicker').datepicker({ dateFormat: "dd.mm.yy." }); //Initialise any date pickers
+            <div class="form-group">
+                @Html.Label("Internal", new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.CheckBox("Internal", new { @class = "checkbox" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.ClientId, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(x => x.ClientId, Model.Clients, new { @class = "form-control", id = "client" })
+                    @Html.ValidationMessageFor(x => x.ClientId)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Document, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.Document, new { @type = "file", @accept = "application/pdf", @id = "exampleInputFile" })
+                    @Html.ValidationMessageFor(x => x.Document)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Teams, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(x => x.IdTeams, Model.Teams, new { @class = "form-control", multiple = "multiple" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+
+
+        </fieldset>
+    </div>
+
+    <script type="text/javascript">
+        $(function () { // will trigger when the document is ready
+            $('.datepicker').datepicker({ dateFormat: "dd.mm.yy." }); //Initialise any date pickers
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input[type="checkbox"]').click(function () {
+                if ($(this).prop("checked") == true) {
+                    var elem = document.getElementById("client");
+                    elem.disabled = true;
+                }
+                else if ($(this).prop("checked") == false) {
+                    var elem = document.getElementById("client");
+                    elem.disabled = false;
+                }
             });
-        </script>
+        });
+    </script>
 
-        <div class="form-group">
-            @Html.LabelFor(x => x.ClientId, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(x => x.ClientId, Model.Clients, new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.ClientId)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </fieldset>
 }

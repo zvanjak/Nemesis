@@ -42,9 +42,9 @@
                 </div>
             </div>
             <div class="form-group">
-                @Html.Label("Leader", new { @class = "col-md-2 control-label" })
+                @Html.Label("Assigned Team Members", new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(x => x.LeaderId, Model.TeamMembers, new { @class = "form-control" })
+                    @Html.DropDownListFor(x => x.TeamMembersId, Model.TeamMembers, new { @class = "form-control", multiple = "multiple" })
                 </div>
             </div>
             <div class="form-group">
@@ -92,6 +92,15 @@
             $("#dialog").dialog("open");
         });
 
+        @if (!ViewData.ModelState.IsValid)
+        {
+            @:$("#dialog").dialog("open");
+        }
+
+        
+
     });
+
+
 
 </script>

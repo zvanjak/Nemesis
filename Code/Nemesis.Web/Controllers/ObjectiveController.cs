@@ -8,7 +8,7 @@ using Nemesis.Domain;
 using Nemesis.DAL;
 
 using Nemesis.Web.Models;
-using Nemesis.DAL.Repositories;
+using Nemesis.Services;
 
 namespace Nemesis.Web.Controllers
 {
@@ -23,22 +23,22 @@ namespace Nemesis.Web.Controllers
         public ActionResult ShowWeekObjective(int id, string filter)
         {
             ViewBag.ChildObjectiveType = "Child";
-            return ShowObjective<WeekObjective>(id, filter);
+            return ShowSingleObjective<WeekObjective>(id, filter);
         }
 
         public ActionResult ShowMonthObjective(int id, string filter)
         {
             ViewBag.ChildObjectiveType = "Week";
-            return ShowObjective<MonthObjective>(id, filter);
+            return ShowSingleObjective<MonthObjective>(id, filter);
         }
 
         public ActionResult ShowQuartalObjective(int id, string filter)
         {
             ViewBag.ChildObjectiveType = "Month";
-            return ShowObjective<QuartalObjective>(id, filter);
+            return ShowSingleObjective<QuartalObjective>(id, filter);
         }
 
-        private ActionResult ShowObjective<T>(int id, string filter) where T : Objective
+        private ActionResult ShowSingleObjective<T>(int id, string filter) where T : Objective
         {
             using (NemesisContext nc = new NemesisContext())
             {
@@ -68,13 +68,13 @@ namespace Nemesis.Web.Controllers
             return View();
         }
 
-        public ActionResult ShowWeekObjectives(string datumFilter)
-        {
-            if (String.IsNullOrEmpty(datumFilter)) datumFilter = "";
-            ViewBag.ObjectiveType = "Week";
-            return ShowObjectives<WeekObjective>(datumFilter);
 
+        public ActionResult ShowWeekObjectives()
+        {
+            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>();
+            return View();
         }
+
 
         public ActionResult ShowMonthObjectives(string datumFilter)
         {
@@ -134,12 +134,12 @@ namespace Nemesis.Web.Controllers
         {
             ObjectiveViewModel model = new ObjectiveViewModel();
 
-            model.ParentObjectives = new List<SelectListItem>();
+            model.ParentObjectives = new MultiSelectList(new List<Objective>());
             model.TeamMembers = GetTeamMembers();
             return View("CreateObjective", model);
         }
 
-        private IEnumerable<SelectListItem> GetTeamMembers()
+        private MultiSelectList GetTeamMembers()
         {
             IEnumerable<TeamMember> teamMembers = null;
 
@@ -148,10 +148,10 @@ namespace Nemesis.Web.Controllers
                 teamMembers = repo.Get();
             }
 
-            return ToSelectList(teamMembers);
+            return new MultiSelectList(teamMembers, "Id", "Display");
         }
 
-        private IEnumerable<SelectListItem> GetParentObjectives<T>()
+        private MultiSelectList GetParentObjectives<T>()
             where T : Objective
         {
             IEnumerable<Objective> objectives = null;
@@ -161,42 +161,68 @@ namespace Nemesis.Web.Controllers
                 objectives = repo.Get();
             }
 
-            return ToSelectList(objectives);
-        }
-
-        private IEnumerable<SelectListItem> ToSelectList<T>(IEnumerable<T> objectives)
-        {
-            return new SelectList(objectives, "Id", "Display");
+            return new MultiSelectList(objectives, "Id", "Display");
         }
 
         [HttpPost]
         public ActionResult CreateWeekObjective(ObjectiveViewModel entry)
         {
-            WeekObjective obj = new WeekObjective();
-            return CreateObjective<WeekObjective>(obj, entry);
+            if (ModelState.IsValid)
+            {
+                WeekObjective obj = new WeekObjective();
+                CreateObjective<WeekObjective>(obj, entry);
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                entry.ParentObjectives = GetParentObjectives<MonthObjective>();
+                entry.TeamMembers = GetTeamMembers();
+                return View("CreateObjective", entry);
+            }
         }
 
         [HttpPost]
         public ActionResult CreateMonthObjective(ObjectiveViewModel entry)
         {
-            MonthObjective obj = new MonthObjective();
-            return CreateObjective<MonthObjective>(obj, entry);
+            if (ModelState.IsValid)
+            {
+                MonthObjective obj = new MonthObjective();
+                CreateObjective<MonthObjective>(obj, entry);
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                entry.ParentObjectives = GetParentObjectives<QuartalObjective>();
+                entry.TeamMembers = GetTeamMembers();
+                return View("CreateObjective", entry);
+            }
         }
 
         [HttpPost]
         public ActionResult CreateQuartalObjective(ObjectiveViewModel entry)
         {
-            QuartalObjective obj = new QuartalObjective();
-            return CreateObjective<QuartalObjective>(obj, entry);
+            if (ModelState.IsValid)
+            {
+                QuartalObjective obj = new QuartalObjective();
+                CreateObjective<QuartalObjective>(obj, entry);
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                entry.ParentObjectives = new MultiSelectList(new List<Objective>());
+                entry.TeamMembers = GetTeamMembers();
+                return View("CreateObjective", entry);
+            }
         }
 
 
-        private ActionResult CreateObjective<T>(Objective obj, ObjectiveViewModel entry)
+        private void CreateObjective<T>(Objective obj, ObjectiveViewModel entry)
             where T : Objective
         {
-            if (ModelState.IsValid)
+            using (var context = new NemesisContext())
             {
-                using (var objRepo = new GenericRepository<Objective>(new NemesisContext()))
+                using (var membersRepo = new GenericRepository<TeamMember>(context))
+                using (var objRepo = new GenericRepository<Objective>(context))
                 {
                     obj.Parent = objRepo.GetByID(entry.ParentId);
                     obj.ShortDescription = entry.Title;
@@ -206,9 +232,10 @@ namespace Nemesis.Web.Controllers
 
                     List<TeamMember> members = new List<TeamMember>();
 
-                    using (var membersRepo = new GenericRepository<TeamMember>(new NemesisContext()))
+                    foreach (int id in entry.TeamMembersId)
                     {
-                        members.Add(membersRepo.GetByID(entry.LeaderId));
+                        TeamMember member = membersRepo.GetByID(id);
+                        members.Add(member);
                     }
 
                     obj.AssignedToTeamMembers = members;
@@ -218,14 +245,8 @@ namespace Nemesis.Web.Controllers
                     objRepo.Insert(obj);
                     objRepo.Save();
                 }
-                return RedirectToAction("Index", "Home");
             }
-            else
-            {
-                entry.ParentObjectives = GetParentObjectives<T>();
-                entry.TeamMembers = GetTeamMembers();
-                return View("CreateObjective", entry);
-            }
+
         }
 
         private ObjectivePriority GetPriorityFromString(string p)

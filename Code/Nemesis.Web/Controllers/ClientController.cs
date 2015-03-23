@@ -13,7 +13,7 @@ namespace Nemesis.Web.Controllers
 {
     public class ClientController : Controller
     {
-        
+
         // GET: /Client/Create
         public ActionResult Create()
         {
@@ -23,7 +23,7 @@ namespace Nemesis.Web.Controllers
         // POST: /Client/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Id,Name,Description,IsArchived")] Client client)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,IsArchived")] Client client)
         {
             if (ModelState.IsValid)
             {
@@ -40,6 +40,15 @@ namespace Nemesis.Web.Controllers
             }
 
             return View(client);
+        }
+
+        public ActionResult GetClientById(int id)
+        {
+            using (var repo = new GenericRepository<Client>(new NemesisContext()))
+            {
+                Client client = repo.GetByID(id);
+                return View("ShowClient", client);
+            }
         }
     }
 }

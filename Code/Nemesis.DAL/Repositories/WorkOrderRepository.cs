@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace Nemesis.DAL.Repositories
 {
     public class WorkOrderRepository : GenericRepository<WorkOrder>
-	{
+    {
         public WorkOrderRepository(NemesisContext inContext)
             : base(inContext)
-		{ }
-	}
+        { }
+    }
 }

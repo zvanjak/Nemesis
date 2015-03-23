@@ -14,7 +14,7 @@ namespace Nemesis.Domain
 
         public override string Display
         {
-            get { return Description; }
+            get { return Name; }
         }
     }
 }

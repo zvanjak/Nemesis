@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Week objectives";
+}
+<h2>Week objectives</h2>
+<br>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Week num</th>
+            <th>Description</th>
+            <th>Priority</th>
+            <th>Finished</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var weekObjective in ViewBag.WeekObjectives)
+        {
+
+            <tr>
+                <td>@weekObjective.ShortDescription</td>
+                <td>@weekObjective.WeekOrdNum</td>
+                <td>@weekObjective.Description</td>
+                <td>@weekObjective.Priority</td>
+                <td>@weekObjective.PercentComplete%</td>
+            </tr>
+        }
+    </tbody>
+</table>

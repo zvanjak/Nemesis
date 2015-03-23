@@ -11,7 +11,7 @@ namespace Nemesis.Services
         {
             using (var repository = new GenericRepository<TeamMember>(new NemesisContext()))
             {
-                return ids.Select(id => repository.GetByID(id)).ToList();
+                return ids == null ? null : ids.Select(id => repository.GetByID(id)).ToList();
             }
         }
 

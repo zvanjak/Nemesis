@@ -7,15 +7,37 @@ namespace Nemesis.Services
 {
     public class ObjectiveService
     {
-
         public static ICollection<Objective> GetObjectives<T>() where T : Objective
         {
-            using (NemesisContext nc = new NemesisContext())
+            using (var repository = new GenericRepository<T>(new NemesisContext()))
             {
-                using (var repository = new GenericRepository<T>(nc))
-                {
-                    return repository.Get().ToList<Objective>();
-                }
+                return repository.Get().ToList<Objective>();
+            }
+        }
+
+        public static ICollection<Objective> GetObjectivesFor<T>(string date) where T : Objective
+        {
+            using (var repository = new GenericRepository<T>(new NemesisContext()))
+            {
+                return
+                    repository.Get().Where(x => x.CreatedOn.ToString("yyyy-MM-dd").Equals(date)).ToList<Objective>();
+            }
+        }
+
+        public static Objective GetObjective(int id)
+        {
+            using (var repository = new GenericRepository<Objective>(new NemesisContext()))
+            {
+                return repository.GetByID(id);
+            }
+        }
+
+        public static void Save(Objective objective)
+        {
+            using (var objectiveRepositroy = new GenericRepository<Objective>(new NemesisContext()))
+            {
+                objectiveRepositroy.Insert(objective);
+                objectiveRepositroy.Save();
             }
         }
     }

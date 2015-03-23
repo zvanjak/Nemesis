@@ -58,7 +58,8 @@ namespace Nemesis.Web.Controllers
 
         public ActionResult ShowWeekObjectives()
         {
-            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>();
+            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>(o => o.WeekOrdNum.Equals(1));
+            ViewBag.CurrentWeek = 1;
             return View();
         }
 
@@ -91,6 +92,29 @@ namespace Nemesis.Web.Controllers
             }
             ViewBag.Entries = objectives;
             return View("ShowObjectives");
+        }
+
+        public ActionResult ToPreviousWeek(int currentWeek)
+        {
+            if (currentWeek > 1)
+            {
+                currentWeek--;
+            }
+            ViewBag.CurrentWeek = currentWeek;
+            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>(o => o.WeekOrdNum.Equals(currentWeek));
+            return PartialView("ShowWeekObjectives");
+        }
+
+        public ActionResult ToNextWeek(int currentWeek)
+        {
+            if (currentWeek < 50)
+            {
+                currentWeek++;
+            }
+            ViewBag.CurrentWeek = currentWeek;
+            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>(o => o.WeekOrdNum.Equals(currentWeek));
+            return PartialView("ShowWeekObjectives");
+
         }
 
         #endregion

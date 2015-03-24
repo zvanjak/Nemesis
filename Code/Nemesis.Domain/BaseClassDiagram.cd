@@ -1,112 +1,98 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Nemesis.Domain.Client" Collapsed="true">
-    <Position X="11.5" Y="0.5" Width="1.5" />
+  <Class Name="Nemesis.Domain.Client">
+    <Position X="12.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAQQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Client.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Nemesis.Domain.Feature" Collapsed="true">
-    <Position X="1.25" Y="6.5" Width="1.5" />
+  <Class Name="Nemesis.Domain.Feature">
+    <Position X="1" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Feature.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Nemesis.Domain.Issue" Collapsed="true">
-    <Position X="4" Y="4.75" Width="1.5" />
+  <Class Name="Nemesis.Domain.Issue">
+    <Position X="4" Y="6.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAgAAAAAAAgAQQAAAACAAAAAAABAAAAAAA=</HashCode>
       <FileName>Issue.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Nemesis.Domain.MonthObjective" Collapsed="true">
+  <Class Name="Nemesis.Domain.MonthObjective">
     <Position X="5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAEAAAAAgAAAAAAAAACAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
       <FileName>MonthObjective.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Nemesis.Domain.Objective" Collapsed="true">
-    <Position X="4" Y="2.25" Width="1.5" />
+  <Class Name="Nemesis.Domain.Objective">
+    <Position X="0.5" Y="3.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAgAEBEAAAQAAAAAAACAACCAAAAAAAAEAU=</HashCode>
+      <HashCode>AAAAAACABAggAABMAAAQQQAAAAAKAACCAAAAAAAAEBU=</HashCode>
       <FileName>Objective.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Nemesis.Domain.Project" Collapsed="true">
+  <Class Name="Nemesis.Domain.Project">
     <Position X="11.5" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAggAAAAAAAAAQQAAAAAgAAAAAAAAAAAAAA=</HashCode>
       <FileName>Project.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Nemesis.Domain.QuartalObjective" Collapsed="true">
+  <Class Name="Nemesis.Domain.QuartalObjective">
     <Position X="7.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>QuartalObjective.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Nemesis.Domain.Requirement" Collapsed="true">
-    <Position X="6.75" Y="6.5" Width="1.5" />
+  <Class Name="Nemesis.Domain.Requirement">
+    <Position X="7" Y="9.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Requirement.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Nemesis.Domain.SprintObjective" Collapsed="true">
-    <Position X="0.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SprintObjective.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Nemesis.Domain.WeekObjective" Collapsed="true">
+  <Class Name="Nemesis.Domain.WeekObjective">
     <Position X="2.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>WeekObjective.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Nemesis.Domain.WorkActivity" Collapsed="true">
-    <Position X="8" Y="4.5" Width="1.5" />
+  <Class Name="Nemesis.Domain.WorkActivity">
+    <Position X="8.75" Y="4.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAgAEAACAAAAQAAgABAAAABABAAAAAAEAA=</HashCode>
       <FileName>WorkActivity.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Nemesis.Domain.Bug">
-    <Position X="4" Y="6.5" Width="1.5" />
+    <Position X="4" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Bug.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Nemesis.Domain.Asset">
-    <Position X="11.5" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Asset.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Nemesis.Domain.Team">
-    <Position X="15.5" Y="5" Width="1.5" />
+    <Position X="14.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAQUQAAAAAAAAAAQAEAAAAAAA=</HashCode>
       <FileName>Team.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Nemesis.Domain.TeamMember">
     <Position X="16.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Teammember.cs</FileName>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAIAg=</HashCode>
+      <FileName>TeamMember.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Interface Name="Nemesis.Domain.WorkItem" Collapsed="true">
-    <Position X="8" Y="2.75" Width="1.5" />
+  <Interface Name="Nemesis.Domain.WorkItem">
+    <Position X="9" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>WorkItem.cs</FileName>

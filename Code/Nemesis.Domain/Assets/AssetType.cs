@@ -10,7 +10,7 @@ namespace Nemesis.Domain.Assets
 
 				public AssetType()
 				{
-					Attributes = new List<AssetAttribute>();
+					// Attributes = new List<AssetAttribute>();
 				}
 
         #region Overrides of EntityBase

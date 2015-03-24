@@ -20,7 +20,7 @@ namespace Nemesis.Domain.Assets
 
 			public AssetAttribute()
 				{
-					EnumValues = new List<AssetAttributeEnumItem>();
+					// EnumValues = new List<AssetAttributeEnumItem>();
 				}
         #region Public methods
 

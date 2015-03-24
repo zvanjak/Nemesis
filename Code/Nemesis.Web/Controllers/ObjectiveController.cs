@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-
 using Nemesis.Domain;
-using Nemesis.DAL;
-
-using Nemesis.Web.Models.Objective;
 using Nemesis.Services;
+using Nemesis.Web.Models.Objective;
 
 namespace Nemesis.Web.Controllers
 {
@@ -40,31 +35,21 @@ namespace Nemesis.Web.Controllers
             return ShowSingleObjective<QuartalObjective>(id, filter);
         }
 
-        private ActionResult ShowSingleObjective<T>(int id, string filter) where T : Objective
-        {
-            using (NemesisContext nc = new NemesisContext())
-            {
-                using (var repo = new GenericRepository<T>(nc))
-                {
-                    List<Objective> listObj = new List<Objective>();
-                    if (String.IsNullOrEmpty(filter))
-                    {
-                        listObj = repo.Get().ToList<Objective>();
 
-                    }
-                    else
-                    {
-                        listObj = repo.Get().Where(x => x.CreatedOn.ToString("yyyy-MM-dd").Equals(filter)).ToList<Objective>();
-                        ViewBag.Filter = filter;
-                    }
-                    foreach (Objective obj in listObj)
-                    {
-                        obj.AssignedToTeamMembers = obj.AssignedToTeamMembers;
-                        obj.Objectives = obj.Objectives;
-                    }
-                    ViewBag.Entries = listObj;
-                }
+        private ActionResult ShowSingleObjective<T>(int id, string dateFilter) where T : Objective
+        {
+            ICollection<Objective> objectives;
+            if (String.IsNullOrEmpty(dateFilter))
+            {
+                objectives = ObjectiveService.GetObjectives<T>();
             }
+            else
+            {
+                objectives = ObjectiveService.GetObjectivesFor<T>(dateFilter);
+                ViewBag.Filter = dateFilter;
+            }
+
+            ViewBag.Entries = objectives;
             ViewBag.ObjId = id;
 
             return View();
@@ -73,7 +58,8 @@ namespace Nemesis.Web.Controllers
 
         public ActionResult ShowWeekObjectives()
         {
-            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>();
+            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>(o => o.WeekOrdNum.Equals(1));
+            ViewBag.CurrentWeek = 1;
             return View();
         }
 
@@ -92,26 +78,43 @@ namespace Nemesis.Web.Controllers
             return ShowObjectives<QuartalObjective>(datumFilter);
         }
 
-        private ActionResult ShowObjectives<T>(string filter) where T : Objective
+        private ActionResult ShowObjectives<T>(string dateFilter) where T : Objective
         {
-            using (NemesisContext context = new NemesisContext())
+            ICollection<Objective> objectives;
+            if (!String.IsNullOrEmpty(dateFilter))
             {
-                using (var repo = new GenericRepository<T>(context))
-                {
-                    IEnumerable<Objective> listObj = new List<Objective>();
-                    if (!String.IsNullOrEmpty(filter))
-                    {
-                        listObj = repo.Get().Where(x => x.CreatedOn.ToString("yyyy-MM-dd").Equals(filter));
-                        ViewBag.Filter = filter;
-                    }
-                    else
-                    {
-                        listObj = repo.Get();
-                    }
-                    ViewBag.Entries = listObj;
-                }
+                objectives = ObjectiveService.GetObjectivesFor<T>(dateFilter);
+                ViewBag.Filter = dateFilter;
             }
+            else
+            {
+                objectives = ObjectiveService.GetObjectives<T>();
+            }
+            ViewBag.Entries = objectives;
             return View("ShowObjectives");
+        }
+
+        public ActionResult ToPreviousWeek(int currentWeek)
+        {
+            if (currentWeek > 1)
+            {
+                currentWeek--;
+            }
+            ViewBag.CurrentWeek = currentWeek;
+            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>(o => o.WeekOrdNum.Equals(currentWeek));
+            return PartialView("ShowWeekObjectives");
+        }
+
+        public ActionResult ToNextWeek(int currentWeek)
+        {
+            if (currentWeek < 50)
+            {
+                currentWeek++;
+            }
+            ViewBag.CurrentWeek = currentWeek;
+            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>(o => o.WeekOrdNum.Equals(currentWeek));
+            return PartialView("ShowWeekObjectives");
+
         }
 
         #endregion
@@ -120,149 +123,105 @@ namespace Nemesis.Web.Controllers
 
         public ActionResult CreateWeekObjective()
         {
-            WeekObjectiveViewModel model = new WeekObjectiveViewModel();
+            var model = new WeekObjectiveViewModel
+            {
+                ParentObjectives = GetParentObjectives<MonthObjective>(),
+                TeamMembers = GetTeamMembers()
+            };
 
-            model.ParentObjectives = GetParentObjectives<MonthObjective>();
-            model.TeamMembers = GetTeamMembers();
             return View(model);
         }
 
         public ActionResult CreateMonthObjective()
         {
-            MonthObjectiveViewModel model = new MonthObjectiveViewModel();
+            var model = new MonthObjectiveViewModel
+            {
+                ParentObjectives = GetParentObjectives<QuartalObjective>(),
+                TeamMembers = GetTeamMembers()
+            };
 
-            model.ParentObjectives = GetParentObjectives<QuartalObjective>();
-            model.TeamMembers = GetTeamMembers();
             return View(model);
+        }
+
+        private MultiSelectList GetParentObjectives<T>() where T : Objective
+        {
+            return new MultiSelectList(ObjectiveService.GetObjectives<T>(), "Id", "Display");
         }
 
         public ActionResult CreateQuartalObjective()
         {
-            QuartalObjectiveViewModel model = new QuartalObjectiveViewModel();
+            var model = new QuartalObjectiveViewModel
+            {
+                ParentObjectives = new MultiSelectList(new List<Objective>()),
+                TeamMembers = GetTeamMembers()
+            };
 
-            model.ParentObjectives = new MultiSelectList(new List<Objective>());
-            model.TeamMembers = GetTeamMembers();
             return View(model);
         }
 
         private MultiSelectList GetTeamMembers()
         {
-            IEnumerable<TeamMember> teamMembers = null;
-
-            using (var repo = new GenericRepository<TeamMember>(new NemesisContext()))
-            {
-                teamMembers = repo.Get();
-            }
-
-            return new MultiSelectList(teamMembers, "Id", "Display");
-        }
-
-        private MultiSelectList GetParentObjectives<T>()
-            where T : Objective
-        {
-            IEnumerable<Objective> objectives = null;
-
-            using (var repo = new GenericRepository<T>(new NemesisContext()))
-            {
-                objectives = repo.Get();
-            }
-
-            return new MultiSelectList(objectives, "Id", "Display");
+            return new MultiSelectList(TeamMemberService.GetTeamMembers(), "Id", "Display");
         }
 
         [HttpPost]
-        public ActionResult CreateWeekObjective(WeekObjectiveViewModel entry)
+        public ActionResult CreateWeekObjective(WeekObjectiveViewModel model)
         {
             if (ModelState.IsValid)
             {
-                WeekObjective obj = new WeekObjective();
-                obj.WeekOrdNum = entry.WeekOrdNum;
-                CreateObjective<WeekObjective>(obj, entry);
+                var objective = new WeekObjective {WeekOrdNum = model.WeekOrdNum};
+                CreateObjective(objective, model);
                 return RedirectToAction("Index", "Home");
             }
-            else
-            {
-                entry.ParentObjectives = GetParentObjectives<MonthObjective>();
-                entry.TeamMembers = GetTeamMembers();
-                return View(entry);
-            }
+            model.ParentObjectives = GetParentObjectives<MonthObjective>();
+            model.TeamMembers = GetTeamMembers();
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult CreateMonthObjective(MonthObjectiveViewModel entry)
+        public ActionResult CreateMonthObjective(MonthObjectiveViewModel model)
         {
             if (ModelState.IsValid)
             {
-                MonthObjective obj = new MonthObjective();
-                obj.MonthOrdNum = entry.MonthOrdNum;
-                CreateObjective<MonthObjective>(obj, entry);
+                var obj = new MonthObjective {MonthOrdNum = model.MonthOrdNum};
+                CreateObjective(obj, model);
                 return RedirectToAction("Index", "Home");
             }
-            else
-            {
-                entry.ParentObjectives = GetParentObjectives<QuartalObjective>();
-                entry.TeamMembers = GetTeamMembers();
-                return View(entry);
-            }
+            model.ParentObjectives = GetParentObjectives<QuartalObjective>();
+            model.TeamMembers = GetTeamMembers();
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult CreateQuartalObjective(QuartalObjectiveViewModel entry)
+        public ActionResult CreateQuartalObjective(QuartalObjectiveViewModel model)
         {
             if (ModelState.IsValid)
             {
-                QuartalObjective obj = new QuartalObjective();
-                obj.QuartalOrdNum = entry.QuartalOrdNum;
-                CreateObjective<QuartalObjective>(obj, entry);
+                var objective = new QuartalObjective {QuartalOrdNum = model.QuartalOrdNum};
+                CreateObjective(objective, model);
                 return RedirectToAction("Index", "Home");
             }
-            else
-            {
-                entry.ParentObjectives = new MultiSelectList(new List<Objective>());
-                entry.TeamMembers = GetTeamMembers();
-                return View(entry);
-            }
+            model.ParentObjectives = new MultiSelectList(new List<Objective>());
+            model.TeamMembers = GetTeamMembers();
+            return View(model);
         }
 
-
-        private void CreateObjective<T>(Objective obj, ObjectiveViewModel entry)
-            where T : Objective
+        private void CreateObjective<T>(T objective, ObjectiveViewModel model) where T : Objective
         {
-            using (var context = new NemesisContext())
-            {
-                using (var membersRepo = new GenericRepository<TeamMember>(context))
-                using (var objRepo = new GenericRepository<Objective>(context))
-                {
-                    obj.Parent = objRepo.GetByID(entry.ParentId);
-                    obj.ShortDescription = entry.Title;
-                    obj.Description = entry.Description;
-                    obj.Priority = GetPriorityFromString(entry.Priority);
-                    obj.EstimatedTime = entry.EstimatedTime;
+            objective.ShortDescription = model.Title;
+            objective.Description = model.Description;
+            objective.Priority = GetPriorityFromString(model.Priority);
+            objective.EstimatedTime = model.EstimatedTime;
+            objective.CreatedOn = DateTime.Now;
 
-                    List<TeamMember> members = new List<TeamMember>();
-
-                    foreach (int id in entry.TeamMembersId)
-                    {
-                        TeamMember member = membersRepo.GetByID(id);
-                        members.Add(member);
-                    }
-
-                    obj.AssignedToTeamMembers = members;
-
-                    obj.CreatedOn = DateTime.Now;
-
-                    objRepo.Insert(obj);
-                    objRepo.Save();
-                }
-            }
-
+            ObjectiveService.Create(objective, model.ParentId, model.TeamMembersId);
         }
 
-        private ObjectivePriority GetPriorityFromString(string p)
+        private ObjectivePriority GetPriorityFromString(string priority)
         {
-            if (Enum.IsDefined(typeof(ObjectivePriority), p))
+            if (Enum.IsDefined(typeof (ObjectivePriority), priority))
             {
-                return (ObjectivePriority)Enum.Parse(typeof(ObjectivePriority), p);
+                return (ObjectivePriority) Enum.Parse(typeof (ObjectivePriority), priority);
             }
             return ObjectivePriority.LOW;
         }

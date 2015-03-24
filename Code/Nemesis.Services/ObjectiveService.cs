@@ -1,20 +1,61 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Nemesis.DAL;
 using Nemesis.Domain;
+using System.Linq.Expressions;
+using System;
 
 namespace Nemesis.Services
 {
     public class ObjectiveService
     {
-
-        public static ICollection<Objective> GetObjectives<T>() where T : Objective
+        public static ICollection<Objective> GetObjectives<T>(Expression<Func<T, bool>> filter = null) where T : Objective
         {
-            using (NemesisContext nc = new NemesisContext())
+            using (var repository = new GenericRepository<T>(GetNemesisContext()))
             {
-                using (var repository = new GenericRepository<T>(nc))
+                return repository.Get(filter).ToList<Objective>();
+            }
+        }
+
+        public static ICollection<Objective> GetObjectivesFor<T>(string date) where T : Objective
+        {
+            GetNemesisContext();
+            using (var repository = new GenericRepository<T>(GetNemesisContext()))
+            {
+                return
+                    repository.Get().Where(x => x.CreatedOn.ToString("yyyy-MM-dd").Equals(date)).ToList<Objective>();
+            }
+        }
+
+        public static Objective GetObjective(int id)
+        {
+            using (var repository = new GenericRepository<Objective>(GetNemesisContext()))
+            {
+                return repository.GetByID(id);
+            }
+        }
+
+        private static NemesisContext GetNemesisContext()
+        {
+            var nemesisContext = new NemesisContext();
+            nemesisContext.Configuration.LazyLoadingEnabled = false;
+            return nemesisContext;
+        }
+
+        public static void Create(Objective objective, int parentId, int[] teamMemberIds) 
+        {
+            using (var context = new NemesisContext())
+            {
+                using (var membersRepo = new GenericRepository<TeamMember>(context))
+                using (var objectiveRepository = new GenericRepository<Objective>(context))
                 {
-                    return repository.Get().ToList<Objective>();
+                    objective.Parent = objectiveRepository.GetByID(parentId);
+                    var members = teamMemberIds.Select(id => membersRepo.GetByID(id)).ToList();
+                    objective.AssignedToTeamMembers = members;
+
+                    objectiveRepository.Insert(objective);
+                    objectiveRepository.Save();
                 }
             }
         }

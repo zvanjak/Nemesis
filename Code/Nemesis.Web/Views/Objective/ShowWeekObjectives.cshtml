@@ -1,8 +1,14 @@
 ﻿@{
     ViewBag.Title = "Week objectives";
 }
+<div id="week-objectives">
 <h2>Week objectives</h2>
 <br>
+
+@Ajax.ActionLink("<", "ToPreviousWeek", "Objective", new { currentWeek = ViewBag.CurrentWeek }, new AjaxOptions { UpdateTargetId = "week-objectives" })
+@ViewBag.CurrentWeek
+@Ajax.ActionLink(">", "ToNextWeek", "Objective", new { currentWeek = ViewBag.CurrentWeek }, new AjaxOptions { UpdateTargetId = "week-objectives" })
+
 
 <table class="table table-bordered">
     <thead>
@@ -28,3 +34,8 @@
         }
     </tbody>
 </table>
+
+@section scripts{
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+}
+</div>

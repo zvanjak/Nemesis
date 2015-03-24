@@ -47,11 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivityService.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Interfaces\IActivityService.cs" />
     <Compile Include="ObjectiveService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceProvider.cs" />
+    <Compile Include="TeamMemberService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Nemesis.DAL\Nemesis.DAL.csproj">

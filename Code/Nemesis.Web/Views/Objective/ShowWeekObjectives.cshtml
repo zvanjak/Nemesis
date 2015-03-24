@@ -9,12 +9,10 @@
 @ViewBag.CurrentWeek
 @Ajax.ActionLink(">", "ToNextWeek", "Objective", new { currentWeek = ViewBag.CurrentWeek }, new AjaxOptions { UpdateTargetId = "week-objectives" })
 
-
 <table class="table table-bordered">
     <thead>
         <tr>
             <th>Title</th>
-            <th>Week num</th>
             <th>Description</th>
             <th>Priority</th>
             <th>Finished</th>
@@ -22,16 +20,62 @@
     </thead>
     <tbody>
         @foreach (var weekObjective in ViewBag.WeekObjectives)
-        {
+{
 
-            <tr>
-                <td>@weekObjective.ShortDescription</td>
-                <td>@weekObjective.WeekOrdNum</td>
-                <td>@weekObjective.Description</td>
-                <td>@weekObjective.Priority</td>
-                <td>@weekObjective.PercentComplete%</td>
-            </tr>
-        }
+    <tr>
+        <td>
+            @Html.ActionLink((string)weekObjective.ShortDescription, "ShowWeekObjective", "Objective", new { id = weekObjective.Id}, null)
+        </td>
+        <td>@weekObjective.Description</td>
+        <td>@weekObjective.Priority</td>
+        <td>@weekObjective.PercentComplete%</td>
+        <td data-toggle="collapse" @("data-target=#accordion" + weekObjective.Id) class="clickable">+</td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <div @("id=accordion" + weekObjective.Id) class="collapse">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Estimated Duration</th>
+                            <th>Actual Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*
+    @foreach (var activity in weekObjective.WorkActivities)
+    {
+        <tr>
+            <td>@activity.Title</td>
+            <td>@activity.Description</td>
+            <td>@activity.EstimatedDuration</td>
+            <td>@activity.ActualDuration</td>
+        </tr>
+    }
+*@
+                        <tr>
+                            <th>Aktivnost</th>
+                            <th>Opis aktivnosti</th>
+                            <th>10</th>
+                            <th>12</th>
+                        </tr>
+                        <tr>
+                            <th>Druga Aktivnost</th>
+                            <th>Opis druge aktivnosti</th>
+                            <th>15</th>
+                            <th>21</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </td>
+    </tr>
+
+
+
+}
     </tbody>
 </table>
 

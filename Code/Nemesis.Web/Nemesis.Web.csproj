@@ -343,7 +343,6 @@
     <Content Include="Views\Objective\ShowMonthObjective.cshtml" />
     <Content Include="Views\Objective\ShowQuartalObjective.cshtml" />
     <Content Include="Views\Objective\ShowObjectives.cshtml" />
-    <Content Include="Views\Objective\ShowObjective.cshtml" />
     <Content Include="Views\Asset\CreateAssetAttribute.cshtml" />
     <Content Include="Views\Asset\CreateAssetType.cshtml" />
     <Content Include="Views\Objective\ShowSingleObjective.cshtml" />
@@ -354,9 +353,12 @@
     <Content Include="Views\Objective\CreateWeekObjective.cshtml" />
     <Content Include="Views\Objective\CreateMonthObjective.cshtml" />
     <Content Include="Views\Objective\CreateQuartalObjective.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Objective\Shared\_ShowObjectives.cshtml" />
     <Content Include="Views\Objective\Shared\_MasterDetail.cshtml" />
     <Content Include="Views\Objective\Partials\CreateWeekObjectivePartial.cshtml" />
+=======
+>>>>>>> origin/master
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

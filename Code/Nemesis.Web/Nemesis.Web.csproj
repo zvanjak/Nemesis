@@ -356,6 +356,7 @@
     <Content Include="Views\Objective\CreateQuartalObjective.cshtml" />
     <Content Include="Views\Objective\Shared\_ShowObjectives.cshtml" />
     <Content Include="Views\Objective\Shared\_MasterDetail.cshtml" />
+    <Content Include="Views\Objective\Partials\CreateWeekObjectivePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

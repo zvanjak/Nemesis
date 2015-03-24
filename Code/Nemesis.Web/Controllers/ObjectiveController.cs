@@ -121,15 +121,26 @@ namespace Nemesis.Web.Controllers
 
         #region Create Objective
 
+        //public ActionResult CreateWeekObjective()
+        //{
+        //    var model = new WeekObjectiveViewModel
+        //    {
+        //        ParentObjectives = GetParentObjectives<MonthObjective>(),
+        //        TeamMembers = GetTeamMembers()
+        //    };
+
+        //    return View(model);
+        //}
+
         public ActionResult CreateWeekObjective()
         {
-            var model = new WeekObjectiveViewModel
+            var model = new WeekObjectiveViewModel()
             {
                 ParentObjectives = GetParentObjectives<MonthObjective>(),
                 TeamMembers = GetTeamMembers()
             };
 
-            return View(model);
+            return PartialView("Partials/CreateWeekObjectivePartial", model);
         }
 
         public ActionResult CreateMonthObjective()

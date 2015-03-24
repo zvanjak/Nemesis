@@ -35,7 +35,36 @@
     </tbody>
 </table>
 
+<a class="btn btn-default" id="modalCreate" ><span class="glyphicon glyphicon-plus"></span></a>
+
+<div class="modal fade" id="createModal" >
+    <div class="modal-dialog">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <h4 class="modal-title">Create Objective</h4>
+            </div>
+            <div class="modal-body" id="contentModala">
+
+            </div>
+        </div>
+    </div>
+</div>
+
 @section scripts{
-    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js");
+
+    
 }
 </div>
+<script>
+    $('#modalCreate').on('click', function (event) {
+        $.ajax({
+            url: '../Objective/CreateWeekObjective',
+            type: 'GET',
+            cache: false
+        }).done(function (result) {
+            $('#contentModala').html(result);
+            $('#createModal').modal();
+        })
+    })
+</script>

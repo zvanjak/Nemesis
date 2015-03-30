@@ -6,21 +6,31 @@
 
 <h2>AssetList</h2>
 
-@Html.ActionLink("Create new asset", "Create", "Asset")
+@Html.ActionLink("Create new asset", "CreateAsset", "Asset")
 @Html.ActionLink("Create new asset attribute", "CreateAssetAttribute", "Asset")
 
-<table>
-	<tr>
-		<th>Name</th>
-		<th>Description</th>
-		<th>Team</th>
-	</tr>
-@foreach (var asset in Model)
-{
+<table class="table table-striped table-bordered table-condensed">
+	<thead>
 		<tr>
-			<td>@asset.Name</td>
-			<td>@asset.Description</td>
-			<td>@asset.Team.Name</td>
+			<th>Name</th>
+			<th>Description</th>
+			<th>Type</th>
+			<th>Part number</th>
+			<th>Team</th>
 		</tr>
-	}
+	</thead>
+	<tbody>
+		@foreach (var asset in Model)
+		{
+			<tr>
+				<td>@asset.Name</td>
+				<td>@asset.Description</td>
+				<td>@asset.Type.Name </td>
+				<td>@asset.PartNumber</td>
+				<td>@asset.Team.Name</td>
+			</tr>
+		}
+	</tbody>
 </table>
+
+

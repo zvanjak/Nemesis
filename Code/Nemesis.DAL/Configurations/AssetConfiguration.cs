@@ -17,6 +17,8 @@ namespace Nemesis.DAL.Configurations
           this.HasKey(t => t.Id);
           this.Property(t => t.Description);
           this.Property(t => t.Name);
+					this.HasRequired(t => t.Team);
+					this.HasRequired(t => t.Type);
       }
 	}
 
@@ -26,6 +28,7 @@ namespace Nemesis.DAL.Configurations
 		{
 			this.HasKey(t => t.Id);
 			this.Property(t => t.Name);
+			this.HasMany(t => t.Attributes);
 		}
 	}
 
@@ -35,6 +38,8 @@ namespace Nemesis.DAL.Configurations
 		{
 			this.HasKey(t => t.Id);
 			this.Property(t => t.Name);
+			this.Property(t => t.Type);
+			this.HasOptional(t => t.EnumValues);
 		}
 	}
 
@@ -44,6 +49,7 @@ namespace Nemesis.DAL.Configurations
 		{
 			this.HasKey(t => t.Id);
 			this.Property(t => t.Name);
+			this.HasRequired(t => t.Attribute);
 		}
 	}
 

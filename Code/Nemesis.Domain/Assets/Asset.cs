@@ -12,7 +12,7 @@ namespace Nemesis.Domain.Assets
 
         public virtual string Name { get; set; }
         public virtual string Description { get; set; }
-
+				public string PartNumber { get; set; }
         public virtual AssetType Type { get; set; }
         public virtual Team Team { get; set; }
         //public virtual AssetAssignment Assignments { get; set; }

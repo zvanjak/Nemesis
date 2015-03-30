@@ -111,7 +111,7 @@ namespace Nemesis.Web.Controllers
                         newTeam.SubTeams.Add(teamRepo.GetByID(id));
                     }
 
-                    newTeam.Parent = teamRepo.GetByID(int.Parse(model.ParentTeam));
+//                    newTeam.Parent = teamRepo.GetByID(int.Parse(model.ParentTeam));
 
                     teamRepo.Insert(newTeam);
                     teamRepo.Save();

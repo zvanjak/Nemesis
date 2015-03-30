@@ -34,6 +34,76 @@ namespace Nemesis.Web.Controllers
 				{
 					return View();
 				}
+
+				[HttpGet]
+				// GET: /Client/Create
+				public ActionResult CreateAsset()
+				{
+					Asset newAsset = new Asset();
+					AssetViewModel assetVM = new AssetViewModel(newAsset);
+
+					assetVM.Teams = GetTeams();
+					return View(assetVM);
+				}
+
+				// POST: /Client/Create
+				[HttpPost]
+				[ValidateAntiForgeryToken]
+				public ActionResult CreateAsset(AssetViewModel assetVM)
+				{
+					if (ModelState.IsValid)
+					{
+						var ctx = new NemesisContext();
+
+						using (var repo = new GenericRepository<Asset>(ctx))
+						{
+							Asset newAsset = new Asset();
+							newAsset.Name = assetVM.Name;
+							newAsset.Description = assetVM.Description;
+
+							using (var teamRepo = new GenericRepository<Team>(ctx))
+							{
+								newAsset.Team = teamRepo.GetByID(assetVM.TeamId);
+							}
+
+							repo.Insert(newAsset);
+							repo.Save();
+						}
+						return RedirectToAction("AssetList", "Asset");
+					}
+					else
+					{
+						assetVM.Teams = GetTeams();
+					}
+
+					return View(assetVM);
+				}
+
+				private IEnumerable<SelectListItem> GetTeams()
+				{
+					IEnumerable<Team> team = new List<Team>();
+
+					using (var repo = new GenericRepository<Team>(new NemesisContext()))
+					{
+						team = repo.Get();
+					}
+
+					return new SelectList(team, "Id", "Display");
+				}
+
+				private IEnumerable<SelectListItem> GetClients()
+				{
+					IEnumerable<Client> clients = null;
+
+					using (var repo = new GenericRepository<Client>(new NemesisContext()))
+					{
+						clients = repo.Get();
+					}
+
+					return new SelectList(clients, "Id", "Name");
+				}
+
+
 				public ActionResult AssetTypes()
 				{
 					using (var repo = new GenericRepository<AssetType>(new NemesisContext()))

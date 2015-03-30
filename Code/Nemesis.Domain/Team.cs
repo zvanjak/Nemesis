@@ -10,15 +10,16 @@ namespace Nemesis.Domain
 	{
 		public string Name { get; set; }
 
+		public int? ParentId { get; set; }
 		public virtual Team Parent { get; set; }
-		public ICollection<Team> SubTeams { get; set; }
+		public virtual ICollection<Team> SubTeams { get; set; }
 
 		/// <summary>
 		/// Dohvaća ili postavlja vrstu tima.
 		/// </summary>
 		public virtual TeamTypes Type { get; set; }
 
-		public virtual List<TeamMember> Members { get; set; }
+		public virtual ICollection<TeamMember> Members { get; set; }
 
 		public virtual TeamMember Leader { get; set; }
 
@@ -31,7 +32,7 @@ namespace Nemesis.Domain
 		public Team()
 		{
 			Members = new List<TeamMember>();
-            SubTeams = new List<Team>();
+            //SubTeams = new List<Team>();
 		}
 
 		public override string Display

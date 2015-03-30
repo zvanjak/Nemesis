@@ -20,7 +20,11 @@ namespace Nemesis.Domain.Assets
 
 			public AssetAttribute()
 				{
+<<<<<<< HEAD
 					// EnumValues = new List<AssetAttributeEnumItem>();
+=======
+					//EnumValues = new List<AssetAttributeEnumItem>();
+>>>>>>> HEAD@{4}
 				}
         #region Public methods
 
@@ -65,6 +69,14 @@ namespace Nemesis.Domain.Assets
 
             return value;
         }
+				public virtual void AddEnumValue(string inEnumValue)
+				{
+					if (EnumValues == null)
+						EnumValues = new List<AssetAttributeEnumItem>();
+
+					EnumValues.Add(new AssetAttributeEnumItem() { Name = inEnumValue });
+				}
+
         public virtual void ParseEnumValues(string enumValues)
         {
             var values = enumValues.Split(',');

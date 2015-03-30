@@ -20,11 +20,6 @@ namespace Nemesis.Domain.Assets
 
 			public AssetAttribute()
 				{
-<<<<<<< HEAD
-					// EnumValues = new List<AssetAttributeEnumItem>();
-=======
-					//EnumValues = new List<AssetAttributeEnumItem>();
->>>>>>> HEAD@{4}
 				}
         #region Public methods
 

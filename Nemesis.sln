@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nemesis.Web", "Code\Nemesis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nemesis.Domain", "Code\Nemesis.Domain\Nemesis.Domain.csproj", "{20D3FD4E-7FAB-4720-83DA-B7EE23C80801}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tryout", "Tryout", "{0CE81BEE-C142-4613-9E30-F18DF758BA85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleDALTesting", "Code\Tryout\SimpleDALTesting\SimpleDALTesting.csproj", "{98432019-D2E6-4FEA-8705-5299192CB28C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,8 +43,15 @@ Global
 		{20D3FD4E-7FAB-4720-83DA-B7EE23C80801}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20D3FD4E-7FAB-4720-83DA-B7EE23C80801}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20D3FD4E-7FAB-4720-83DA-B7EE23C80801}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98432019-D2E6-4FEA-8705-5299192CB28C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98432019-D2E6-4FEA-8705-5299192CB28C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98432019-D2E6-4FEA-8705-5299192CB28C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98432019-D2E6-4FEA-8705-5299192CB28C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{98432019-D2E6-4FEA-8705-5299192CB28C} = {0CE81BEE-C142-4613-9E30-F18DF758BA85}
 	EndGlobalSection
 EndGlobal

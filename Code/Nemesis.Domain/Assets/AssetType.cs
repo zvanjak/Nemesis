@@ -10,11 +10,6 @@ namespace Nemesis.Domain.Assets
 
 				public AssetType()
 				{
-<<<<<<< HEAD
-					// Attributes = new List<AssetAttribute>();
-=======
-					//Attributes = new List<AssetAttribute>();
->>>>>>> HEAD@{4}
 				}
 
 				public virtual void AddAttribute(AssetAttribute inAttr)

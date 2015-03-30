@@ -10,9 +10,16 @@ namespace Nemesis.Domain.Assets
 
 				public AssetType()
 				{
-					Attributes = new List<AssetAttribute>();
+					//Attributes = new List<AssetAttribute>();
 				}
 
+				public virtual void AddAttribute(AssetAttribute inAttr)
+				{
+					if (Attributes == null)
+						Attributes = new List<AssetAttribute>();
+
+					Attributes.Add(inAttr);
+				}
         #region Overrides of EntityBase
 
         public override string Display

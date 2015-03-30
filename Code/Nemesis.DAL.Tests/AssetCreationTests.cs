@@ -14,50 +14,63 @@ namespace Nemesis.DAL.Tests
 	public class AssetCreationTests
 	{
 		[TestMethod]
-		public void TestCreateBasicAssetType()
-		{
-			using (var repo = new GenericRepository<AssetType>(new NemesisContext("NemesisContextTest")))
-			{
-				Database.SetInitializer(new NemesisInitializer());
-
-				var obj = new AssetType();
-				obj.Name = "HW Component 22";
-				//obj.Attributes = new List<AssetAttribute>();
-
-				repo.Insert(obj);
-				repo.Save();
-			}
-		}
-		[TestMethod]
 		public void TestCreateBasicAssetAttributeTypes()
 		{
 			using (var repo = new GenericRepository<AssetAttribute>(new NemesisContext("NemesisContextTest")))
 			{
 				Database.SetInitializer(new NemesisInitializer());
 
-				var objStringAttribute = new AssetAttribute();
-				objStringAttribute.Type = AssetAttributeType.String;
-				objStringAttribute.Name = "Source Code Path";
-
+				var objStringAttribute = new AssetAttribute() { Type = AssetAttributeType.String, Name = "Source Code path" };
 				repo.Insert(objStringAttribute);
-				repo.Save();
 
-				var objLinkAttribute= new AssetAttribute();
-				objLinkAttribute.Type = AssetAttributeType.Link;
-				objLinkAttribute.Name = "Documentation link";
-
+				var objLinkAttribute = new AssetAttribute() { Type = AssetAttributeType.Link, Name = "Documentation link" };
 				repo.Insert(objLinkAttribute);
-				repo.Save();
 
-				var objEnumAttribute = new AssetAttribute();
-				objEnumAttribute.Type = AssetAttributeType.Enum;
-				objEnumAttribute.Name = "Platform type";
-				objEnumAttribute.EnumValues.Add(new AssetAttributeEnumItem() { Name = ".NET 3.0" });
-				objEnumAttribute.EnumValues.Add(new AssetAttributeEnumItem() { Name = ".NET 4.5" });
-
+				var objEnumAttribute = new AssetAttribute() { Type = AssetAttributeType.Enum, Name = "Platform type" };
+				objEnumAttribute.AddEnumValue(".NET 3.0");
+				objEnumAttribute.AddEnumValue(".NET 4.5");
 				repo.Insert(objEnumAttribute);
+
 				repo.Save();
 			}
 		}
+
+		[TestMethod]
+		public void TestCreateBasicAssetType()
+		{
+
+			using (var repo = new GenericRepository<AssetType>(new NemesisContext("NemesisContextTest")))
+			{
+				Database.SetInitializer(new NemesisInitializer());
+
+				var obj = new AssetType();
+				obj.Name = "HW Component 22";
+
+				repo.Insert(obj);
+				repo.Save();
+			}
+		}
+
+		[TestMethod]
+		public void Create_basic_asset_model()
+		{
+			NemesisContext context = new NemesisContext("NemesisContextTest");
+
+			AssetAttribute attr1 = new AssetAttribute() { Name = "SW Source Code Path", Type = AssetAttributeType.String };
+			AssetAttribute attr2 = new AssetAttribute() { Name = "SW Platform Type", Type = AssetAttributeType.Enum };
+			AssetAttribute attr3 = new AssetAttribute() { Name = "Documentation Path", Type = AssetAttributeType.String };
+
+			AssetType aType = new AssetType() { Name = "SW Component" };
+			aType.AddAttribute(attr1);
+			aType.AddAttribute(attr2);
+			aType.AddAttribute(attr3);
+
+			Asset prog1 = new Asset() { Name = "Prva komponenta", Description = "Prva testna komponenta koja radi nešto trubo gtx injection", PartNumber = "P12-345", Type = aType };
+
+			context.Assets.Add(prog1);
+
+			context.SaveChanges();
+		}
+
 	}
 }

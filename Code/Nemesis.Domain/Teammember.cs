@@ -11,6 +11,7 @@ namespace Nemesis.Domain
 
 		public virtual string LastName { get; set; }
 
+		public int? TeamId { get; set; }
 		public virtual Team MemberOfTheTeam { get; set; }
 		//{
 		//  get { return _memberOfTheTeam; }

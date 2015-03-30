@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
@@ -13,17 +15,26 @@ namespace Nemesis.Web.Models
 {
 	public class AssetViewModel
 	{
-		public virtual string Name { get; set; }
-		public virtual string Description { get; set; }
-//		public virtual AssetType Type { get; set; }
-		public virtual Team Team { get; set; }
+		public string Name { get; set; }
+		public string Description { get; set; }
+		public string PartNumber { get; set; }
+		public AssetType Type { get; set; }
+		public Team Team { get; set; }
+
+		[DisplayName("Assigned to team")]
+		public virtual int TeamId { get; set; }
+
+		public virtual IEnumerable<SelectListItem> Teams { get; set; }
 
 		public AssetViewModel(Asset inAsset)
 		{
 			Name = inAsset.Name;
 			Description = inAsset.Description;
-//			Type = inAsset.Type;
-			Team = inAsset.Team;
+			PartNumber = inAsset.PartNumber;
+			Type = inAsset.Type;
+			
+			if( inAsset.Team != null )
+				TeamId = inAsset.Team.Id;
 		}
 	}
 

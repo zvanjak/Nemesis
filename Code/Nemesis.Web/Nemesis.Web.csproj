@@ -353,11 +353,10 @@
     <Content Include="Views\Objective\CreateWeekObjective.cshtml" />
     <Content Include="Views\Objective\CreateMonthObjective.cshtml" />
     <Content Include="Views\Objective\CreateQuartalObjective.cshtml" />
-
     <Content Include="Views\Objective\Shared\_ShowObjectives.cshtml" />
     <Content Include="Views\Objective\Shared\_MasterDetail.cshtml" />
     <Content Include="Views\Objective\Partials\CreateWeekObjectivePartial.cshtml" />
-
+    <Content Include="Views\Asset\CreateAsset.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

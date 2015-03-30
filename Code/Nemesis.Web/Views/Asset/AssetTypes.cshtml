@@ -8,15 +8,19 @@
 
 @Html.ActionLink("Create new asset type", "CreateAssetType", "Asset")
 
-<table>
-	<tr>
-		<th>Name</th>
-	</tr>
-	@foreach (var attr in Model)
-	{
+<table class="table table-striped table-bordered table-condensed">
+	<thead>
 		<tr>
-			<td>@attr.Name</td>
+			<th>Name</th>
 		</tr>
-	}
+	</thead>
+	<tbody>
+		@foreach (var attr in Model)
+		{
+			<tr>
+				<td>@attr.Name</td>
+			</tr>
+		}
+	</tbody>
 </table>
 

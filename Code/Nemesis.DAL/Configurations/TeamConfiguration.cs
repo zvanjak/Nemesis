@@ -15,14 +15,14 @@ namespace Nemesis.DAL.Configurations
 		{
 			this.HasKey(t => t.Id);
 			// this.Property(t => t.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-
 			this.Property(t => t.Name).IsRequired();
-			this.HasMany(d => d.Members).WithOptional(l => l.MemberOfTheTeam);
 
-			//this.HasMany(t => t.SubTeams).WithOptional(p => p.Parent).Map(m => m.MapKey("ParentTeamId2"));
-			//this.HasOptional(d => d.Parent).WithMany(t => t.SubTeams).HasForeignKey(k => k.ParentTeamId);
+			this.HasMany(d => d.Members).WithOptional(l => l.MemberOfTheTeam).HasForeignKey(m => m.TeamId);
 
-			//this.HasRequired(d => d.TeamLeader);
+			//this.HasMany(t => t.SubTeams).WithMany(); // WithOptional(p => p.Parent); //.Map(m => m.MapKey("ParentTeamId2"));
+			this.HasOptional(d => d.Parent).WithMany(t => t.SubTeams).HasForeignKey(k => k.ParentId);
+
+			this.HasOptional(d => d.Leader); //.HasForeignKey(s => s.Id);
 		}
 	}
 }

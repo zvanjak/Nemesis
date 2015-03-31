@@ -92,6 +92,7 @@ namespace Nemesis.Web.Controllers
                 var ctx = new NemesisContext();
                 using (var repo = new GenericRepository<WorkOrder>(ctx))
                 {
+                    wo.Code = wovm.Code;
                     wo.Name = wovm.Name;
                     wo.Description = wovm.Description;
                     wo.StartDate = wovm.StartDate;

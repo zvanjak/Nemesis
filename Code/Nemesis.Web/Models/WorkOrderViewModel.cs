@@ -12,6 +12,9 @@ namespace Nemesis.Web.Models
     public class WorkOrderViewModel
     {
         [Required]
+        public virtual string Code { get; set; }
+
+        [Required]
         public virtual string Name { get; set; }
 
         [Required]

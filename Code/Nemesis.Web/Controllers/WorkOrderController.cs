@@ -32,6 +32,16 @@ namespace Nemesis.Web.Controllers
         [HttpGet]
         public ActionResult CreateWorkOrder()
         {
+            return FillWorkOrderVM();
+        }
+
+        public ActionResult _CreateWorkOrderPartial()
+        {
+            return FillWorkOrderVM();
+        }
+
+        private ActionResult FillWorkOrderVM()
+        {
             WorkOrderViewModel wovm = new WorkOrderViewModel();
             wovm.StartDate = DateTime.Now;
             wovm.EstimatedEndDate = DateTime.Now;

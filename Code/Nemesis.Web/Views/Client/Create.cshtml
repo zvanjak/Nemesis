@@ -7,13 +7,10 @@
 
 <br />
 
-@*<a type="button" class="btn" href="#client" data-toggle="modal">New client</a>*@
-<button class="btnOpenDialog">Create client</button>
-
-<div id="dialog">
+<div>
     @using (Html.BeginForm("Create", "Client", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
-         @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
         <fieldset>
             <legend>Create client</legend>

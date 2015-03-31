@@ -52,6 +52,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceProvider.cs" />
     <Compile Include="TeamMemberService.cs" />
+    <Compile Include="WorkOrderService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Nemesis.DAL\Nemesis.DAL.csproj">

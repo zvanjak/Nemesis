@@ -358,6 +358,9 @@
     <Content Include="Views\Objective\Partials\CreateWeekObjectivePartial.cshtml" />
     <Content Include="Views\Asset\CreateAsset.cshtml" />
     <Content Include="Views\WorkOrder\_CreateWorkOrderPartial.cshtml" />
+    <Content Include="Views\Activity\Partials\_CreateActivity.cshtml" />
+    <Content Include="Views\Activity\Partials\_CreateActivityWithObjectives.cshtml" />
+    <Content Include="Views\Activity\Partials\_CreateActivityWithWorkOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

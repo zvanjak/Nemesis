@@ -6,7 +6,6 @@ using System.Linq;
 using System.Web;
 using Nemesis.Domain;
 using System.Web.Mvc;
-using System.ComponentModel.DataAnnotations;
 
 namespace Nemesis.Web.Models
 {
@@ -29,9 +28,9 @@ namespace Nemesis.Web.Models
         public virtual DateTime Date { get; set; }
 
         public virtual double EstimatedDuration { get; set; }
-        
+
         public virtual double ActualDuration { get; set; }
-        
+
         public virtual double OvertimeDuration { get; set; }
 
         public virtual string Display { get; set; }
@@ -62,24 +61,17 @@ namespace Nemesis.Web.Models
 
         public virtual DateTime Date { get; set; }
 
-        public virtual double EstimatedDuration { get; set; }
-
         public virtual double ActualDuration { get; set; }
 
-        public virtual double OvertimeDuration { get; set; }
+        public virtual bool IsRealizedForObjective { get; set; }
 
-        public virtual WorkActivity CreateWorkActivity()
-        {
-            WorkActivity model = new WorkActivity();
-            model.Title = this.Title;
-            model.Description = this.Description;
-            model.DoneBy = this.TeamMember;
-            model.Date = this.Date;
-            model.EstimatedDuration = this.EstimatedDuration;
-            model.ActualDuration = this.ActualDuration;
-            model.OvertimeDuration = this.OvertimeDuration;
-            //TODO model.RealizedForObjective
-            return model;
-        }
+        public virtual int RealizedForObjectiveId { get; set; }
+
+        public virtual MultiSelectList Objectives { get; set; }
+
+        public virtual int WorkOrderId { get; set; }
+
+        public virtual MultiSelectList WorkOrders { get; set; }
+
     }
 }

@@ -57,6 +57,67 @@ namespace Nemesis.Web.Controllers
             return View(new ActivityCreateModel());
         }
 
+        public ActionResult CreateActivityPartial()
+        {
+            return PartialView("Partials/_CreateActivity", new ActivityCreateModel());
+        }
+
+        public JsonResult SelectWeekObjectives()
+        {
+            return SelectObjectives<WeekObjective>();
+        }
+
+        public JsonResult SelectMonthObjectives()
+        {
+            return SelectObjectives<MonthObjective>();
+        }
+
+        public JsonResult SelectQuartalObjectives()
+        {
+            return SelectObjectives<QuartalObjective>();
+        }
+
+        private JsonResult SelectObjectives<T>() where T : Objective
+        {
+            ICollection<Objective> objectives = ObjectiveService.GetObjectives<T>();
+
+            List<Option> options = new List<Option>();
+
+            foreach (Objective o in objectives)
+            {
+                Option j = new Option();
+                j.Value = o.Id;
+                j.Text = o.Display;
+                options.Add(j);
+            }
+
+            return Json(options, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CheckedObjectives()
+        {
+            ActivityCreateModel model = new ActivityCreateModel();
+            ICollection<Objective> objectives = ObjectiveService.GetObjectives<WeekObjective>();
+            model.Objectives = new MultiSelectList(objectives, "Id", "Display");
+            return PartialView("Partials/_CreateActivityWithObjectives", model);
+        }
+
+        public ActionResult CheckedWorkOrders()
+        {
+            ActivityCreateModel model = new ActivityCreateModel();
+            ICollection<WorkOrder> workOrders = WorkOrderService.GetWorkOrders();
+
+            model.WorkOrders = new MultiSelectList(workOrders, "Id", "Display");
+            return PartialView("Partials/_CreateActivityWithWorkOrders", model);
+        }
+
+        public class Option
+        {
+            public int Value { get; set; }
+            public string Text { get; set; }
+
+        }
+
         [HttpPost]
         public ActionResult Create(ActivityCreateModel model)
         {
@@ -64,7 +125,13 @@ namespace Nemesis.Web.Controllers
             {
                 using (var repo = new ActivityRepository(new NemesisContext()))
                 {
-                    ServiceProvider.ActiviyService(repo).Create(model.CreateWorkActivity());
+                    WorkActivity workActivity = new WorkActivity();
+                    workActivity.Title = model.Title;
+                    workActivity.Description = model.Description;
+                    workActivity.ActualDuration = model.ActualDuration;
+                    workActivity.RealizedForObjective = ObjectiveService.GetObjective(model.RealizedForObjectiveId);
+                    workActivity.Date = DateTime.Now;
+                    ServiceProvider.ActiviyService(repo).Create(workActivity);
                 }
                 return RedirectToAction("Index");
             }

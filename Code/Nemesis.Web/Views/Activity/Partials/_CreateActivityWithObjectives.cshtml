@@ -1,0 +1,71 @@
+﻿@model Nemesis.Web.Models.ActivityCreateModel
+
+
+
+<div class="form-group">
+    <a class="btn btn-default" id="week">Week</a>
+    <a class="btn btn-default" id="month">Month</a>
+    <a class="btn btn-default" id="quartal">Quartal</a>
+</div>
+
+<div class="form-group">
+    @Html.Label("Objectives", new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.DropDownListFor(x => x.RealizedForObjectiveId, Model.Objectives, new { @class = "form-control" })
+    </div>
+</div>
+
+<script>
+    $('#week').on('click', function (event) {
+        $.ajax({
+            url: '../Activity/SelectWeekObjectives',
+            type: 'GET',
+            cache: false
+        }).done(function (result) {
+            var $el = $("#RealizedForObjectiveId");
+            $el.empty(); // remove old options
+
+            for (var i = 0; i < result.length; i++) {
+                $el.append($("<option></option>")
+                   .attr("value", result[i].Value).text(result[i].Text));
+            }
+
+        });
+    });
+    $('#month').on('click', function (event) {
+        $.ajax({
+            url: '../Activity/SelectMonthObjectives',
+            type: 'GET',
+            cache: false
+        }).done(function (result) {
+            var $el = $("#RealizedForObjectiveId");
+            $el.empty(); // remove old options
+
+            for (var i = 0; i < result.length; i++) {
+                $el.append($("<option></option>")
+                   .attr("value", result[i].Value).text(result[i].Text));
+            }
+
+
+        })
+    })
+
+    $('#quartal').on('click', function (event) {
+        $.ajax({
+            url: '../Activity/SelectQuartalObjectives',
+            type: 'GET',
+            cache: false
+        }).done(function (result) {
+            var $el = $("#RealizedForObjectiveId");
+            $el.empty(); // remove old options
+
+            for (var i = 0; i < result.length; i++) {
+                $el.append($("<option></option>")
+                   .attr("value", result[i].Value).text(result[i].Text));
+            }
+
+
+        })
+    })
+</script>
+

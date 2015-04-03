@@ -39,16 +39,18 @@ namespace Nemesis.DAL.Tests
 		public void TestCreateBasicAssetType()
 		{
 
-			using (var repo = new GenericRepository<AssetType>(new NemesisContext("NemesisContextTest")))
-			{
-				Database.SetInitializer(new NemesisInitializer());
+			NemesisContext context = new NemesisContext("NemesisContextTest");
 
-				var obj = new AssetType();
-				obj.Name = "HW Component 22";
+			var aType = new AssetType();
+			aType.Name = "HW Component";
 
-				repo.Insert(obj);
-				repo.Save();
-			}
+			AssetAttribute attr2 = new AssetAttribute() { Name = "HW Platform Type", Type = AssetAttributeType.Enum };
+			AssetAttribute attr3 = new AssetAttribute() { Name = "HW Documentation Path", Type = AssetAttributeType.String };
+			aType.AddAttribute(attr2);
+			aType.AddAttribute(attr3);
+
+			context.AssetTypes.Add(aType);
+			context.SaveChanges();
 		}
 
 		[TestMethod]

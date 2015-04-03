@@ -33,13 +33,13 @@ namespace Nemesis.DAL
 			context.TeamMembers.Add(mauro);
 			context.TeamMembers.Add(ivan);
 
-			var nemesisTeam = new Team() { Name = "Nenesis d.o.o", Leader = zvone };
+			var nemesisTeam = new Team() { Name = "Nenesis d.o.o" /*, Leader = zvone */ };
       
-			var workOrdersTeam = new Team() { Name = "Work orders team", Leader = ivana /*, Parent = nemesisTeam */ };
+			var workOrdersTeam = new Team() { Name = "Work orders team" /*, Leader = ivana*/ /*, Parent = nemesisTeam */ };
 			workOrdersTeam.Members.Add(ivana);
 			workOrdersTeam.Members.Add(daria);
 
-      var teamObjective = new Team() { Name = "Objectives & Activities team", Leader = mauro /*, Parent = nemesisTeam */ };
+      var teamObjective = new Team() { Name = "Objectives & Activities team" /*, Leader = mauro*/ /*, Parent = nemesisTeam */ };
 			teamObjective.Members.Add(mauro);
 			teamObjective.Members.Add(ivan);
 			teamObjective.Members.Add(anja);

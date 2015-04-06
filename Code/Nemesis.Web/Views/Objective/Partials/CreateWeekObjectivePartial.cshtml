@@ -1,6 +1,6 @@
 ﻿@model Nemesis.Web.Models.Objective.WeekObjectiveViewModel
 
-@using (Html.BeginForm("CreateWeekObjective", "Objective", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Ajax.BeginForm("CreateWeekObjective", "Objective", new System.Web.Mvc.Ajax.AjaxOptions { OnSuccess = "handleModalSubmit"}, new { @class = "form-horizontal", role = "form", id = "createforma" }))
 {
     @Html.ValidationSummary(true)
     <fieldset>
@@ -54,7 +54,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" id="submitWeek" />
             </div>
         </div>
 

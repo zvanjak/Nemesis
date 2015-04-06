@@ -143,6 +143,11 @@ namespace Nemesis.Web.Controllers
             return PartialView("Partials/CreateWeekObjectivePartial", model);
         }
 
+        public ActionResult RedirectToShowWeek()
+        {
+            return RedirectToAction("ShowWeekObjectives", "Objective");
+        }
+
         public ActionResult CreateMonthObjective()
         {
             var model = new MonthObjectiveViewModel
@@ -182,11 +187,11 @@ namespace Nemesis.Web.Controllers
             {
                 var objective = new WeekObjective {WeekOrdNum = model.WeekOrdNum};
                 CreateObjective(objective, model);
-                return RedirectToAction("Index", "Home");
+                return Json(new { value = "Week objective created!"});
             }
             model.ParentObjectives = GetParentObjectives<MonthObjective>();
             model.TeamMembers = GetTeamMembers();
-            return View(model);
+            return PartialView("Partials/CreateWeekObjectivePartial", model);
         }
 
         [HttpPost]

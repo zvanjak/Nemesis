@@ -80,11 +80,16 @@
 </table>
 
 <a class="btn btn-default" id="modalCreate" ><span class="glyphicon glyphicon-plus"></span></a>
+<div class="list-group">
+    <div class="label-success">
+        <h3 id="mjestoUspjelo"></h3>
+    </div>
+</div>
 
 <div class="modal fade" id="createModal" >
     <div class="modal-dialog">
         <div class="modal-content" >
-            <div class="modal-header">
+            <div class="modal-header" style="text-align: center;">
                 <h4 class="modal-title">Create Objective</h4>
             </div>
             <div class="modal-body" id="contentModala">
@@ -102,6 +107,7 @@
 </div>
 <script>
     $('#modalCreate').on('click', function (event) {
+       
         $.ajax({
             url: '../Objective/CreateWeekObjective',
             type: 'GET',
@@ -109,6 +115,30 @@
         }).done(function (result) {
             $('#contentModala').html(result);
             $('#createModal').modal();
+            
         })
     })
+    function handleModalSubmit(result) {
+        if (result.value) {
+            $('#createModal').modal('hide');
+            location.reload();
+            // treba napraviti da refresha stranicu i vrati neku poruku o uspjehu
+
+        }
+        else {
+            $('#contentModala').html(result);
+            $('#createModal').modal();
+        }
+    }
+    $('.clickable').on('click', function () {
+        if ($(this).hasClass('plusic')) {
+            $(this).text('+');
+            $(this).removeClass('plusic');
+        }
+        else {
+            $(this).text('-');
+            $(this).addClass('plusic');
+        }
+
+    });
 </script>

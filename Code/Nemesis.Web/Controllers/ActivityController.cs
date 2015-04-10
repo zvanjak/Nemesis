@@ -8,6 +8,7 @@ using Nemesis.Domain;
 using Nemesis.DAL;
 using Nemesis.Web.Models;
 using Nemesis.Services;
+using System.Globalization;
 
 namespace Nemesis.Web.Controllers
 {
@@ -16,41 +17,26 @@ namespace Nemesis.Web.Controllers
         // GET: Activity
         public ActionResult Index()
         {
-            using (var repo = new ActivityRepository(new NemesisContext()))
-            {
-                return View(
-                    ServiceProvider.ActiviyService(repo).All().Select(
-                        item => new ActivityViewModel(item)
-                    ).ToList()
-                );
-            }
+            ICollection<WorkActivity> activities = ActivityService.GetActivities();
+            ViewBag.Activities = activities;
+            return View();
         }
 
         public ActionResult Today()
         {
-            using (var repo = new ActivityRepository(new NemesisContext()))
-            {
-                return View(
-                    "Index",
-                    ServiceProvider.ActiviyService(repo).TodayActivities().Select(
-                        item => new ActivityViewModel(item)
-                    ).ToList()
-                );
-            }
+            ICollection<WorkActivity> activities = ActivityService.GetTodayActivities();
+            ViewBag.Activities = activities;
+            return View("Index");
         }
 
         public ActionResult CurrentWeek()
         {
-            using (var repo = new ActivityRepository(new NemesisContext()))
-            {
-                return View(
-                    "Index",
-                    ServiceProvider.ActiviyService(repo).CurrentWeekActivities().Select(
-                        item => new ActivityViewModel(item)
-                    ).ToList()
-                );
-            }
+            ICollection<WorkActivity> activities = ActivityService.GetCurrentWeekActivities();
+            ViewBag.Activities = activities;
+            return View("Index");
         }
+
+        
 
         public ActionResult Create()
         {
@@ -129,9 +115,8 @@ namespace Nemesis.Web.Controllers
                     workActivity.Title = model.Title;
                     workActivity.Description = model.Description;
                     workActivity.ActualDuration = model.ActualDuration;
-                    workActivity.RealizedForObjective = ObjectiveService.GetObjective(model.RealizedForObjectiveId);
                     workActivity.Date = DateTime.Now;
-                    ServiceProvider.ActiviyService(repo).Create(workActivity);
+                    ActivityService.Create(workActivity, model.RealizedForObjectiveId);
                 }
                 return RedirectToAction("Index");
             }

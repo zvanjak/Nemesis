@@ -1,13 +1,13 @@
 ﻿@{
-    ViewBag.Title = "Week objectives";
+    ViewBag.Title = "Month objectives";
 }
-<div id="week-objectives">
-<h2>Week objectives</h2>
+<div id="month-objectives">
+<h2>Month objectives</h2>
 <br>
 
-@Ajax.ActionLink("<", "ToPreviousWeek", "Objective", new { currentWeek = ViewBag.CurrentWeek }, new AjaxOptions { UpdateTargetId = "week-objectives" })
-@ViewBag.CurrentWeek
-@Ajax.ActionLink(">", "ToNextWeek", "Objective", new { currentWeek = ViewBag.CurrentWeek }, new AjaxOptions { UpdateTargetId = "week-objectives" })
+@Ajax.ActionLink("<", "ToPreviousMonth", "Objective", new { currentMonth = ViewBag.CurrentMonth }, new AjaxOptions { UpdateTargetId = "month-objectives" })
+@ViewBag.CurrentMonth
+@Ajax.ActionLink(">", "ToNextMonth", "Objective", new { currentMonth = ViewBag.CurrentMonth }, new AjaxOptions { UpdateTargetId = "month-objectives" })
 
 <table class="table table-bordered">
     <thead>
@@ -19,21 +19,21 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var weekObjective in ViewBag.WeekObjectives)
+        @foreach (var monthObjective in ViewBag.MonthObjectives)
 {
 
     <tr>
         <td>
-            @Html.ActionLink((string)weekObjective.ShortDescription, "ShowWeekObjective", "Objective", new { id = weekObjective.Id}, null)
+            @Html.ActionLink((string)monthObjective.ShortDescription, "ShowMonthObjective", "Objective", new { id = monthObjective.Id}, null)
         </td>
-        <td>@weekObjective.Description</td>
-        <td>@weekObjective.Priority</td>
-        <td>@weekObjective.PercentComplete%</td>
-        <td data-toggle="collapse" @("data-target=#accordion" + weekObjective.Id) class="clickable">+</td>
+        <td>@monthObjective.Description</td>
+        <td>@monthObjective.Priority</td>
+        <td>@monthObjective.PercentComplete%</td>
+        <td data-toggle="collapse" @("data-target=#accordion" + monthObjective.Id) class="clickable">+</td>
     </tr>
     <tr>
         <td colspan="4">
-            <div @("id=accordion" + weekObjective.Id) class="collapse">
+            <div @("id=accordion" + monthObjective.Id) class="collapse">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -45,7 +45,7 @@
                     </thead>
                     <tbody>
                         
-                    @foreach (var activity in weekObjective.WorkActivities)
+                    @foreach (var activity in monthObjective.WorkActivities)
                     {
                         <tr>
                             <td>@activity.Title</td>
@@ -96,9 +96,9 @@
     $('#modalCreate').on('click', function (event) {
        
         $.ajax({
-            url: '../Objective/CreateWeekObjective',
+            url: '../Objective/CreateMonthObjective',
             type: 'GET',
-            data: {'weekOrdNum':@ViewBag.CurrentWeek},
+            data: {'monthOrdNum':@ViewBag.CurrentMonth},
             cache: false
         }).done(function (result) {
             $('#contentModala').html(result);

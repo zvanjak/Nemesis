@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Nemesis.Domain;
 using Nemesis.Services;
 using Nemesis.Web.Models.Objective;
+using System.Globalization;
 
 namespace Nemesis.Web.Controllers
 {
@@ -58,25 +59,33 @@ namespace Nemesis.Web.Controllers
 
         public ActionResult ShowWeekObjectives()
         {
-            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>(o => o.WeekOrdNum.Equals(1));
-            ViewBag.CurrentWeek = 1;
+            int currentWeek = ObjectiveService.GetCurrentWeek();
+            ViewBag.CurrentWeek = currentWeek;
+
+            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>(o => o.WeekOrdNum.Equals(currentWeek));
             return View();
         }
+
+        
 
 
         public ActionResult ShowMonthObjectives(string datumFilter)
         {
-            if (String.IsNullOrEmpty(datumFilter)) datumFilter = "";
-            ViewBag.ObjectiveType = "Month";
-            return ShowObjectives<MonthObjective>(datumFilter);
+            int currentMonth = ObjectiveService.GetCurrentMonth();
+            ViewBag.MonthObjectives = ObjectiveService.GetObjectives<MonthObjective>(o => o.MonthOrdNum.Equals(currentMonth));
+            ViewBag.CurrentMonth = currentMonth;
+            return View();
         }
 
         public ActionResult ShowQuartalObjectives(string datumFilter)
         {
-            if (String.IsNullOrEmpty(datumFilter)) datumFilter = "";
-            ViewBag.ObjectiveType = "Quartal";
-            return ShowObjectives<QuartalObjective>(datumFilter);
+            int currentQuartal = ObjectiveService.GetCurrentQuartal();
+            ViewBag.QuartalObjectives = ObjectiveService.GetObjectives<QuartalObjective>(o => o.QuartalOrdNum.Equals(currentQuartal));
+            ViewBag.CurrentQuartal = currentQuartal;
+            return View();
         }
+
+        
 
         private ActionResult ShowObjectives<T>(string dateFilter) where T : Objective
         {
@@ -107,13 +116,61 @@ namespace Nemesis.Web.Controllers
 
         public ActionResult ToNextWeek(int currentWeek)
         {
-            if (currentWeek < 50)
+            if (currentWeek < ObjectiveService.GetNumberOfWeeksInYear())
             {
                 currentWeek++;
             }
             ViewBag.CurrentWeek = currentWeek;
             ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>(o => o.WeekOrdNum.Equals(currentWeek));
             return PartialView("ShowWeekObjectives");
+
+        }
+
+        
+
+        public ActionResult ToPreviousMonth(int currentMonth)
+        {
+            if (currentMonth > 1)
+            {
+                currentMonth--;
+            }
+            ViewBag.CurrentMonth = currentMonth;
+            ViewBag.MonthObjectives = ObjectiveService.GetObjectives<MonthObjective>(o => o.MonthOrdNum.Equals(currentMonth));
+            return PartialView("ShowMonthObjectives");
+        }
+
+        public ActionResult ToNextMonth(int currentMonth)
+        {
+            if (currentMonth < 12)
+            {
+                currentMonth++;
+            }
+            ViewBag.CurrentMonth = currentMonth;
+            ViewBag.MonthObjectives = ObjectiveService.GetObjectives<MonthObjective>(o => o.MonthOrdNum.Equals(currentMonth));
+            return PartialView("ShowMonthObjectives");
+
+        }
+
+        public ActionResult ToPreviousQuartal(int currentQuartal)
+        {
+            if (currentQuartal > 1)
+            {
+                currentQuartal--;
+            }
+            ViewBag.CurrentQuartal = currentQuartal;
+            ViewBag.QuartalObjectives = ObjectiveService.GetObjectives<QuartalObjective>(o => o.QuartalOrdNum.Equals(currentQuartal));
+            return PartialView("ShowQuartalObjectives");
+        }
+
+        public ActionResult ToNextQuartal(int currentQuartal)
+        {
+            if (currentQuartal < 4)
+            {
+                currentQuartal++;
+            }
+            ViewBag.CurrentQuartal = currentQuartal;
+            ViewBag.QuartalObjectives = ObjectiveService.GetObjectives<QuartalObjective>(o => o.QuartalOrdNum.Equals(currentQuartal));
+            return PartialView("ShowQuartalObjectives");
 
         }
 
@@ -132,10 +189,11 @@ namespace Nemesis.Web.Controllers
         //    return View(model);
         //}
 
-        public ActionResult CreateWeekObjective()
+        public ActionResult CreateWeekObjective(int weekOrdNum)
         {
             var model = new WeekObjectiveViewModel()
             {
+                WeekOrdNum = weekOrdNum,
                 ParentObjectives = GetParentObjectives<MonthObjective>(),
                 TeamMembers = GetTeamMembers()
             };
@@ -148,15 +206,16 @@ namespace Nemesis.Web.Controllers
             return RedirectToAction("ShowWeekObjectives", "Objective");
         }
 
-        public ActionResult CreateMonthObjective()
+        public ActionResult CreateMonthObjective(int monthOrdNum)
         {
             var model = new MonthObjectiveViewModel
             {
+                MonthOrdNum = monthOrdNum,
                 ParentObjectives = GetParentObjectives<QuartalObjective>(),
                 TeamMembers = GetTeamMembers()
             };
 
-            return View(model);
+            return PartialView("Partials/CreateMonthObjectivePartial", model);
         }
 
         private MultiSelectList GetParentObjectives<T>() where T : Objective
@@ -164,15 +223,16 @@ namespace Nemesis.Web.Controllers
             return new MultiSelectList(ObjectiveService.GetObjectives<T>(), "Id", "Display");
         }
 
-        public ActionResult CreateQuartalObjective()
+        public ActionResult CreateQuartalObjective(int quartalOrdNum)
         {
             var model = new QuartalObjectiveViewModel
             {
+                QuartalOrdNum = quartalOrdNum,
                 ParentObjectives = new MultiSelectList(new List<Objective>()),
                 TeamMembers = GetTeamMembers()
             };
 
-            return View(model);
+            return PartialView("Partials/CreateQuartalObjectivePartial", model);
         }
 
         private MultiSelectList GetTeamMembers()
@@ -183,43 +243,26 @@ namespace Nemesis.Web.Controllers
         [HttpPost]
         public ActionResult CreateWeekObjective(WeekObjectiveViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var objective = new WeekObjective {WeekOrdNum = model.WeekOrdNum};
-                CreateObjective(objective, model);
-                return Json(new { value = "Week objective created!"});
-            }
-            model.ParentObjectives = GetParentObjectives<MonthObjective>();
-            model.TeamMembers = GetTeamMembers();
-            return PartialView("Partials/CreateWeekObjectivePartial", model);
+            var objective = new WeekObjective {WeekOrdNum = model.WeekOrdNum};
+            CreateObjective(objective, model);
+            return Json(new { value = "Week objective created!"});
         }
 
         [HttpPost]
         public ActionResult CreateMonthObjective(MonthObjectiveViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var obj = new MonthObjective {MonthOrdNum = model.MonthOrdNum};
-                CreateObjective(obj, model);
-                return RedirectToAction("Index", "Home");
-            }
-            model.ParentObjectives = GetParentObjectives<QuartalObjective>();
-            model.TeamMembers = GetTeamMembers();
-            return View(model);
+
+            var obj = new MonthObjective { MonthOrdNum = model.MonthOrdNum };
+            CreateObjective(obj, model);
+            return Json(new { value = "Month objective created!" });
         }
 
         [HttpPost]
         public ActionResult CreateQuartalObjective(QuartalObjectiveViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var objective = new QuartalObjective {QuartalOrdNum = model.QuartalOrdNum};
-                CreateObjective(objective, model);
-                return RedirectToAction("Index", "Home");
-            }
-            model.ParentObjectives = new MultiSelectList(new List<Objective>());
-            model.TeamMembers = GetTeamMembers();
-            return View(model);
+            var objective = new QuartalObjective { QuartalOrdNum = model.QuartalOrdNum };
+            CreateObjective(objective, model);
+            return Json(new { value = "Quartal objective created!" });
         }
 
         private void CreateObjective<T>(T objective, ObjectiveViewModel model) where T : Objective

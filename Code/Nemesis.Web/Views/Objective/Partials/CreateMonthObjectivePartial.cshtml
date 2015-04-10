@@ -1,10 +1,10 @@
-﻿@model Nemesis.Web.Models.Objective.WeekObjectiveViewModel
+﻿@model Nemesis.Web.Models.Objective.MonthObjectiveViewModel
 
-@using (Ajax.BeginForm("CreateWeekObjective", "Objective", new System.Web.Mvc.Ajax.AjaxOptions { OnSuccess = "handleModalSubmit"}, new { @class = "form-horizontal", role = "form", id = "createforma" }))
+@using (Ajax.BeginForm("CreateMonthObjective", "Objective", new System.Web.Mvc.Ajax.AjaxOptions { OnSuccess = "handleModalSubmit" }, new { @class = "form-horizontal", role = "form", id = "createforma" }))
 {
     @Html.ValidationSummary(true)
     <fieldset>
-        @Html.HiddenFor(x => x.WeekOrdNum)
+        @Html.HiddenFor(x => x.MonthOrdNum)
 
         <div class="form-group">
             @Html.Label("Parent", new { @class = "col-md-2 control-label" })
@@ -48,9 +48,10 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" id="submitWeek" />
+                <input type="submit" value="Create" class="btn btn-default" id="submitMonth" />
             </div>
         </div>
 
     </fieldset>
 }
+

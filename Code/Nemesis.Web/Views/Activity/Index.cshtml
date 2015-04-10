@@ -1,5 +1,4 @@
-﻿@model IList<Nemesis.Web.Models.ActivityViewModel>
-
+﻿
     @{
         ViewBag.Title = "Index";
     }
@@ -7,17 +6,15 @@
     <h2>Work activities</h2>
 
     <div id="accordion">
-        @foreach (var item in Model)
+        @foreach (var item in ViewBag.Activities)
         {
             <h3>@item.Display</h3>
             <div>
                 <p><b>Title:</b> @item.Title</p>
                 <p><b>Descripton:</b> @item.Description</p>
                 <p><b>Date:</b> @item.Date.ToLongDateString()</p>
-                <p><b>EstimatedDuration:</b> @item.EstimatedDuration</p>
                 <p><b>ActualDuration:</b> @item.ActualDuration</p>
-                <p><b>OvertimeDuration:</b> @item.OvertimeDuration</p>
-                <p><b>Done by:</b> @item.TeamMemberName</p>
+                <p><b>Done by:</b> @item.DoneBy.Display</p>
             </div>
         }
     </div>

@@ -10,9 +10,5 @@ namespace Nemesis.Services
 {
     public class ServiceProvider
     {
-        public static IActivityService ActiviyService(GenericRepository<WorkActivity> repo)
-        {
-            return new ActivityService(repo);
-        }
     }
 }

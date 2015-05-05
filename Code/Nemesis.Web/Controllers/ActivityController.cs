@@ -18,22 +18,19 @@ namespace Nemesis.Web.Controllers
         public ActionResult Index()
         {
             ICollection<WorkActivity> activities = ActivityService.GetActivities();
-            ViewBag.Activities = activities;
-            return View();
+            return View(activities);
         }
 
         public ActionResult Today()
         {
             ICollection<WorkActivity> activities = ActivityService.GetTodayActivities();
-            ViewBag.Activities = activities;
-            return View("Index");
+            return View("Index", activities);
         }
 
         public ActionResult CurrentWeek()
         {
             ICollection<WorkActivity> activities = ActivityService.GetCurrentWeekActivities();
-            ViewBag.Activities = activities;
-            return View("Index");
+            return View("Index", activities);
         }
 
         
@@ -116,7 +113,7 @@ namespace Nemesis.Web.Controllers
                     workActivity.Description = model.Description;
                     workActivity.ActualDuration = model.ActualDuration;
                     workActivity.Date = DateTime.Now;
-                    ActivityService.Create(workActivity, model.RealizedForObjectiveId);
+                    ActivityService.Create(workActivity, model.RealizedForObjectiveId, model.WorkOrderId);
                 }
                 return RedirectToAction("Index");
             }

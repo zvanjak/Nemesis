@@ -324,7 +324,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Objective\Index.cshtml" />
-    <Content Include="Views\Activity\Index.cshtml" />
+    <Content Include="Views\Activity\Index2.cshtml" />
     <Content Include="Views\Asset\AssetList.cshtml" />
     <Content Include="Views\Asset\AssetListHierarchical.cshtml" />
     <Content Include="Views\Asset\AssetTypes.cshtml" />
@@ -365,6 +365,7 @@
     <Content Include="Views\Objective\ShowMonthObjectives.cshtml" />
     <Content Include="Views\Objective\ShowQuartalObjectives.cshtml" />
     <Content Include="Views\Asset\CreateAsset.cshtml" />
+    <Content Include="Views\Activity\Index.cshtml" />
     <Content Include="Views\Asset\_CreateAssetPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>

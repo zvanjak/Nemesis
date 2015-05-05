@@ -21,6 +21,8 @@ namespace Nemesis.DAL.Configurations
 		    this.Property(t => t.OvertimeDuration);
 		    this.Property(t => t.ActualDuration);
 		    this.HasOptional(t => t.DoneBy);
+            this.HasOptional(t => t.RealizedForObjective);
+            this.HasOptional(t => t.WorkOrder);
 		    //this.HasMany(t => t.FeatureList).WithRequired(d => d.BelongsToAsset);
 		    //this.HasRequired(t => t.ResponsibleTeam);
 		}

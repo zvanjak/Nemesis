@@ -12,6 +12,7 @@ using Nemesis.Web.Models;
 
 namespace Nemesis.Web.Controllers
 {
+
     public class AssetController : Controller
     {
         // GET: Asset

@@ -61,10 +61,8 @@ namespace Nemesis.Web.Controllers
 							newAsset.Name = assetVM.Name;
 							newAsset.Description = assetVM.Description;
 
-							using (var teamRepo = new GenericRepository<Team>(ctx))
-							{
-								newAsset.Team = teamRepo.GetByID(assetVM.TeamId);
-							}
+							var teamRepo = new GenericRepository<Team>(ctx);
+							newAsset.Team = teamRepo.GetByID(assetVM.TeamId);
 
 							repo.Insert(newAsset);
 							repo.Save();

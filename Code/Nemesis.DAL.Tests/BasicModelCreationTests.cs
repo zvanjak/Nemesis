@@ -54,7 +54,7 @@ namespace Nemesis.DAL.Tests
 			teamObjective.Members.Add(sime); sime.MemberOfTheTeam = teamObjective;
 
 			context.SaveChanges();
-/*
+			
 			AssetAttribute attr1 = new AssetAttribute() { Name = "SW Source Code Path", Type = AssetAttributeType.String };
 			AssetAttribute attr2 = new AssetAttribute() { Name = "SW Platform Type", Type = AssetAttributeType.Enum };
 			AssetAttribute attr3 = new AssetAttribute() { Name = "Documentation Path", Type = AssetAttributeType.String };
@@ -65,10 +65,13 @@ namespace Nemesis.DAL.Tests
 			aType.Attributes.Add(attr2);
 			aType.Attributes.Add(attr3);
 
-			Asset prog1 = new Asset() { Name = "Prva komponenta", Description = "Prva testna komponenta koja radi nešto trubo gtx injection", PartNumber = "P12-345", Type = aType };
+			Asset prog1 = new Asset() { Name = "Prva komponenta", Description = "Prva testna komponenta koja radi nešto trubo gtx injection", PartNumber = "P12-345", Type = aType, Team = teamObjective };
+			Asset prog2 = new Asset() { Name = "Druga komponenta", Description = "Druga testna komponenta koja radi nešto trubo gtx injection", PartNumber = "P3-5", Type = aType, Team = workOrdersTeam };
 
 			context.Assets.Add(prog1);
-*/
+			context.Assets.Add(prog2);
+
+			context.SaveChanges();
 		}
 	}
 }

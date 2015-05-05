@@ -27,7 +27,9 @@
 				<td>@asset.Description</td>
 				<td>@asset.Type.Name </td>
 				<td>@asset.PartNumber</td>
-				<td>@asset.Team.Name</td>
+				@if (asset.Team != null) { 
+					<td>@asset.Team.Name</td>
+				}
 			</tr>
 		}
 	</tbody>

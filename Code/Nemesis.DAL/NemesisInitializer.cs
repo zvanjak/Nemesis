@@ -33,7 +33,7 @@ namespace Nemesis.DAL
 			context.TeamMembers.Add(mauro);
 			context.TeamMembers.Add(ivan);
 
-			var nemesisTeam = new Team() { Name = "Nenesis d.o.o" /*, Leader = zvone */ };
+			var nemesisTeam = new Team() { Name = "Nemesis d.o.o" /*, Leader = zvone */ };
       
 			var workOrdersTeam = new Team() { Name = "Work orders team" /*, Leader = ivana*/ /*, Parent = nemesisTeam */ };
 			workOrdersTeam.Members.Add(ivana);
@@ -59,50 +59,22 @@ namespace Nemesis.DAL
 			aType.Attributes.Add(attr2);
 			aType.Attributes.Add(attr3);
 
-			Asset prog1 = new Asset() { Name = "Prva komponenta", Description = "Prva testna komponenta koja radi nešto trubo gtx injection", PartNumber="P12-345", Type=aType };
-			
+			Asset prog1 = new Asset() { Name = "Prva komponenta", Description = "Prva testna komponenta koja radi nešto trubo gtx injection", PartNumber = "P12-345", Type = aType, Team = teamObjective };
+			Asset prog2 = new Asset() { Name = "Druga komponenta", Description = "Druga testna komponenta koja radi nešto trubo gtx injection", PartNumber = "P3-5", Type = aType, Team = workOrdersTeam };
+
 			context.Assets.Add(prog1);
+			context.Assets.Add(prog2);
 			
-			//Feature feat1 = new Feature() { CreatedOn = DateTime.Now, BelongsToAsset = prog1, Name = "Feature 1", Description = "Detailed desc", Code = "FEAT-1" };
-			//context.Features.Add(feat1);
+			context.SaveChanges();
 
-			//Project proj1 = new Project() { Name = "Project 1" };
-			//context.Projects.Add(proj1);
+			// sad idemo i pospajati teamove i leadere
+			nemesisTeam.Leader = zvone;
+			
+			workOrdersTeam.Leader = ivana;
+			workOrdersTeam.Parent = nemesisTeam;
 
-			//Requirement req1 = new Requirement()
-			//{
-			//	CreatedOn = DateTime.Now,
-			//	Code = "REQ-1",
-			//	BelongsToProject = proj1,
-			//	Name = "Req 1",
-			//	Description = "Prvi requirement"
-			//};
-
-			//context.Requirements.Add(req1);
-
-			//// INITIALIZE ROLES
-			//Array roles = Enum.GetNames(typeof(RoleType));
-			//foreach (string roleName in roles)
-			//{
-			//	var role = new Role() { RoleName = roleName };
-			//	context.Roles.Add(role);
-			//}
-
-			//Array userActions = Enum.GetNames(typeof(UserActionType));
-			//foreach (string userActionName in userActions)
-			//{
-			//	var userAction = new UserAction() { ActionName = userActionName };
-			//	context.UserActions.Add(userAction);
-			//}
-
-		    var activity = new WorkActivity()
-		    {
-		        Title = "Aktivnost",
-		        Description = "Opis......",
-                Date = DateTime.Now,
-                DoneBy = mauro
-		    };
-		    context.Activities.Add(activity);
+			teamObjective.Leader = mauro;
+			teamObjective.Parent = nemesisTeam;
 
 			context.SaveChanges();
 		}

@@ -26,6 +26,10 @@ namespace Nemesis.Web.Models
 
 		public virtual IEnumerable<SelectListItem> Teams { get; set; }
 
+		public AssetViewModel()
+		{
+
+		}
 		public AssetViewModel(Asset inAsset)
 		{
 			Name = inAsset.Name;

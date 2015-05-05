@@ -1,7 +1,7 @@
 ﻿@model Nemesis.Web.Models.ActivityCreateModel
 
 <div class="form-group">
-    @Html.Label("Work Orders", new { @class = "col-md-2 control-label" })
+    @Html.LabelFor(x => x.WorkOrders, new { @class = "col-md-2 control-label" })
     <div class="col-md-10">
         @Html.DropDownListFor(x => x.WorkOrderId, Model.WorkOrders, new { @class = "form-control" })
     </div>

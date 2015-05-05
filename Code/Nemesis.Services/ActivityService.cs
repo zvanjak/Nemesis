@@ -19,7 +19,7 @@ namespace Nemesis.Services
             {
                 using (var repository = new GenericRepository<WorkActivity>(context))
                 {
-                    ICollection<WorkActivity> activities = repository.Get(filter, null, "RealizedForObjective, DoneBy").ToList<WorkActivity>();
+                    ICollection<WorkActivity> activities = repository.Get(filter, null, "RealizedForObjective, DoneBy, WorkOrder").ToList<WorkActivity>();
                     
                     return activities;
                 }
@@ -100,16 +100,17 @@ namespace Nemesis.Services
             }
         }
 
-        public static void Create(WorkActivity workActivity, int objectiveId)
+        public static void Create(WorkActivity workActivity, int objectiveId, int workOrderId)
         {
             using (var context = new NemesisContext())
             {
                 using (var objectiveRepo = new GenericRepository<Objective>(context))
+                using (var workOrderRepo = new GenericRepository<WorkOrder>(context))
                 using (var membersRepo = new GenericRepository<TeamMember>(context))
                 using (var activityRepo = new GenericRepository<WorkActivity>(context))
                 {
                     workActivity.RealizedForObjective = objectiveRepo.GetByID(objectiveId);
-
+                    workActivity.WorkOrder = workOrderRepo.GetByID(workOrderId);
                     workActivity.DoneBy = membersRepo.GetByID(1);
 
                     activityRepo.Insert(workActivity);

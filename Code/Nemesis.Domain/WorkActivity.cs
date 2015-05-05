@@ -25,6 +25,7 @@ namespace Nemesis.Domain
 		public virtual Objective RealizedForObjective { get; set; }
 
         //public virtual WorkActivityGrade Grade { get; set; }
+        public virtual WorkOrder WorkOrder { get; set; }
 
 		public override string Display
 		{

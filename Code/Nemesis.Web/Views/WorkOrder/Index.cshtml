@@ -5,13 +5,13 @@
 <h2>Work orders</h2>
 <br />
 
-<button type="button" class="btnOpenDialog btn btn-default">
+<button type="button" class="btnWorkOrder btn btn-default">
     <span class="glyphicon glyphicon-plus"></span> Create work order
 </button>
 
 <span style="white-space: pre-line"></span>
 
-<div id="dialog">
+<div id="dialogWorkOrder">
     @using (Html.BeginForm("CreateWorkOrder", "WorkOrder", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
     {
         @Html.Action("_CreateWorkOrderPartial", "WorkOrder")
@@ -72,3 +72,36 @@
         }
     </tbody>
 </table>
+
+<script language="JavaScript" type="text/javascript">
+    $(function () {
+        $("#dialogWorkOrder").dialog({
+            autoOpen: false,
+            modal: true,
+            show: {
+                effect: "Drop",
+                duration: 1000
+            },
+            hide: {
+                effect: "Drop",
+                duration: 1000
+            },
+            height: 'auto',
+            width: 800,
+            buttons: {
+                Cancel: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $(".btnWorkOrder").click(function () {
+            $("#dialogWorkOrder").dialog("open");
+        });
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            @:$("#dialogWorkOrder").dialog("open");
+        }
+    });
+    </script>

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using Nemesis.Domain;
 using System.Web.Mvc;
+using System.ComponentModel;
 
 namespace Nemesis.Web.Models
 {
@@ -36,6 +37,7 @@ namespace Nemesis.Web.Models
         public virtual string Display { get; set; }
 
         //public virtual WorkActivityGrade Grade { get; set; }
+        public virtual WorkOrder WorkOrder{ get; set; }
 
         protected void Fill()
         {
@@ -47,6 +49,7 @@ namespace Nemesis.Web.Models
             this.ActualDuration = _baseActivity.ActualDuration;
             this.OvertimeDuration = _baseActivity.OvertimeDuration;
             this.Display = _baseActivity.Display;
+            this.WorkOrder = _baseActivity.WorkOrder;
             //this.Grade = _baseActivity.Grade;
         }
     }
@@ -61,8 +64,10 @@ namespace Nemesis.Web.Models
 
         public virtual DateTime Date { get; set; }
 
+         [DisplayName("Actual duration")]
         public virtual double ActualDuration { get; set; }
 
+        [DisplayName("Is realized for objective")]
         public virtual bool IsRealizedForObjective { get; set; }
 
         public virtual int RealizedForObjectiveId { get; set; }
@@ -71,6 +76,7 @@ namespace Nemesis.Web.Models
 
         public virtual int WorkOrderId { get; set; }
 
+        [DisplayName("Work order")]
         public virtual MultiSelectList WorkOrders { get; set; }
 
     }

@@ -56,32 +56,33 @@ namespace Nemesis.Web.Controllers
             return View();
         }
 
-
         public ActionResult ShowWeekObjectives()
         {
-            int currentWeek = ObjectiveService.GetCurrentWeek();
-            ViewBag.CurrentWeek = currentWeek;
-
-            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>(o => o.WeekOrdNum.Equals(currentWeek));
+            int weekOrdNum = ObjectiveService.GetCurrentWeekOrdNum();
+            ViewBag.WeekOrdNum = weekOrdNum;
+            ViewBag.WeekStart = ObjectiveService.GetCurrentWeekStart();
+            ViewBag.WeekEnd = ObjectiveService.GetCurrentWeekEnd();
+            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>(o => o.WeekOrdNum.Equals(weekOrdNum));
             return View();
         }
 
-        
-
-
-        public ActionResult ShowMonthObjectives(string datumFilter)
+        public ActionResult ShowMonthObjectives()
         {
-            int currentMonth = ObjectiveService.GetCurrentMonth();
-            ViewBag.MonthObjectives = ObjectiveService.GetObjectives<MonthObjective>(o => o.MonthOrdNum.Equals(currentMonth));
-            ViewBag.CurrentMonth = currentMonth;
+            int monthOrdNum = ObjectiveService.GetCurrentMonthOrdNum();
+            ViewBag.MonthOrdNum = monthOrdNum;
+            ViewBag.MonthStart = ObjectiveService.GetCurrentMonthStart();
+            ViewBag.MonthEnd = ObjectiveService.GetCurrentMonthEnd();
+            ViewBag.MonthObjectives = ObjectiveService.GetObjectives<MonthObjective>(o => o.MonthOrdNum.Equals(monthOrdNum));
             return View();
         }
 
-        public ActionResult ShowQuartalObjectives(string datumFilter)
+        public ActionResult ShowQuartalObjectives()
         {
-            int currentQuartal = ObjectiveService.GetCurrentQuartal();
-            ViewBag.QuartalObjectives = ObjectiveService.GetObjectives<QuartalObjective>(o => o.QuartalOrdNum.Equals(currentQuartal));
-            ViewBag.CurrentQuartal = currentQuartal;
+            int quartalOrdNum = ObjectiveService.GetCurrentQuartalOrdNum();
+            ViewBag.QuartalOrdNum = quartalOrdNum;
+            ViewBag.QuartalStart = ObjectiveService.GetCurrentQuartalStart();
+            ViewBag.QuartalEnd = ObjectiveService.GetCurrentQuartalEnd();
+            ViewBag.QuartalObjectives = ObjectiveService.GetObjectives<QuartalObjective>(o => o.QuartalOrdNum.Equals(quartalOrdNum));
             return View();
         }
 
@@ -103,73 +104,71 @@ namespace Nemesis.Web.Controllers
             return View("ShowObjectives");
         }
 
-        public ActionResult ToPreviousWeek(int currentWeek)
+        #endregion
+
+        #region Navigation
+
+        public ActionResult ToPreviousWeek(int weekOrdNum, DateTime weekStart, DateTime weekEnd)
         {
-            if (currentWeek > 1)
-            {
-                currentWeek--;
-            }
-            ViewBag.CurrentWeek = currentWeek;
-            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>(o => o.WeekOrdNum.Equals(currentWeek));
+            weekOrdNum = ObjectiveService.PreviousWeekOrdNum(weekOrdNum, weekEnd.Year);
+            ViewBag.WeekOrdNum = weekOrdNum;
+            ViewBag.WeekStart = ObjectiveService.PreviousWeekStart(weekStart);
+            ViewBag.WeekEnd = ObjectiveService.PreviousWeekEnd(weekEnd);
+            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>(o => o.WeekOrdNum.Equals(weekOrdNum));
             return PartialView("ShowWeekObjectives");
         }
 
-        public ActionResult ToNextWeek(int currentWeek)
+        public ActionResult ToNextWeek(int weekOrdNum, DateTime weekStart, DateTime weekEnd)
         {
-            if (currentWeek < ObjectiveService.GetNumberOfWeeksInYear())
-            {
-                currentWeek++;
-            }
-            ViewBag.CurrentWeek = currentWeek;
-            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>(o => o.WeekOrdNum.Equals(currentWeek));
+            weekOrdNum = ObjectiveService.NextWeekOrdNum(weekOrdNum, weekStart.Year);
+            ViewBag.WeekOrdNum = weekOrdNum;
+            ViewBag.WeekStart = ObjectiveService.NextWeekStart(weekStart);
+            ViewBag.WeekEnd = ObjectiveService.NextWeekEnd(weekEnd);
+            ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>(o => o.WeekOrdNum.Equals(weekOrdNum));
             return PartialView("ShowWeekObjectives");
 
         }
 
-        
 
-        public ActionResult ToPreviousMonth(int currentMonth)
+
+        public ActionResult ToPreviousMonth(int monthOrdNum, DateTime monthStart, DateTime monthEnd)
         {
-            if (currentMonth > 1)
-            {
-                currentMonth--;
-            }
-            ViewBag.CurrentMonth = currentMonth;
-            ViewBag.MonthObjectives = ObjectiveService.GetObjectives<MonthObjective>(o => o.MonthOrdNum.Equals(currentMonth));
+            monthOrdNum = ObjectiveService.PreviousMonthOrdNum(monthOrdNum);
+            ViewBag.MonthOrdNum = monthOrdNum;
+            ViewBag.MonthStart = ObjectiveService.PreviousMonthStart(monthStart);
+            ViewBag.MonthEnd = ObjectiveService.PreviousMonthEnd(monthEnd);
+            ViewBag.MonthObjectives = ObjectiveService.GetObjectives<MonthObjective>(o => o.MonthOrdNum.Equals(monthOrdNum));
             return PartialView("ShowMonthObjectives");
         }
 
-        public ActionResult ToNextMonth(int currentMonth)
+        public ActionResult ToNextMonth(int monthOrdNum, DateTime monthStart, DateTime monthEnd)
         {
-            if (currentMonth < 12)
-            {
-                currentMonth++;
-            }
-            ViewBag.CurrentMonth = currentMonth;
-            ViewBag.MonthObjectives = ObjectiveService.GetObjectives<MonthObjective>(o => o.MonthOrdNum.Equals(currentMonth));
+            monthOrdNum = ObjectiveService.NextMonthOrdNum(monthOrdNum);
+            ViewBag.MonthOrdNum = monthOrdNum;
+            ViewBag.MonthStart = ObjectiveService.NextMonthStart(monthStart);
+            ViewBag.MonthEnd = ObjectiveService.NextMonthEnd(monthEnd);
+            ViewBag.MonthObjectives = ObjectiveService.GetObjectives<MonthObjective>(o => o.MonthOrdNum.Equals(monthOrdNum));
             return PartialView("ShowMonthObjectives");
 
         }
 
-        public ActionResult ToPreviousQuartal(int currentQuartal)
+        public ActionResult ToPreviousQuartal(int quartalOrdNum, DateTime quartalStart, DateTime quartalEnd)
         {
-            if (currentQuartal > 1)
-            {
-                currentQuartal--;
-            }
-            ViewBag.CurrentQuartal = currentQuartal;
-            ViewBag.QuartalObjectives = ObjectiveService.GetObjectives<QuartalObjective>(o => o.QuartalOrdNum.Equals(currentQuartal));
+            quartalOrdNum = ObjectiveService.PreviousQuartalOrdNum(quartalOrdNum);
+            ViewBag.QuartalOrdNum = quartalOrdNum;
+            ViewBag.QuartalStart = ObjectiveService.PreviousQuartalStart(quartalStart);
+            ViewBag.QuartalEnd = ObjectiveService.PreviousQuartalEnd(quartalEnd);
+            ViewBag.QuartalObjectives = ObjectiveService.GetObjectives<QuartalObjective>(o => o.QuartalOrdNum.Equals(quartalOrdNum));
             return PartialView("ShowQuartalObjectives");
         }
 
-        public ActionResult ToNextQuartal(int currentQuartal)
+        public ActionResult ToNextQuartal(int quartalOrdNum, DateTime quartalStart, DateTime quartalEnd)
         {
-            if (currentQuartal < 4)
-            {
-                currentQuartal++;
-            }
-            ViewBag.CurrentQuartal = currentQuartal;
-            ViewBag.QuartalObjectives = ObjectiveService.GetObjectives<QuartalObjective>(o => o.QuartalOrdNum.Equals(currentQuartal));
+            quartalOrdNum = ObjectiveService.NextQuartalOrdNum(quartalOrdNum);
+            ViewBag.QuartalOrdNum = quartalOrdNum;
+            ViewBag.QuartalStart = ObjectiveService.NextQuartalStart(quartalStart);
+            ViewBag.QuartalEnd = ObjectiveService.NextQuartalEnd(quartalEnd);
+            ViewBag.QuartalObjectives = ObjectiveService.GetObjectives<QuartalObjective>(o => o.QuartalOrdNum.Equals(quartalOrdNum));
             return PartialView("ShowQuartalObjectives");
 
         }

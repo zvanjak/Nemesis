@@ -5,9 +5,12 @@
 <h2>Month objectives</h2>
 <br>
 
-@Ajax.ActionLink("<", "ToPreviousMonth", "Objective", new { currentMonth = ViewBag.CurrentMonth }, new AjaxOptions { UpdateTargetId = "month-objectives" })
-@ViewBag.CurrentMonth
-@Ajax.ActionLink(">", "ToNextMonth", "Objective", new { currentMonth = ViewBag.CurrentMonth }, new AjaxOptions { UpdateTargetId = "month-objectives" })
+@Ajax.ActionLink("<", "ToPreviousMonth", "Objective", new { monthOrdNum = ViewBag.MonthOrdNum, monthStart = ViewBag.MonthStart, monthEnd = ViewBag.MonthEnd }, new AjaxOptions { UpdateTargetId = "month-objectives" })
+@ViewBag.MonthOrdNum
+@Ajax.ActionLink(">", "ToNextMonth", "Objective", new { monthOrdNum = ViewBag.MonthOrdNum, monthStart = ViewBag.MonthStart, monthEnd = ViewBag.MonthEnd }, new AjaxOptions { UpdateTargetId = "month-objectives" })
+
+@ViewBag.MonthStart.ToString("dd.MM.yyyy.") -
+@ViewBag.MonthEnd.ToString("dd.MM.yyyy.")
 
 <table class="table table-bordered">
     <thead>

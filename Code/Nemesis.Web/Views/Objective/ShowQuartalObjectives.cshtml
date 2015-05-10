@@ -5,9 +5,12 @@
 <h2>Quartal objectives</h2>
 <br>
 
-@Ajax.ActionLink("<", "ToPreviousQuartal", "Objective", new { currentQuartal = ViewBag.CurrentQuartal }, new AjaxOptions { UpdateTargetId = "quartal-objectives" })
-@ViewBag.CurrentQuartal
-@Ajax.ActionLink(">", "ToNextQuartal", "Objective", new { currentQuartal = ViewBag.CurrentQuartal }, new AjaxOptions { UpdateTargetId = "quartal-objectives" })
+@Ajax.ActionLink("<", "ToPreviousQuartal", "Objective", new { quartalOrdNum = ViewBag.QuartalOrdNum, quartalStart = ViewBag.QuartalStart, quartalEnd = ViewBag.quartalEnd }, new AjaxOptions { UpdateTargetId = "quartal-objectives" })
+@ViewBag.QuartalOrdNum
+@Ajax.ActionLink(">", "ToNextQuartal", "Objective", new { quartalOrdNum = ViewBag.QuartalOrdNum, quartalStart = ViewBag.QuartalStart, quartalEnd = ViewBag.quartalEnd }, new AjaxOptions { UpdateTargetId = "quartal-objectives" })
+
+@ViewBag.QuartalStart.ToString("dd.MM.yyyy.") -
+@ViewBag.QuartalEnd.ToString("dd.MM.yyyy.")
 
 <table class="table table-bordered">
     <thead>

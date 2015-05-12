@@ -12,7 +12,7 @@ namespace Nemesis.Web.Controllers
 {
     public class WorkOrderController : Controller
     {
-        // GET: WorkOrder
+       
         public ActionResult Index()
         {
             return GetWorkOrders<WorkOrder>();
@@ -100,12 +100,23 @@ namespace Nemesis.Web.Controllers
 
                     if (wovm.Document != null)
                     {
-                        byte[] uploadedFile = new byte[wovm.Document.InputStream.Length];
-                        wovm.Document.InputStream.Read(uploadedFile, 0, uploadedFile.Length);
 
-                        wo.Document = uploadedFile;
+                        string filename = Path.GetFileName(wovm.Document.FileName);
+                        string path = Path.Combine(Server.MapPath("~/App_Data/WorkOrders/"), filename);
+                        string extension = Path.GetExtension(wovm.Document.FileName);
+                        string name = Path.GetFileNameWithoutExtension(wovm.Document.FileName);
+
+                        int i = 1;
+                        while (System.IO.File.Exists(path))
+                        {
+                            path = Server.MapPath("~/App_Data/WorkOrders/" + name + i + extension);
+                            i++;
+                        }
+
+                        wovm.Document.SaveAs(path);
+                        wo.Document = path;
+
                     }
-
 
                     Client client = new Client();
 
@@ -146,13 +157,32 @@ namespace Nemesis.Web.Controllers
             }
         }
 
-        public ActionResult DownloadFile(int id)
+        public FileResult DownloadFile(int id)
         {
             using (var repo = new GenericRepository<WorkOrder>(new NemesisContext()))
             {
                 WorkOrder workOrder = repo.GetByID(id);
-                byte[] file = workOrder.Document;
-                return File(file, "application/pdf");
+                //byte[] file = workOrder.Document;
+                string fileName = workOrder.Document;
+
+                //finds where the extension starts
+                int dotPosition = fileName.LastIndexOf('.');
+
+                //gets only the extension
+                string fileExt = fileName.Substring(dotPosition);
+
+                if (fileExt == ".pdf")
+                {
+                    return File(workOrder.Document, "application/pdf");
+                }
+                else if (fileExt == ".docx")
+                {
+                    return File(workOrder.Document, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+                }
+                else
+                {
+                    return File(workOrder.Document, "application/msword");
+                }
             }
         }
     }

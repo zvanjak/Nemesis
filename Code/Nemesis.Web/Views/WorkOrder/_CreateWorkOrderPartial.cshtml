@@ -6,9 +6,10 @@
 
 <br />
 
-@using (Html.BeginForm("CreateWorkOrder", "WorkOrder", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" })) {
+@using (Html.BeginForm("CreateWorkOrder", "WorkOrder", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form", @id="wo-form" }))
+{
 
-@Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     <fieldset>
         <div class="form-group">
@@ -69,7 +70,7 @@
         <div class="form-group">
             @Html.LabelFor(x => x.Document, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.TextBoxFor(x => x.Document, new { @type = "file", @accept = "application/pdf", @id = "exampleInputFile" })
+                @Html.TextBoxFor(x => x.Document, new { @type = "file", @id = "workorder-file", @accept = "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"})
                 @Html.ValidationMessageFor(x => x.Document)
             </div>
         </div>
@@ -87,27 +88,41 @@
             </div>
         </div>
     </fieldset>
-    }
+}
 
 <script type="text/javascript">
-            $(function () { // will trigger when the document is ready
-                $('.datepicker').datepicker({ dateFormat: "dd.mm.yy." }); //Initialise any date pickers
-            });
-</script>
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker({ dateFormat: "dd.mm.yy." }); //Initialise any date pickers
+    });
 
-<script type="text/javascript">
-            $(document).ready(function () {
-                $('input[type="checkbox"]').click(function () {
-                    if ($(this).prop("checked") == true) {
-                        var elem = document.getElementById("client");
-                        elem.disabled = true;
-                    }
-                    else if ($(this).prop("checked") == false) {
-                        var elem = document.getElementById("client");
-                        elem.disabled = false;
-                    }
-                });
-            });
+    $(document).ready(function () {
+        $('input[type="checkbox"]').click(function () {
+            if ($(this).prop("checked") == true) {
+                var elem = document.getElementById("client");
+                elem.disabled = true;
+            }
+            else if ($(this).prop("checked") == false) {
+                var elem = document.getElementById("client");
+                elem.disabled = false;
+            }
+        });
+    });
+
+    
+    //this code will be executed when a new file is selected
+    $('#workorder-file').bind('change', function () {
+
+        //converts the file size from bytes to MB
+        var fileSize = this.files[0].size / 1024 / 1024;
+
+        //checks whether the file is less than 20 MB
+        if (fileSize <= 20) {
+        }
+        else {
+            alert("File is too large.");
+            document.getElementById('workorder-file').value = "";
+        }
+    });
 </script>
 
 

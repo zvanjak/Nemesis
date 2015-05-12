@@ -19,7 +19,8 @@ namespace Nemesis.Domain
 
         public virtual Client Client { get; set; }
 
-        public virtual byte[] Document { get; set; }
+        //public virtual byte[] Document { get; set; }
+        public virtual string Document { get; set; }
 
         public virtual ICollection<Team> AssignedToTeams { get; set; }
 

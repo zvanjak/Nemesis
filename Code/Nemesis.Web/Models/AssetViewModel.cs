@@ -19,11 +19,16 @@ namespace Nemesis.Web.Models
 		public string Description { get; set; }
 		public string PartNumber { get; set; }
 		public AssetType Type { get; set; }
+
+		[DisplayName("Asset type")]
+		public virtual int TypeId { get; set; }
+		
 		public Team Team { get; set; }
 
 		[DisplayName("Assigned to team")]
 		public virtual int TeamId { get; set; }
 
+		public virtual IEnumerable<SelectListItem> Types { get; set; }
 		public virtual IEnumerable<SelectListItem> Teams { get; set; }
 
 		public AssetViewModel()
@@ -39,6 +44,9 @@ namespace Nemesis.Web.Models
 			
 			if( inAsset.Team != null )
 				TeamId = inAsset.Team.Id;
+
+			if (inAsset.Type != null)
+				TypeId = inAsset.Type.Id;
 		}
 	}
 

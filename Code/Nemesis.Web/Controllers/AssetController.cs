@@ -44,6 +44,8 @@ namespace Nemesis.Web.Controllers
 					AssetViewModel assetVM = new AssetViewModel(newAsset);
 
 					assetVM.Teams = GetTeams();
+					assetVM.Types = GetAssetTypes();
+
 					return View(assetVM);
 				}
 
@@ -61,9 +63,13 @@ namespace Nemesis.Web.Controllers
 							Asset newAsset = new Asset();
 							newAsset.Name = assetVM.Name;
 							newAsset.Description = assetVM.Description;
+							newAsset.PartNumber = assetVM.PartNumber;
 
 							var teamRepo = new GenericRepository<Team>(ctx);
 							newAsset.Team = teamRepo.GetByID(assetVM.TeamId);
+
+							var typesRepo = new GenericRepository<AssetType>(ctx);
+							newAsset.Type = typesRepo.GetByID(assetVM.TypeId);
 
 							repo.Insert(newAsset);
 							repo.Save();
@@ -78,9 +84,21 @@ namespace Nemesis.Web.Controllers
 					return View(assetVM);
 				}
 
+				private IEnumerable<SelectListItem> GetAssetTypes()
+				{
+					IEnumerable<AssetType> types; // = new List<AssetType>();
+
+					using (var repo = new GenericRepository<AssetType>(new NemesisContext()))
+					{
+						types = repo.Get();
+					}
+
+					return new SelectList(types, "Id", "Display");
+				}
+
 				private IEnumerable<SelectListItem> GetTeams()
 				{
-					IEnumerable<Team> team = new List<Team>();
+					IEnumerable<Team> team; // = new List<Team>();
 
 					using (var repo = new GenericRepository<Team>(new NemesisContext()))
 					{

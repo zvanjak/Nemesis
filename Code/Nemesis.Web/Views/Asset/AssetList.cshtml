@@ -25,7 +25,9 @@
 			<tr>
 				<td>@asset.Name</td>
 				<td>@asset.Description</td>
-				<td>@asset.Type.Name </td>
+				@if (asset.Type != null) {
+					<td>@asset.Type.Name</td>
+				}
 				<td>@asset.PartNumber</td>
 				@if (asset.Team != null) { 
 					<td>@asset.Team.Name</td>

@@ -20,7 +20,7 @@ namespace Nemesis.Services
                 using (var repository = new GenericRepository<WorkActivity>(context))
                 {
                     ICollection<WorkActivity> activities = repository.Get(filter, null, "RealizedForObjective, DoneBy, WorkOrder").ToList<WorkActivity>();
-                    
+
                     return activities;
                 }
             }
@@ -33,14 +33,14 @@ namespace Nemesis.Services
 
         public static ICollection<WorkActivity> GetCurrentWeekActivities()
         {
-            DateTime startWeek = GetStartOfCurrentWeek();
+            DateTime startWeek = GetStartOfWeek(DateTime.Now);
             DateTime endWeek = startWeek.AddDays(7);
-            return GetActivities(a => a.Date.CompareTo(startWeek)>0 && a.Date.CompareTo(endWeek)<0);
+            return GetActivities(a => a.Date.CompareTo(startWeek) > 0 && a.Date.CompareTo(endWeek) < 0);
         }
 
-        private static DateTime GetStartOfCurrentWeek()
+        private static DateTime GetStartOfWeek(DateTime now)
         {
-            DateTime now = DateTime.Now;
+
             DayOfWeek day = now.DayOfWeek;
             switch (day)
             {
@@ -66,7 +66,7 @@ namespace Nemesis.Services
                     now = now.AddDays(-6);
                     break;
             }
-            
+
             return new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
         }
 
@@ -117,6 +117,25 @@ namespace Nemesis.Services
                     activityRepo.Save();
                 }
             }
+        }
+
+        public static ICollection<WorkActivity> GetNextWeekActivities(DateTime day)
+        {
+            DateTime startWeek = GetStartOfWeek(day);
+            startWeek = startWeek.AddDays(7);
+            DateTime endWeek = startWeek.AddDays(7);
+            return GetActivities(a => a.Date.CompareTo(startWeek) > 0 && a.Date.CompareTo(endWeek) < 0);
+        }
+        public static ICollection<WorkActivity> GetPreviousWeekActivities(DateTime day)
+        {
+            DateTime startWeek = GetStartOfWeek(day);
+            startWeek = startWeek.AddDays(-7);
+            DateTime endWeek = startWeek.AddDays(7);
+            return GetActivities(a => a.Date.CompareTo(startWeek) > 0 && a.Date.CompareTo(endWeek) < 0);
+        }
+        public static ICollection<WorkActivity> GetActivitiesByDay(DateTime day)
+        {
+            return GetActivities(a => a.Date.Day.Equals(day.Day));
         }
     }
 }

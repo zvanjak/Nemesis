@@ -5,7 +5,7 @@
 <h2>Work orders</h2>
 <br />
 
-<button type="button" class="btnWorkOrder btn btn-default">
+@*<button type="button" class="btnWorkOrder btn btn-default">
     <span class="glyphicon glyphicon-plus"></span> Create work order
 </button>
 
@@ -16,6 +16,24 @@
     {
         @Html.Action("_CreateWorkOrderPartial", "WorkOrder")
     }
+</div>*@
+
+<a class="btn btn-default" id="modalCreate"><span class="glyphicon glyphicon-plus"></span>&nbsp; Create work order</a>
+<div>
+    <br />
+</div>
+
+<div class="modal fade" id="createModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Create Work Order</h4>
+            </div>
+            <div class="modal-body" id="contentModala">
+
+            </div>
+        </div>
+    </div>
 </div>
 
 <div><br /></div>
@@ -73,7 +91,23 @@
     </tbody>
 </table>
 
-<script language="JavaScript" type="text/javascript">
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+
+        $('#modalCreate').on('click', function (event) {
+            $.ajax({
+                url: '../WorkOrder/_CreateWorkOrderPartial',
+                type: 'GET',
+                cache: false
+            }).done(function (result) {
+                $('#contentModala').html(result);
+                $('#createModal').modal();
+            })
+        })
+    })</script>
+
+@*<script language="JavaScript" type="text/javascript">
     $(function () {
         $("#dialogWorkOrder").dialog({
             autoOpen: false,
@@ -104,4 +138,4 @@
             @:$("#dialogWorkOrder").dialog("open");
         }
     });
-    </script>
+    </script>*@

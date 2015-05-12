@@ -1,9 +1,4 @@
-﻿
-@model Nemesis.Web.Models.WorkOrderViewModel
-
-@{
-    ViewBag.Title = "CreateWorkOrder";
-}
+﻿@model Nemesis.Web.Models.WorkOrderViewModel
 
 @{
     Layout = null;
@@ -11,12 +6,11 @@
 
 <br />
 
+@using (Html.BeginForm("CreateWorkOrder", "WorkOrder", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" })) {
+
 @Html.AntiForgeryToken()
-<div class="form-horizontal">
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Create work order</legend>
-
         <div class="form-group">
             @Html.LabelFor(x => x.Code, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
@@ -92,10 +86,8 @@
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
-
-
     </fieldset>
-</div>
+    }
 
 <script type="text/javascript">
             $(function () { // will trigger when the document is ready

@@ -6,12 +6,15 @@ using System.Web;
 using Nemesis.Domain;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace Nemesis.Web.Models.Objective
 {
 	// TODO - staviti kompletno sve aktivnosti i ciljeve unutra
 	public partial class ObjectiveViewModel
 	{
+
+        public virtual int Id { get; set; }
 
         public virtual int ParentId { get; set; }
 
@@ -47,5 +50,7 @@ namespace Nemesis.Web.Models.Objective
         [Required]
         public virtual double EstimatedTime { get; set; }
 
+        [DisplayName("Percent Complete")]
+        public virtual int PercentComplete { get; set; }
 	}
 }

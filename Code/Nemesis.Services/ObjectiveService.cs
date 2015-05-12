@@ -10,7 +10,7 @@ namespace Nemesis.Services
 {
     public class ObjectiveService
     {
-        private static string INCLUDE_ALL = "Objectives, AssignedToTeamMembers, WorkActivities, AssignedToTeam, CreatedBy";
+        private static string INCLUDE_ALL = "Objectives, AssignedToTeamMembers, WorkActivities, AssignedToTeam, CreatedBy, Parent";
 
         public static ICollection<Objective> GetObjectives<T>(Expression<Func<T, bool>> filter = null) where T : Objective
         {
@@ -42,6 +42,30 @@ namespace Nemesis.Services
                 using (var repository = new GenericRepository<Objective>(context))
                 {
                     return repository.GetByID(id);
+                }
+            }
+        }
+
+        public static void UpdateObjective(Objective objective)
+        {
+            using (var context = new NemesisContext())
+            {
+                using (var repository = new GenericRepository<Objective>(context))
+                {
+                    repository.Update(objective);
+                }
+            }
+        }
+
+        public static void SetRealization(int id, int percentComplete)
+        {
+            using (var context = new NemesisContext())
+            {
+                using (var repository = new GenericRepository<Objective>(context))
+                {
+                    Objective objective = repository.GetByID(id);
+                    objective.PercentComplete = percentComplete;
+                    repository.Save();
                 }
             }
         }

@@ -1,0 +1,26 @@
+﻿@model Nemesis.Web.Models.Objective.ObjectiveViewModel
+
+@using (Ajax.BeginForm("SetRealization", "Objective", new System.Web.Mvc.Ajax.AjaxOptions { OnSuccess = "reload" }, new { @class = "form-horizontal", role = "form", id = "setrealizationforma" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        @Html.HiddenFor(x => x.Id)
+
+        <h1>@Model.Title</h1>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.PercentComplete, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                <input id="PercentComplete" name="PercentComplete" type="number" min="0" max="100" step="1" class="form-control">
+                @Html.ValidationMessageFor(x => x.PercentComplete, null, new { @class = "text-danger" })
+            </div>
+        </div>
+       
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Set" class="btn btn-default" id="setRealization" />
+            </div>
+        </div>
+
+    </fieldset>
+}

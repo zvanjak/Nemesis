@@ -49,3 +49,8 @@ textarea {
     border: none;
 }
 
+#contextMenu {
+  position: absolute;
+  display:none;
+}
+

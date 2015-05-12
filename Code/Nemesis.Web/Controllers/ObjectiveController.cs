@@ -285,5 +285,34 @@ namespace Nemesis.Web.Controllers
         }
 
         #endregion
+
+        #region Realization
+
+        public ActionResult SetRealization(string text)
+        {
+            int startIndex = text.IndexOf("id=")+3;
+            int endIndex = text.IndexOf(':');
+            string substring = text.Substring(startIndex, endIndex - startIndex);
+            int id = int.Parse(substring);
+            Objective objective = ObjectiveService.GetObjective(id);
+
+            ObjectiveViewModel model = new ObjectiveViewModel
+            {
+                Id = objective.Id,
+                PercentComplete = objective.PercentComplete,
+                Title = objective.ShortDescription
+            };
+
+            return PartialView("Partials/SetRealizationPartial", model);
+        }
+
+        [HttpPost]
+        public ActionResult SetRealization(ObjectiveViewModel model)
+        {
+            ObjectiveService.SetRealization(model.Id, model.PercentComplete);
+            return Json(new { value = "Realization set completed!" });
+        }
+        #endregion
+
     }
 }

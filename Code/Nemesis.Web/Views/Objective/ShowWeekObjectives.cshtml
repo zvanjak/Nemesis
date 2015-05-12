@@ -1,135 +1,189 @@
-﻿@{
-    ViewBag.Title = "Week objectives";
-}
-<div id="week-objectives">
-<h2>Week objectives</h2>
-<br>
-
-@Ajax.ActionLink("<", "ToPreviousWeek", "Objective", new { weekOrdNum = ViewBag.WeekOrdNum, weekStart = ViewBag.WeekStart, weekEnd = ViewBag.WeekEnd }, new AjaxOptions { UpdateTargetId = "week-objectives" })
-@ViewBag.WeekOrdNum
-@Ajax.ActionLink(">", "ToNextWeek", "Objective", new { weekOrdNum = ViewBag.WeekOrdNum, weekStart = ViewBag.WeekStart, weekEnd = ViewBag.WeekEnd }, new AjaxOptions { UpdateTargetId = "week-objectives" })
-
-@ViewBag.WeekStart.ToString("dd.MM.yyyy.") -
-@ViewBag.WeekEnd.ToString("dd.MM.yyyy.")
-
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Priority</th>
-            <th>Finished</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var weekObjective in ViewBag.WeekObjectives)
-{
-
-    <tr>
-        <td>
-            @Html.ActionLink((string)weekObjective.ShortDescription, "ShowWeekObjective", "Objective", new { id = weekObjective.Id}, null)
-        </td>
-        <td>@weekObjective.Description</td>
-        <td>@weekObjective.Priority</td>
-        <td>@weekObjective.PercentComplete%</td>
-        <td data-toggle="collapse" @("data-target=#accordion" + weekObjective.Id) class="clickable">+</td>
-    </tr>
-    <tr>
-        <td colspan="4">
-            <div @("id=accordion" + weekObjective.Id) class="collapse">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Estimated Duration</th>
-                            <th>Actual Duration</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                    @foreach (var activity in weekObjective.WorkActivities)
-                    {
-                        <tr>
-                            <td>@activity.Title</td>
-                            <td>@activity.Description</td>
-                            <td>@activity.EstimatedDuration</td>
-                            <td>@activity.ActualDuration</td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
-            </div>
-        </td>
-    </tr>
+﻿<div id="week-objectives">
+    @{
+        ViewBag.Title = "Week objectives";
+    }
+    <link href="@Url.Content("~/Content/Objectives.css")" rel="stylesheet" type="text/css" />
 
 
+    <h2>Week objectives</h2>
+    <br>
+    <div class="left-header">
+        @Ajax.ActionLink("<", "ToPreviousWeek", "Objective", new { weekOrdNum = ViewBag.WeekOrdNum, weekStart = ViewBag.WeekStart, weekEnd = ViewBag.WeekEnd }, new AjaxOptions { UpdateTargetId = "week-objectives", OnSuccess = "onPageLoad" })
+        @ViewBag.WeekOrdNum
+        @Ajax.ActionLink(">", "ToNextWeek", "Objective", new { weekOrdNum = ViewBag.WeekOrdNum, weekStart = ViewBag.WeekStart, weekEnd = ViewBag.WeekEnd }, new AjaxOptions { UpdateTargetId = "week-objectives", OnSuccess = "onPageLoad" })
 
-}
-    </tbody>
-</table>
+        @ViewBag.WeekStart.ToString("dd.MM.yyyy.") -
+        @ViewBag.WeekEnd.ToString("dd.MM.yyyy.")
 
-<a class="btn btn-default" id="modalCreate" ><span class="glyphicon glyphicon-plus"></span></a>
-<div class="list-group">
-    <div class="label-success">
-        <h3 id="mjestoUspjelo"></h3>
     </div>
-</div>
+    <div class="right-header">
+        <a class="btn btn-default" id="modalCreate"><span class="glyphicon glyphicon-plus"></span></a>
+    </div>
 
-<div class="modal fade" id="createModal" >
-    <div class="modal-dialog">
-        <div class="modal-content" >
-            <div class="modal-header" style="text-align: center;">
-                <h4 class="modal-title">Create Objective</h4>
-            </div>
-            <div class="modal-body" id="contentModala">
+    <table id="myTable" class="objectives-table table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Realized for</th>
+                <th>Est/Spt</th>
+                <th>WO</th>
+                <th>Assigned to</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var weekObjective in ViewBag.WeekObjectives)
+            {
 
+                <tr>
+                    <td>
+                        @Html.ActionLink((string)weekObjective.ShortDescription, "ShowWeekObjective", "Objective", new { id = weekObjective.Id }, null)
+                    </td>
+                    <td data-toggle="tooltip" data-placement="top" title="@weekObjective.Description"><span class="col-md-offset-5 glyphicon glyphicon-option-horizontal"></span></td>
+                    <td data-toggle="tooltip" data-placement="top" title="@weekObjective.Parent.Description"><span class="col-md-offset-5 glyphicon glyphicon-option-horizontal"></span></td>
+                    <td>@weekObjective.EstimatedTime/@weekObjective.ActualTime</td>
+                    <td>---</td>
+                    <td>
+                        @foreach (var member in weekObjective.AssignedToTeamMembers)
+                        {
+                            @Html.Label((string)member.Display + "; ")
+                        }
+                    </td>
+                    <td>@weekObjective.Priority</td>
+                    <td>
+                        <div class="progress" data-toggle="tooltip" data-placement="top" title="@weekObjective.PercentComplete%">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="@weekObjective.PercentComplete" aria-valuemin="0" aria-valuemax="100" style="width: @weekObjective.PercentComplete%">
+                                <span class="sr-only">Objective with id=@weekObjective.Id: @weekObjective.PercentComplete% Complete </span>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-toggle="collapse" @("data-target=#accordion" + weekObjective.Id) class="clickable">+</td>
+                </tr>
+                <tr>
+                    <td colspan="9">
+                        <div @("id=accordion" + weekObjective.Id) class="collapse">
+                            <table class="table table-bordered accordion-table">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Actual Duration</th>
+                                        <th>Done by</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var activity in weekObjective.WorkActivities)
+                                    {
+                                        <tr>
+                                            <td>@activity.Title</td>
+                                            <td>@activity.Date.ToShortDateString()</td>
+                                            <td width="10px" data-toggle="tooltip" data-placement="top" title="@activity.Description"><span class="col-md-offset-5 glyphicon glyphicon-option-horizontal"></span></td>
+                                            <td>@activity.ActualDuration</td>
+                                            <td>@activity.DoneBy.Display</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+
+
+
+            }
+        </tbody>
+    </table>
+
+    <div class="list-group">
+        <div class="label-success">
+            <h3 id="mjestoUspjelo"></h3>
+        </div>
+    </div>
+
+    <div class="modal fade" id="createModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="text-align: center;">
+                    <h4 class="modal-title">Create Objective</h4>
+                </div>
+                <div class="modal-body" id="contentModala">
+
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@section scripts{
-    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js");
+    <div id="contextMenu" class="dropdown clearfix">
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
+            <li><a tabindex="-1" href="#">Set realization</a></li>
+        </ul>
+    </div>
 
-    
-}
-</div>
-<script>
-    $('#modalCreate').on('click', function (event) {
-       
-        $.ajax({
-            url: '../Objective/CreateWeekObjective',
-            type: 'GET',
-            data: {'weekOrdNum':@ViewBag.CurrentWeek},
-            cache: false
-        }).done(function (result) {
-            $('#contentModala').html(result);
-            $('#createModal').modal();
-            
-        })
-    })
-    function handleModalSubmit(result) {
-        if (result.value) {
-            $('#createModal').modal('hide');
-            location.reload();
-            // treba napraviti da refresha stranicu i vrati neku poruku o uspjehu
+    <div class="modal fade" id="setRealizationModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="text-align: center;">
+                    <h4 class="modal-title">Set Realization</h4>
+                </div>
+                <div class="modal-body" id="contentRealizationModala">
 
-        }
-        else {
-            $('#contentModala').html(result);
-            $('#createModal').modal();
-        }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section scripts{
+        @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js");
+        @Scripts.Render("~/Scripts/realization.js");
+
     }
-    $('.clickable').on('click', function () {
-        if ($(this).hasClass('plusic')) {
-            $(this).text('+');
-            $(this).removeClass('plusic');
-        }
-        else {
-            $(this).text('-');
-            $(this).addClass('plusic');
-        }
 
-    });
-</script>
+    <script>
+
+
+        $('[data-toggle="tooltip"]').tooltip()
+
+        $('#modalCreate').on('click', function (event) {
+
+            $.ajax({
+                url: '../Objective/CreateWeekObjective',
+                type: 'GET',
+                data: {'weekOrdNum':@ViewBag.WeekOrdNum},
+                cache: false
+            }).done(function (result) {
+                $('#contentModala').html(result);
+                $('#createModal').modal();
+
+            })
+        })
+
+        function handleModalSubmit(result) {
+            if (result.value) {
+                $('#createModal').modal('hide');
+                location.reload();
+                // treba napraviti da refresha stranicu i vrati neku poruku o uspjehu
+
+            }
+            else {
+                $('#contentModala').html(result);
+                $('#createModal').modal();
+            }
+        }
+        $('.clickable').on('click', function () {
+            if ($(this).hasClass('plusic')) {
+                $(this).text('+');
+                $(this).removeClass('plusic');
+            }
+            else {
+                $(this).text('-');
+                $(this).addClass('plusic');
+            }
+
+        });
+    </script>
+</div>

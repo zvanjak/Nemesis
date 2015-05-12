@@ -1,0 +1,26 @@
+﻿.left-header {
+    font-size: x-large;
+    font-weight: bold;
+    float: left;
+    vertical-align: central;
+}
+
+.right-header {
+    text-align: right;
+    vertical-align: central;
+}
+
+.objectives-table {
+    clear: both;
+    margin-top: 20px;
+}
+
+.progress {
+    margin: 0;
+}
+
+.accordion-table {
+    margin: 0;
+}
+
+

@@ -28,7 +28,7 @@ namespace Nemesis.Web.Controllers
 							assetsView.Add(new AssetViewModel(asset));
 						}
 
-						return View(assetsView);
+						return View(assetsView); 
 					}
         }
 				public ActionResult AssetListHierarchical()

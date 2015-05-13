@@ -62,6 +62,9 @@ namespace Nemesis.Web.Controllers
             ViewBag.WeekOrdNum = weekOrdNum;
             ViewBag.WeekStart = ObjectiveService.GetCurrentWeekStart();
             ViewBag.WeekEnd = ObjectiveService.GetCurrentWeekEnd();
+
+            ICollection<Objective> objs = ObjectiveService.GetObjectives<WeekObjective>(o => o.WeekOrdNum.Equals(weekOrdNum));
+
             ViewBag.WeekObjectives = ObjectiveService.GetObjectives<WeekObjective>(o => o.WeekOrdNum.Equals(weekOrdNum));
             return View();
         }
@@ -227,7 +230,6 @@ namespace Nemesis.Web.Controllers
             var model = new QuartalObjectiveViewModel
             {
                 QuartalOrdNum = quartalOrdNum,
-                ParentObjectives = new MultiSelectList(new List<Objective>()),
                 TeamMembers = GetTeamMembers()
             };
 
@@ -242,26 +244,44 @@ namespace Nemesis.Web.Controllers
         [HttpPost]
         public ActionResult CreateWeekObjective(WeekObjectiveViewModel model)
         {
-            var objective = new WeekObjective {WeekOrdNum = model.WeekOrdNum};
-            CreateObjective(objective, model);
-            return Json(new { value = "Week objective created!"});
+            if (ModelState.IsValid)
+            {
+                var objective = new WeekObjective { WeekOrdNum = model.WeekOrdNum };
+                CreateObjective(objective, model);
+                return Json(new { value = "Week objective created!" });
+            }
+            model.ParentObjectives = GetParentObjectives<MonthObjective>();
+            model.TeamMembers = GetTeamMembers();
+            return PartialView("Partials/CreateWeekObjectivePartial", model);
         }
 
         [HttpPost]
         public ActionResult CreateMonthObjective(MonthObjectiveViewModel model)
         {
-
-            var obj = new MonthObjective { MonthOrdNum = model.MonthOrdNum };
-            CreateObjective(obj, model);
-            return Json(new { value = "Month objective created!" });
+            if (ModelState.IsValid)
+            {
+                var obj = new MonthObjective { MonthOrdNum = model.MonthOrdNum };
+                CreateObjective(obj, model);
+                return Json(new { value = "Month objective created!" });
+            }
+            model.ParentObjectives = GetParentObjectives<QuartalObjective>();
+            model.TeamMembers = GetTeamMembers();
+            return PartialView("Partials/CreateMonthObjectivePartial", model);
+            
         }
 
         [HttpPost]
         public ActionResult CreateQuartalObjective(QuartalObjectiveViewModel model)
         {
-            var objective = new QuartalObjective { QuartalOrdNum = model.QuartalOrdNum };
-            CreateObjective(objective, model);
-            return Json(new { value = "Quartal objective created!" });
+            if (ModelState.IsValid)
+            {
+                var objective = new QuartalObjective { QuartalOrdNum = model.QuartalOrdNum };
+                CreateObjective(objective, model);
+                return Json(new { value = "Quartal objective created!" });
+            }
+            model.TeamMembers = GetTeamMembers();
+            return PartialView("Partials/CreateQuartalObjectivePartial", model);
+            
         }
 
         private void CreateObjective<T>(T objective, ObjectiveViewModel model) where T : Objective

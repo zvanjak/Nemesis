@@ -41,7 +41,7 @@
                         @Html.ActionLink((string)monthObjective.ShortDescription, "ShowMonthObjective", "Objective", new { id = monthObjective.Id }, null)
                     </td>
                     <td data-toggle="tooltip" data-placement="top" title="@monthObjective.Description"><span class="col-md-offset-5 glyphicon glyphicon-option-horizontal"></span></td>
-                    <td data-toggle="tooltip" data-placement="top" title="@monthObjective.Parent.Description"><span class="col-md-offset-5 glyphicon glyphicon-option-horizontal"></span></td>
+                    <td data-toggle="tooltip" data-placement="top" title="@monthObjective.Parent"><span class="col-md-offset-5 glyphicon glyphicon-option-horizontal"></span></td>
                     <td>@monthObjective.EstimatedTime/@monthObjective.ActualTime</td>
                     <td>---</td>
                     <td>
@@ -136,8 +136,8 @@
     </div>
 
     @section scripts{
-        @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js");
-        @Scripts.Render("~/Scripts/realization.js");
+        @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+        @Scripts.Render("~/Scripts/realization.js")
     }
     <script>
 
@@ -159,7 +159,7 @@
         function handleModalSubmit(result) {
             if (result.value) {
                 $('#createModal').modal('hide');
-                //location.reload();
+                location.reload();
                 // treba napraviti da refresha stranicu i vrati neku poruku o uspjehu
 
             }

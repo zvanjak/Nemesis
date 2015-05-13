@@ -18,6 +18,8 @@ namespace Nemesis.Services
             {
                 using (var repository = new GenericRepository<T>(context))
                 {
+                    ICollection<Objective> obj = repository.Get(filter, null, INCLUDE_ALL).ToList<Objective>();
+
                     return repository.Get(filter, null, INCLUDE_ALL).ToList<Objective>();
                 }
             }

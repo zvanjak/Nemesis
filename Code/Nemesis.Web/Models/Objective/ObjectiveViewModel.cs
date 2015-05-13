@@ -18,8 +18,6 @@ namespace Nemesis.Web.Models.Objective
 
         public virtual int ParentId { get; set; }
 
-        public virtual MultiSelectList ParentObjectives { get; set; }
-
         [Required]
         public virtual string Title { get; set; }
         
@@ -43,10 +41,14 @@ namespace Nemesis.Web.Models.Objective
             }
         }
 
+        [Required]
+        [DisplayName("Assigned For")]
         public virtual int[] TeamMembersId { get; set; }
+
         public virtual MultiSelectList TeamMembers { get; set; }
 
         [DataType(DataType.Duration)]
+        [DisplayName("Duration")]
         [Required]
         public virtual double EstimatedTime { get; set; }
 

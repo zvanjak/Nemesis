@@ -162,13 +162,11 @@ namespace Nemesis.Web.Controllers
             using (var repo = new GenericRepository<WorkOrder>(new NemesisContext()))
             {
                 WorkOrder workOrder = repo.GetByID(id);
-                //byte[] file = workOrder.Document;
+                
                 string fileName = workOrder.Document;
 
-                //finds where the extension starts
                 int dotPosition = fileName.LastIndexOf('.');
 
-                //gets only the extension
                 string fileExt = fileName.Substring(dotPosition);
 
                 if (fileExt == ".pdf")

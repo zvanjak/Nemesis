@@ -3,14 +3,13 @@
     ViewBag.Title = "Work activities";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
 <h2>Activities</h2>
 
 <a class="btn btn-default" id="modalCreate"><span class="glyphicon glyphicon-plus"></span>&nbsp; Create new activity</a>
-
-<input class="btn btn-default" type="button" value="<" onclick="location.href='@Url.Action("PreviousDay", "Activity", new { day = TempData["Day"] })'" />
-<input class="btn btn-default" name="input2" type="button" id="datepicker" value=@TempData["Day"] onclick="location.href='@Url.Action("GetDay", "Activity", new { day = TempData["Day"] })'" />
-<input class="btn btn-default" type="button" value=">" onclick="location.href='@Url.Action("NextDay", "Activity", new { day = TempData["Day"] })'" />
-
 
 <div>
     <br />
@@ -29,7 +28,6 @@
     </div>
 </div>
 
-
 <table class="table table-striped table-bordered table-condensed">
     <thead>
         <tr>
@@ -45,11 +43,17 @@
     <tbody>
         @foreach (var m in Model)
         {
-
             <tr>
                 <td>@m.Title</td>
                 <td>@m.Date.ToShortDateString()</td>
+                @if (m.Description.IsEmpty())
+                {
+                    <td></td>;
+                }
+                else
+                {
                 <td width="10px" data-toggle="tooltip" data-placement="top" title="@m.Description"><span class="col-md-offset-5 glyphicon glyphicon-option-horizontal"></span></td>
+                }
                 @if (m.RealizedForObjective == null)
                 {
                     <td></td> }
@@ -72,23 +76,17 @@
     </tbody>
 </table>
 
-<script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
 
-        $('#modalCreate').on('click', function (event) {
-            $.ajax({
-                url: '../Activity/CreateActivityPartial',
-                type: 'GET',
-                cache: false
-            }).done(function (result) {
-                $('#contentModala').html(result);
-                $('#createModal').modal();
-            })
+<script>
+    $('[data-toggle="tooltip"]').tooltip();
+    $('#modalCreate').on('click', function (event) {
+        $.ajax({
+            url: '../Activity/CreateActivityPartial',
+            type: 'GET',
+            cache: false
+        }).done(function (result) {
+            $('#contentModala').html(result);
+            $('#createModal').modal();
         })
-    })</script>
-<script>
-    $("#datepicker").datepicker({
-        showOn: "button"
-
-    });</script>
+    })
+</script>

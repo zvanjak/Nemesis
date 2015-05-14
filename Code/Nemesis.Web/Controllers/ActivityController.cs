@@ -16,7 +16,7 @@ namespace Nemesis.Web.Controllers
         // GET: Activity
         public ActionResult Index()
         {
-            TempData["Day"] = DateTime.Now.Date;
+            ViewBag.Day = DateTime.Now.Date;
             ICollection<WorkActivity> activities = ActivityService.GetActivities();
             return View(activities);
 
@@ -24,25 +24,38 @@ namespace Nemesis.Web.Controllers
 
         public ActionResult Today()
         {
-            TempData["Day"] = DateTime.Now.Date;
+            ViewBag.Day = DateTime.Now.Date;
             ICollection<WorkActivity> activities = ActivityService.GetTodayActivities();
-            return View("Index", activities);
+            return View("ShowDailyActivities", activities);
         }
+
+
 
         public ActionResult CurrentWeek()
         {
-            TempData["Day"] = SetMonday(DateTime.Now);
-
+            var date = SetMonday(DateTime.Now);
+            ViewBag.Day = date;
+            ViewBag.EndWeek = date.AddDays(6);
             ICollection<WorkActivity> activities = ActivityService.GetCurrentWeekActivities();
-            return View("WeekActivities", activities);
+            return View("ShowWeekActivities", activities);
         }
 
         public ActionResult PreviousWeek(DateTime day)
         {
-
             ICollection<WorkActivity> activities = ActivityService.GetPreviousWeekActivities(day);
-            TempData["Day"] = SetMonday(day).AddDays(-7);
-            return View("WeekActivities", activities);
+            var date = SetMonday(day).AddDays(-7);
+            ViewBag.Day = date;
+            ViewBag.EndWeek = date.AddDays(6);
+            return PartialView("Partials/_ShowWeekActivities", activities);
+        }
+
+        public ActionResult NextWeek(DateTime day)
+        {
+            ICollection<WorkActivity> activities = ActivityService.GetNextWeekActivities(day);
+            var date = SetMonday(day).AddDays(7);
+            ViewBag.Day = date;
+            ViewBag.EndWeek = date.AddDays(6);
+            return PartialView("Partials/_ShowWeekActivities", activities);
 
         }
 
@@ -77,31 +90,36 @@ namespace Nemesis.Web.Controllers
 
         }
 
-        public ActionResult NextWeek(DateTime day)
+        [HttpPost]
+        public ActionResult GetDay(int? datepickerForm)
         {
-            ICollection<WorkActivity> activities = ActivityService.GetNextWeekActivities(day);
-            TempData["Day"] = SetMonday(day).AddDays(7);
-            return View("WeekActivities", activities);
-
+            if (datepickerForm != null)
+            {
+                var day = datepickerForm.Value;
+                ViewBag.PostedDate = datepickerForm.Value;
+                ICollection<WorkActivity> activities = ActivityService.GetActivitiesByDay(Convert.ToDateTime(day));
+                return PartialView("Partials/_ShowDailyActivities", activities);
+            }
+            return View();
         }
+
 
         public ActionResult PreviousDay(DateTime day)
         {
-
-            TempData["Day"] = day.AddDays(-1);
+            ViewBag.Day = day.AddDays(-1);
             ICollection<WorkActivity> activities = ActivityService.GetActivitiesByDay(day.AddDays(-1));
-            return View("Index", activities);
+            return PartialView("Partials/_ShowDailyActivities", activities);
         }
         public ActionResult NextDay(DateTime day)
         {
 
-            TempData["Day"] = day.AddDays(1);
+            ViewBag.Day = day.AddDays(1);
             ICollection<WorkActivity> activities = ActivityService.GetActivitiesByDay(day.AddDays(1));
-            return View("Index", activities);
+            return PartialView("Partials/_ShowDailyActivities", activities);
         }
         public ActionResult GetDay(DateTime day)
         {
-            TempData["Day"] = day;
+            ViewBag.Day = day;
             ICollection<WorkActivity> activities = ActivityService.GetActivitiesByDay(day);
             return View("Index", activities);
         }

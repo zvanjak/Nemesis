@@ -198,6 +198,7 @@
     <Compile Include="ValuesController1.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\WorkOrders\readme.txt" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -326,7 +327,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Objective\Index.cshtml" />
-    <Content Include="Views\Activity\Index2.cshtml" />
     <Content Include="Views\Asset\AssetList.cshtml" />
     <Content Include="Views\Asset\AssetListHierarchical.cshtml" />
     <Content Include="Views\Asset\AssetTypes.cshtml" />
@@ -363,10 +363,12 @@
     <Content Include="Views\Activity\Index.cshtml" />
     <Content Include="Views\Asset\_CreateAssetPartial.cshtml" />
     <Content Include="Views\Objective\Partials\SetRealizationPartial.cshtml" />
+    <Content Include="Views\Activity\Partials\_ShowDailyActivities.cshtml" />
+    <Content Include="Views\Activity\Partials\_ShowWeekActivities.cshtml" />
+    <Content Include="Views\Activity\ShowDailyActivities.cshtml" />
+    <Content Include="Views\Activity\ShowWeekActivities.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

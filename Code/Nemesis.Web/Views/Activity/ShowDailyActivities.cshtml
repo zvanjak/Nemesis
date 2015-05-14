@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Nemesis.Domain.WorkActivity>
+@{
+    ViewBag.Title = "Work activities";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<h2>Activities</h2>
+
+<a class="btn btn-default" id="modalCreate"><span class="glyphicon glyphicon-plus"></span>&nbsp; Create new activity</a>
+
+<div>
+    <br />
+</div>
+
+<div class="modal fade" id="createModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Create Activity</h4>
+            </div>
+            <div class="modal-body" id="contentModala">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="day-activities">
+    @Html.Partial("Partials/_ShowDailyActivities", Model)
+</div>
+
+
+<script>
+    $('[data-toggle="tooltip"]').tooltip();
+    $('#modalCreate').on('click', function (event) {
+        $.ajax({
+            url: '../Activity/CreateActivityPartial',
+            type: 'GET',
+            cache: false
+        }).done(function (result) {
+            $('#contentModala').html(result);
+            $('#createModal').modal();
+        })
+    })
+</script>

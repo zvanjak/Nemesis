@@ -12,10 +12,7 @@ namespace Nemesis.Web.Models.Objective
     {
         public int WeekOrdNum { get; set; }
 
-        [Required]
-        [DisplayName("Parent")]
-        public override int ParentId { get; set; }
 
-        public virtual MultiSelectList ParentObjectives { get; set; }
+        
     }
 }

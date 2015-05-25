@@ -80,7 +80,7 @@ namespace Nemesis.Services
             }
         }
 
-        public static void Create(Objective objective, int parentId, int[] teamMemberIds) 
+        public static void Create(Objective objective, int? parentId, int[] teamMemberIds) 
         {
             using (var context = new NemesisContext())
             {

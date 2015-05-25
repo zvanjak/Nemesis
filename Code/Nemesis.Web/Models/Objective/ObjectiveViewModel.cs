@@ -16,7 +16,15 @@ namespace Nemesis.Web.Models.Objective
 
         public virtual int Id { get; set; }
 
-        public virtual int ParentId { get; set; }
+        [DisplayName("Parent")]
+        public virtual int? ParentId { get; set; }
+
+        public virtual MultiSelectList ParentObjectives { get; set; }
+
+        [DisplayName("Work Order")]
+        public virtual int? WorkOrderId { get; set; }
+
+        public virtual MultiSelectList WorkOrders { get; set; }
 
         [Required]
         public virtual string Title { get; set; }

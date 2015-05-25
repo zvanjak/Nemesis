@@ -5,7 +5,13 @@
     @Html.ValidationSummary(true)
     <fieldset>
         @Html.HiddenFor(x => x.QuartalOrdNum)
-
+        <div class="form-group">
+            @Html.LabelFor(x => x.WorkOrderId, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.WorkOrderId, Model.WorkOrders, "-- Please select a work order --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.WorkOrderId, null, new { @class = "text-danger" })
+            </div>
+        </div>
         <div class="form-group">
             @Html.LabelFor(x => x.Title, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">

@@ -193,16 +193,20 @@ namespace Nemesis.Web.Controllers
 
         public ActionResult CreateWeekObjective(int weekOrdNum)
         {
-
-
             var model = new WeekObjectiveViewModel()
             {
                 WeekOrdNum = weekOrdNum,
                 ParentObjectives = GetParentObjectives<MonthObjective>(),
+                WorkOrders = GetWorkOrders(),
                 TeamMembers = GetTeamMembers()
             };
 
             return PartialView("Partials/CreateWeekObjectivePartial", model);
+        }
+
+        private MultiSelectList GetWorkOrders()
+        {
+            return new MultiSelectList(WorkOrderService.GetWorkOrders(), "Id", "Display");
         }
 
         public ActionResult RedirectToShowWeek()
@@ -216,6 +220,7 @@ namespace Nemesis.Web.Controllers
             {
                 MonthOrdNum = monthOrdNum,
                 ParentObjectives = GetParentObjectives<QuartalObjective>(),
+                WorkOrders = GetWorkOrders(),
                 TeamMembers = GetTeamMembers()
             };
 
@@ -232,6 +237,7 @@ namespace Nemesis.Web.Controllers
             var model = new QuartalObjectiveViewModel
             {
                 QuartalOrdNum = quartalOrdNum,
+                WorkOrders = GetWorkOrders(),
                 TeamMembers = GetTeamMembers()
             };
 
@@ -253,7 +259,9 @@ namespace Nemesis.Web.Controllers
                 return Json(new { value = "Week objective created!" });
             }
             model.ParentObjectives = GetParentObjectives<MonthObjective>();
+            model.WorkOrders = GetWorkOrders();
             model.TeamMembers = GetTeamMembers();
+            
             return PartialView("Partials/CreateWeekObjectivePartial", model);
         }
 
@@ -267,6 +275,7 @@ namespace Nemesis.Web.Controllers
                 return Json(new { value = "Month objective created!" });
             }
             model.ParentObjectives = GetParentObjectives<QuartalObjective>();
+            model.WorkOrders = GetWorkOrders();
             model.TeamMembers = GetTeamMembers();
             return PartialView("Partials/CreateMonthObjectivePartial", model);
             
@@ -282,6 +291,7 @@ namespace Nemesis.Web.Controllers
                 return Json(new { value = "Quartal objective created!" });
             }
             model.TeamMembers = GetTeamMembers();
+            model.WorkOrders = GetWorkOrders();
             return PartialView("Partials/CreateQuartalObjectivePartial", model);
             
         }
@@ -304,6 +314,40 @@ namespace Nemesis.Web.Controllers
                 return (ObjectivePriority) Enum.Parse(typeof (ObjectivePriority), priority);
             }
             return ObjectivePriority.LOW;
+        }
+
+        public JsonResult GetMonthObjectives()
+        {
+            return SelectObjectives<MonthObjective>();
+        }
+
+        public JsonResult GetQuartalObjectives()
+        {
+            return SelectObjectives<QuartalObjective>();
+        }
+
+        private JsonResult SelectObjectives<T>() where T : Objective
+        {
+            ICollection<Objective> objectives = ObjectiveService.GetObjectives<T>();
+
+            List<Option> options = new List<Option>();
+
+            foreach (Objective o in objectives)
+            {
+                Option j = new Option();
+                j.Value = o.Id;
+                j.Text = o.Display;
+                options.Add(j);
+            }
+
+            return Json(options, JsonRequestBehavior.AllowGet);
+        }
+
+        public class Option
+        {
+            public int Value { get; set; }
+            public string Text { get; set; }
+
         }
 
         #endregion

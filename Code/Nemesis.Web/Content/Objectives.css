@@ -1,4 +1,4 @@
-﻿.left-header {
+.left-header {
     font-size: x-large;
     font-weight: bold;
     float: left;
@@ -21,6 +21,29 @@
 
 .accordion-table {
     margin: 0;
+}
+
+.hidden-row {
+    border: none !important;
+    display: none;
+}
+
+.hide-row {
+    border: none !important;
+    padding: 0 !important;
+    transition: padding 0.5s;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.display-none {
+    display: none;
 }
 
 

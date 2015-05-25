@@ -18,81 +18,154 @@
     <div class="right-header">
         <a class="btn btn-default" id="modalCreate"><span class="glyphicon glyphicon-plus"></span></a>
     </div>
-    <table id="myTable" class="objectives-table table table-striped table-bordered">
+
+    <table id="myTable" class="objectives-table table table-bordered">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Realized for</th>
-                <th>Est/Spt</th>
-                <th>WO</th>
-                <th>Assigned to</th>
-                <th>Priority</th>
-                <th>Status</th>
-                <th></th>
+                <th width="300">Title</th>
+                <th width="100" class="text-align-center">Description</th>
+                <th width="100" class="text-align-center">Realized for</th>
+                <th width="70" class="text-align-center">Est/Spt</th>
+                <th width="70" class="text-align-center">WO</th>
+                <th width="300" class="text-align-center">Assigned to</th>
+                <th width="100" class="text-align-center">Priority</th>
+                <th width="100" class="text-align-center">Status</th>
+                <th width="50" class="text-align-center"></th>
             </tr>
         </thead>
+        @*Accordion se otvara i zatvara na zadnjoj ćeliji svakog retka *@
         <tbody>
             @foreach (var monthObjective in ViewBag.MonthObjectives)
             {
-
                 <tr>
                     <td>
                         @Html.ActionLink((string)monthObjective.ShortDescription, "ShowMonthObjective", "Objective", new { id = monthObjective.Id }, null)
                     </td>
                     <td data-toggle="tooltip" data-placement="top" title="@monthObjective.Description"><span class="col-md-offset-5 glyphicon glyphicon-option-horizontal"></span></td>
                     <td data-toggle="tooltip" data-placement="top" title="@monthObjective.Parent"><span class="col-md-offset-5 glyphicon glyphicon-option-horizontal"></span></td>
-                    <td>@monthObjective.EstimatedTime/@monthObjective.ActualTime</td>
-                    <td>---</td>
-                    <td>
+                    <td class="text-align-center">@monthObjective.EstimatedTime/@monthObjective.ActualTime</td>
+                    <td class="text-align-center">---</td>
+                    <td class="text-align-center">
                         @foreach (var member in monthObjective.AssignedToTeamMembers)
                         {
                             @Html.Label((string)member.Display + "; ")
                         }
                     </td>
-                    <td>@monthObjective.Priority</td>
-                    <td>
+                    <td class="text-align-center">@monthObjective.Priority</td>
+                    <td class="text-align-center">
                         <div class="progress" data-toggle="tooltip" data-placement="top" title="@monthObjective.PercentComplete%">
                             <div class="progress-bar" role="progressbar" aria-valuenow="@monthObjective.PercentComplete" aria-valuemin="0" aria-valuemax="100" style="width: @monthObjective.PercentComplete%">
                                 <span class="sr-only">Objective with id=@monthObjective.Id: @monthObjective.PercentComplete% Complete </span>
                             </div>
                         </div>
                     </td>
-                    <td data-toggle="collapse" @("data-target=#accordion" + monthObjective.Id) class="clickable">+</td>
-                </tr>
-                <tr>
-                    <td colspan="9">
-                        <div @("id=accordion" + monthObjective.Id) class="collapse">
-                            <table class="table table-bordered accordion-table">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Date</th>
-                                        <th>Description</th>
-                                        <th>Actual Duration</th>
-                                        <th>Done by</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @foreach (var activity in monthObjective.WorkActivities)
-                                    {
-                                        <tr>
-                                            <td>@activity.Title</td>
-                                            <td>@activity.Date.ToShortDateString()</td>
-                                            <td width="10px" data-toggle="tooltip" data-placement="top" title="@activity.Description"><span class="col-md-offset-5 glyphicon glyphicon-option-horizontal"></span></td>
-                                            <td>@activity.ActualDuration</td>
-                                            <td>@activity.DoneBy.Display</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                    <td class="text-align-center">
+                        @*
+                            Na elementu (u daljnjem tekstu parent), kojeg kad se klikne otvara/zatvara accordion, potrebno je definirati:
+                                - data-toggle="collapse"
+                                - elemente koji će se otvarati/zatvarati:
+                                    - preko data-target atributa te definiranjem class ili id elementa
+                                    - ako je link onda može preko href atributa te definiranjem class ili id elemenata
+                            Sve ostale definirane stvari su za uljepšavanje akcija accordiona i mogu varirati:
+                                -id je definiran kako bi se moglo nakon otvaranja/zatvaranja accordiona pristupiti tom elementu i promijeniti ikonu +/-
+                                -class definira izgled +/-
+*@
+                        <a href="javascript: void(0)">
+                            <div id="toggle-accordion-@monthObjective.Id" data-toggle="collapse" data-target=".accordion-@monthObjective.Id" class="glyphicon glyphicon-plus"></div>
+                        </a>
                     </td>
                 </tr>
 
-
-
+                @*
+                    Kod definiranja elemenata koji se otvaraju/zatvaraju potrebno je definirati:
+                        -kod class atributa klase: accordian-body, collapse i, ako je poveznica s parentom preko class, onda i klasu koja je navedena u parentu
+                        -id, ako je poveznica s parentom preko id, koji je naveden u parentu
+                    Sve ostale definirane stvari su za uljepšavanje izgleda i mogu varirati:
+                        -class="active" reda tablice definira sivu površinu ciljeva djece
+                        -class="hidden-row" ćelije tablice onemogućava prikaz ćelije sve dok to parent ne omogući
+                    
+                    Također se mogu definirati i razni slušatelji eventa accordiona. Više o tom u javascript dijelu dolje... 
+                *@
+                
+                @*
+                    Prije definiranja redaka koji se nalaze u tijelu accordiona, definiran je redak koji se ne prikazuje i isto reagira na akcije otvaranja/zatvaranja (točnije ćelija tog retka),
+                    a služi za označavanje početka tijela accordiona te sadrži id parenta. Također, slušanjem eventa početka zatvaranja/otvaranja možemo znati kada počinje otvaranje/zatvaranje
+                    cijelog tijela accordiona te to koristimo za promjenu ikone i onemogućavanje akcija zatvaranja/otvaranja dok se ne završe skroz akcije zatvaranja/otvaranja.
+                *@
+                <tr class="display-none">
+                    <td>
+                        <div class="begin-accordion-body accordian-body collapse accordion-@monthObjective.Id">toggle-accordion-@monthObjective.Id</div>
+                    </td>
+                </tr>
+                foreach (var child in monthObjective.Objectives)
+                {
+                    <tr class="active">
+                        <td class="hidden-row">
+                            <div class="accordian-body collapse accordion-@monthObjective.Id">
+                                @Html.ActionLink((string)child.ShortDescription, "ShowWeekObjective", "Objective", new { id = child.Id }, null)
+                            </div>
+                        </td>
+                        <td class="hidden-row">
+                            <div class="accordian-body collapse accordion-@monthObjective.Id">
+                                <div data-toggle="tooltip" data-placement="top" title="@child.Description">
+                                    <span class="col-md-offset-5 glyphicon glyphicon-option-horizontal"></span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="hidden-row">
+                            <div class="accordian-body collapse accordion-@monthObjective.Id">
+                                <div data-toggle="tooltip" data-placement="top" title="@child.Parent">
+                                    <span class="col-md-offset-5 glyphicon glyphicon-option-horizontal"></span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="hidden-row">
+                            <div class="accordian-body collapse accordion-@monthObjective.Id text-align-center">
+                                @child.EstimatedTime/@child.ActualTime
+                            </div>
+                        </td>
+                        <td class="hidden-row">
+                            <div class="accordian-body collapse accordion-@monthObjective.Id text-align-center">
+                                ---
+                            </div>
+                        </td>
+                        <td class="hidden-row">
+                            <div class="accordian-body collapse accordion-@monthObjective.Id text-align-center">
+                                @foreach (var member in child.AssignedToTeamMembers)
+                                {
+                                    @Html.Label((string)member.Display + "; ")
+                                }
+                            </div>
+                        </td>
+                        <td class="hidden-row">
+                            <div class="accordian-body collapse accordion-@monthObjective.Id text-align-center">
+                                @child.Priority
+                            </div>
+                        </td>
+                        <td class="hidden-row">
+                            <div class="accordian-body collapse accordion-@monthObjective.Id text-align-center">
+                                <div class="progress" data-toggle="tooltip" data-placement="top" title="@child.PercentComplete%">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="@child.PercentComplete" aria-valuemin="0" aria-valuemax="100" style="width: @child.PercentComplete%">
+                                        <span class="sr-only">Objective with id=@child.Id: @child.PercentComplete% Complete </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="hidden-row">
+                            <div class="accordian-body collapse accordion-@monthObjective.Id"></div>
+                        </td>
+                    </tr>
+                }
+                @*
+                    Isto ko što smo definirali redak koji označava početak tijela accordiona, definiramo i redak koji označava kraj tijela.
+                    Također preko slušatelja eventa završetka zatvaranja/otvaranja znamo kad su završile akcije zatvaranja/otvaranja te možemo obaviti
+                    promjenu ikone plus/minus i omogućiti otvaranje/zatvaranje accordiona.
+                *@
+                <tr class="display-none">
+                    <td>
+                        <div class="end-accordion-body accordian-body collapse accordion-@monthObjective.Id">toggle-accordion-@monthObjective.Id</div>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -141,44 +214,150 @@
     }
     <script>
 
-        $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip()
 
-        $('#modalCreate').on('click', function (event) {
+    $('#modalCreate').on('click', function (event) {
 
-            $.ajax({
-                url: '../Objective/CreateMonthObjective',
-                type: 'GET',
-                data: {'monthOrdNum':@ViewBag.MonthOrdNum},
-                cache: false
-            }).done(function (result) {
-                $('#contentModala').html(result);
-                $('#createModal').modal();
+        $.ajax({
+            url: '../Objective/CreateMonthObjective',
+            type: 'GET',
+            data: {'monthOrdNum':@ViewBag.MonthOrdNum},
+            cache: false
+        }).done(function (result) {
+            $('#contentModala').html(result);
+            $('#createModal').modal();
 
-            })
         })
-        function handleModalSubmit(result) {
-            if (result.value) {
-                $('#createModal').modal('hide');
-                location.reload();
-                // treba napraviti da refresha stranicu i vrati neku poruku o uspjehu
+    })
+    function handleModalSubmit(result) {
+        if (result.value) {
+            $('#createModal').modal('hide');
+            location.reload();
+            // treba napraviti da refresha stranicu i vrati neku poruku o uspjehu
 
-            }
-            else {
-                $('#contentModala').html(result);
-                $('#createModal').modal();
-            }
         }
-        $('.clickable').on('click', function () {
-            if ($(this).hasClass('plusic')) {
-                $(this).text('+');
-                $(this).removeClass('plusic');
-            }
-            else {
-                $(this).text('-');
-                $(this).addClass('plusic');
-            }
+        else {
+            $('#contentModala').html(result);
+            $('#createModal').modal();
+        }
+    }
 
-        });
-    </script>
+    @*Slusatelji eventa accordiona!!!*@
+
+    @*
+        Poziva se kada zapocinje otvaranje elementa. U ovom slučaju definirano nad elementom s klasom begin-accordion-body,
+        tj. prvoj celiji koja se ne prikazuje, ali definira pocetak tijela accordiona koji se otvara. Omogućava:
+        -dohvaćanje parenta preko id, onemogućavanje otvaranja/zatvaranja te promjena ikone plus u minus
+    *@
+    $('.begin-accordion-body').on('show.bs.collapse', function(){
+        var toggleSignId = $(this).html();
+        var toggleSign = document.getElementById(toggleSignId);
+
+        $(toggleSign).attr('data-toggle', '');
+
+        if ($(toggleSign).hasClass('glyphicon-plus')) {
+            $(toggleSign).removeClass('glyphicon-plus');
+            $(toggleSign).addClass('glyphicon-minus');
+        }
+    });
+
+    @*
+        Poziva se kada zapocinje zatvaranje elementa. U ovom slučaju definirano nad elementom s klasom begin-accordion-body,
+        tj. prvoj celiji koja se ne prikazuje, ali definira pocetak tijela accordiona koji se otvara. Omogućava:
+            -dohvaćanje parenta preko id, onemogućavanje otvaranja/zatvaranja
+    *@
+    $('.begin-accordion-body').on('hide.bs.collapse', function(){
+        var toggleSignId = $(this).html();
+        var toggleSign = document.getElementById(toggleSignId);
+        $(toggleSign).attr('data-toggle', '');
+    });
+
+    @*
+        Poziva se kada zavrsi otvaranje elementa. U ovom slučaju definirano nad elementom s klasom end-accordion-body,
+        tj. zadnjoj celiji koja se ne prikazuje, ali definira pocetak tijela accordiona koji se otvara. Omogućava:
+            -dohvaćanje parenta preko id, ponovo omogućava otvaranja/zatvaranja
+    *@
+    $('.end-accordion-body').on('shown.bs.collapse', function(){
+        var toggleSignId = $(this).html();
+        var toggleSign = document.getElementById(toggleSignId);
+        $(toggleSign).attr('data-toggle', 'collapse');
+    });
+
+    @*
+        Poziva se kada zavrsi zatvaranje elementa. U ovom slučaju definirano nad elementom s klasom end-accordion-body,
+        tj. zadnjoj celiji koja se ne prikazuje, ali definira pocetak tijela accordiona koji se otvara. Omogućava:
+            -dohvaćanje parenta preko id, ponovo omogućava otvaranja/zatvaranja te promjenu ikone minus u plus
+    *@
+    $('.end-accordion-body').on('hidden.bs.collapse', function(){
+        var toggleSignId = $(this).html();
+        var toggleSign = document.getElementById(toggleSignId);
+
+        $(toggleSign).attr('data-toggle', 'collapse');
+
+        if ($(toggleSign).hasClass('glyphicon-minus')) {
+            $(toggleSign).removeClass('glyphicon-minus');
+            $(toggleSign).addClass('glyphicon-plus');
+        }
+    });
+
+
+    @*
+        Poziva se kada zapocinje otvaranje elementa. U ovom slučaju definirano nad elementima s klasom accordian-body,
+        tj. svim elementima koje parent otvara. Omogućava:
+            -micanje klase hidden-row elementu koji se otvara kako omogućili prikaz
+    *@
+    $('.accordian-body').on('show.bs.collapse', function(){
+        $(this).parent().removeClass('hidden-row');
+    });
+
+    @*
+        Poziva se kada zapocinje otvaranje elementa. U ovom slučaju definirano nad elementima s klasom hidden,
+        tj. nad zadnjom ćelijom reda koji se otvara koja skriva id parenta. Omogućava:
+            -dohvaćanje parenta preko id te promjena ikone plus u minus
+    *@
+    $('.hidden').on('show.bs.collapse', function(){
+        var toggleSignId = $(this).html();
+        var toggleSign = document.getElementById(toggleSignId);
+        if ($(toggleSign).hasClass('glyphicon-plus')) {
+            $(toggleSign).removeClass('glyphicon-plus');
+            $(toggleSign).addClass('glyphicon-minus');
+        }
+    });
+
+    @*
+        Poziva se kada zavrsi zatvaranje elementa. U ovom slučaju definirano nad elementima s klasom hidden,
+        tj. nad zadnjom ćelijom reda koji se zatvara koja skriva id parenta. Omogućava:
+            -dohvaćanje parenta preko id te promjena ikone minusa u plus
+    *@
+    $('.hidden').on('hidden.bs.collapse', function(){
+        var toggleSignId = $(this).html();
+        var toggleSign = document.getElementById(toggleSignId);
+        if ($(toggleSign).hasClass('glyphicon-minus')) {
+            $(toggleSign).removeClass('glyphicon-minus');
+            $(toggleSign).addClass('glyphicon-plus');
+        }
+    });
+
+    @*
+        Poziva se kada zapocne zatvaranje elementa. U ovom slučaju definirano nad elementima s klasom accordian-body,
+        tj. svim elementima koje parent zatvara. Omogućava:
+            -dodavanja klase hide-row elementu koja definira završni dio zatvaranja elementa
+    *@
+    $('.accordian-body').on('hide.bs.collapse', function(){
+        $(this).parent().addClass('hide-row');
+    });
+
+    @*
+        Poziva se kada završi zatvaranje elementa. U ovom slučaju definirano nad elementima s klasom accordian-body,
+        tj. svim elementima koje parent zatvara. Omogućava:
+            -micanje klase hide-row jer je završilo zatvaranje, a time i završni dio zatvaranja
+            -dodavanje klase hidden-row koja onemogućava prikaz elementa jer je obavljena akcija zatvaranja i ne bi se smio viditi
+    *@
+    $('.accordian-body').on('hidden.bs.collapse', function(){
+        $(this).parent().removeClass('hide-row');
+        $(this).parent().addClass('hidden-row');
+    });
+
+</script>
 
 </div>

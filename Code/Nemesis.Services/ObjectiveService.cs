@@ -18,9 +18,17 @@ namespace Nemesis.Services
             {
                 using (var repository = new GenericRepository<T>(context))
                 {
-                    ICollection<Objective> obj = repository.Get(filter, null, INCLUDE_ALL).ToList<Objective>();
+                    ICollection<Objective> objs = repository.Get(filter, null, INCLUDE_ALL).ToList<Objective>();
 
-                    return repository.Get(filter, null, INCLUDE_ALL).ToList<Objective>();
+                    foreach (Objective obj in objs)
+                    {
+                        foreach (Objective child in obj.Objectives)
+                        {
+                            child.AssignedToTeamMembers = child.AssignedToTeamMembers;
+                        }
+                    }
+
+                    return objs;
                 }
             }
         }

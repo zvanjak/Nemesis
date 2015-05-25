@@ -193,6 +193,8 @@ namespace Nemesis.Web.Controllers
 
         public ActionResult CreateWeekObjective(int weekOrdNum)
         {
+
+
             var model = new WeekObjectiveViewModel()
             {
                 WeekOrdNum = weekOrdNum,

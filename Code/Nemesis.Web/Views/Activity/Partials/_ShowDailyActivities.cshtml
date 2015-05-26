@@ -1,8 +1,5 @@
 ﻿@model IEnumerable<Nemesis.Domain.WorkActivity>
 
-<script src="~/Scripts/bootstrap-datetimepicker.js"></script>
-<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
-
 <div class="btn-group" role="group" aria-label="...">
     @Ajax.ActionLink("Previous", "PreviousDay", "Activity", new { day = ViewBag.Day }, new AjaxOptions { UpdateTargetId = "day-activities" }, new { @class = "btn btn-default" })
     <input type="button" class="btn btn-default datepicker" value="@ViewBag.Day.ToString("dd.MM.yyyy.")" />
@@ -62,7 +59,25 @@
 </table>
 
 <script>
-    $(function () { // will trigger when the document is ready
-        $('.datepicker').datepicker({ dateFormat: "dd.mm.yy." }); //Initialise any date pickers
+    $(".datepicker").datepicker({
+        dateFormat: "dd.mm.yy.",
+        onSelect: function (e) {
+            var dateObject = $(this).datepicker('getDate');
+            var date = { 'date': dateObject.toDateString() }
+            $.ajax({
+                url: '../Activity/GetByDate',
+                data: date,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#day-activities').html(result);
+
+                },
+                error: function (req, status, error) {
+                    alert(req + ' ' + status + ' ' + error);
+                }
+            })
+        }
     });
+   
 </script>

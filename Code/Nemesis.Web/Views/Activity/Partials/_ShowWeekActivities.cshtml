@@ -12,6 +12,14 @@
 <div>
     <br />
 </div>
+@{DateTime d = ViewBag.Day;}
+@for (int i = 0; i < 5; i++)
+{
+    <div>
+        <br />
+        <span>@d.DayOfWeek</span>
+        <span> @d.ToString("dd.MM.yyyy.")</span>
+    </div>
 
 <table class="table table-striped table-bordered table-condensed">
     <thead>
@@ -28,6 +36,8 @@
     <tbody>
         @foreach (var m in Model)
         {
+            if (m.Date.Date == d.Date)
+            { 
             <tr>
                 <td>@m.Title</td>
                 <td>@m.Date.ToShortDateString()</td>
@@ -57,12 +67,33 @@
                 <td>@m.ActualDuration</td>
                 <td>@m.DoneBy.Display</td>
             </tr>
+            }
         }
+        
     </tbody>
 </table>
+    d = d.AddDays(1);
+}
 
 <script>
-    $(function () { // will trigger when the document is ready
-        $('.datepicker').datepicker({ dateFormat: "dd.mm.yy." }); //Initialise any date pickers
+    $(".datepicker").datepicker({
+        dateFormat: "dd.mm.yy.",
+        onSelect: function (e) {
+            var dateObject = $(this).datepicker('getDate');
+            var date = { 'date': dateObject.toDateString() }
+            $.ajax({
+                url: '../Activity/GetByWeek',
+                data: date,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#week-activities').html(result);
+
+                },
+                error: function (req, status, error) {
+                    alert(req + ' ' + status + ' ' + error);
+                }
+            })
+        }
     });
 </script>

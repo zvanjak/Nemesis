@@ -119,6 +119,13 @@ namespace Nemesis.Services
             }
         }
 
+        public static ICollection<WorkActivity> GetThisWeekActivities(DateTime day)
+        {
+            DateTime startWeek = GetStartOfWeek(day);
+            DateTime endWeek = startWeek.AddDays(7);
+            return GetActivities(a => a.Date.CompareTo(startWeek) > 0 && a.Date.CompareTo(endWeek) < 0);
+        }
+
         public static ICollection<WorkActivity> GetNextWeekActivities(DateTime day)
         {
             DateTime startWeek = GetStartOfWeek(day);
@@ -131,7 +138,7 @@ namespace Nemesis.Services
             DateTime startWeek = GetStartOfWeek(day);
             startWeek = startWeek.AddDays(-7);
             DateTime endWeek = startWeek.AddDays(7);
-            return GetActivities(a => a.Date.CompareTo(startWeek) > 0 && a.Date.CompareTo(endWeek) < 0);
+            return GetActivities(a => a.Date.CompareTo(startWeek) > 0 && a.Date.CompareTo(endWeek) < 0).OrderBy(a => a.Date).ToList();
         }
         public static ICollection<WorkActivity> GetActivitiesByDay(DateTime day)
         {

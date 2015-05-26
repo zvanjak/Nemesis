@@ -59,6 +59,15 @@ namespace Nemesis.Web.Controllers
 
         }
 
+        public ActionResult GetByWeek(String date)
+        {
+            ICollection<WorkActivity> activities = ActivityService.GetThisWeekActivities(Convert.ToDateTime(date));
+            var d = SetMonday(Convert.ToDateTime(date));
+            ViewBag.Day = d;
+            ViewBag.EndWeek = d.AddDays(6);
+            return PartialView("Partials/_ShowWeekActivities", activities);
+        }
+
         private DateTime SetMonday(DateTime now)
         {
             DayOfWeek day = now.DayOfWeek;
@@ -90,17 +99,11 @@ namespace Nemesis.Web.Controllers
 
         }
 
-        [HttpPost]
-        public ActionResult GetDay(int? datepickerForm)
+        public ActionResult GetByDate(String date)
         {
-            if (datepickerForm != null)
-            {
-                var day = datepickerForm.Value;
-                ViewBag.PostedDate = datepickerForm.Value;
-                ICollection<WorkActivity> activities = ActivityService.GetActivitiesByDay(Convert.ToDateTime(day));
-                return PartialView("Partials/_ShowDailyActivities", activities);
-            }
-            return View();
+            ViewBag.Day = Convert.ToDateTime(date);
+            ICollection<WorkActivity> activities = ActivityService.GetActivitiesByDay(Convert.ToDateTime(date));
+            return PartialView("Partials/_ShowDailyActivities", activities);
         }
 
 
@@ -133,7 +136,9 @@ namespace Nemesis.Web.Controllers
 
         public ActionResult CreateActivityPartial()
         {
-            return PartialView("Partials/_CreateActivity", new ActivityCreateModel());
+            var model = new ActivityCreateModel();
+            model.Date = DateTime.Now;
+            return PartialView("Partials/_CreateActivity", model);
         }
 
         public JsonResult SelectWeekObjectives()
@@ -203,7 +208,7 @@ namespace Nemesis.Web.Controllers
                     workActivity.Title = model.Title;
                     workActivity.Description = model.Description;
                     workActivity.ActualDuration = model.ActualDuration;
-                    workActivity.Date = DateTime.Now;
+                    workActivity.Date = model.Date;
                     ActivityService.Create(workActivity, model.RealizedForObjectiveId, model.WorkOrderId);
                 }
                 return RedirectToAction("Index");

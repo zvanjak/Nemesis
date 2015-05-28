@@ -1,0 +1,77 @@
+﻿@model Nemesis.Web.Models.AssetViewModel
+@{
+	ViewBag.Title = "CreateAsset";
+}
+@{
+	Layout = null;
+}
+<br />
+@Html.AntiForgeryToken()
+<div class="form-horizontal">
+	@Html.ValidationSummary(true)
+	<fieldset>
+		<legend>Create new asset</legend>
+		<div class="form-group">
+			@Html.LabelFor(x => x.Name, new { @class = "col-md-2 control-label" })
+			<div class="col-md-10">
+				@Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+				@Html.ValidationMessageFor(x => x.Name)
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(x => x.PartNumber, new { @class = "col-md-2 control-label" })
+			<div class="col-md-10">
+				@Html.TextAreaFor(x => x.PartNumber, new { @class = "form-control" })
+				@Html.ValidationMessageFor(x => x.PartNumber)
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(x => x.Description, new { @class = "col-md-2 control-label" })
+			<div class="col-md-10">
+				@Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
+				@Html.ValidationMessageFor(x => x.Description)
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(x => x.TypeId, new { @class = "col-md-2 control-label" })
+			<div class="col-md-10">
+				@Html.DropDownListFor(x => x.TypeId, Model.Types, new { @class = "form-control", id = "client" })
+				@Html.ValidationMessageFor(x => x.TypeId)
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(x => x.TeamId, new { @class = "col-md-2 control-label" })
+			<div class="col-md-10">
+				@Html.DropDownListFor(x => x.TeamId, Model.Teams, new { @class = "form-control", id = "client" })
+				@Html.ValidationMessageFor(x => x.TeamId)
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="Create" class="btn btn-default" />
+			</div>
+		</div>
+
+	</fieldset>
+</div>
+@*<script type="text/javascript">
+            $(function () { // will trigger when the document is ready
+                $('.datepicker').datepicker({ dateFormat: "dd.mm.yy." }); //Initialise any date pickers
+            });
+</script>
+<script type="text/javascript">
+            $(document).ready(function () {
+                $('input[type="checkbox"]').click(function () {
+                    if ($(this).prop("checked") == true) {
+                        var elem = document.getElementById("client");
+                        elem.disabled = true;
+                    }
+                    else if ($(this).prop("checked") == false) {
+                        var elem = document.getElementById("client");
+                        elem.disabled = false;
+                    }
+                });
+            });
+</script>*@
+
+

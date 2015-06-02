@@ -21,6 +21,15 @@ namespace Nemesis.Services
             {
                 return repository.Get();
             }
-        }
+        }	
+
+		public static void AddNewTeamMember(TeamMember inTeamMember)
+		{
+            using (var repository = new GenericRepository<TeamMember>(new NemesisContext()))
+			{
+				repository.Insert(inTeamMember);
+				repository.Save();
+			}
+		}
     }
 }

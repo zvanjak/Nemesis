@@ -82,7 +82,17 @@ namespace Nemesis.DAL
 
 		public virtual void Save()
 		{
-			context.SaveChanges();
+			try
+			{
+				context.SaveChanges();
+			}
+			catch(Exception e)
+			{
+				int a = 6;
+				int c;
+
+				c = a * 2;
+			}
 		}
 
 		private bool disposed = false;

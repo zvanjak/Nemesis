@@ -8,7 +8,7 @@ namespace Nemesis.Domain
 {
 	public class Requirement : Issue
 	{
-		public string Display
+		public override string Display
 		{
 			get { return string.Format("{0} - {1}", Code, Name); }
 		}

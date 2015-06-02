@@ -79,11 +79,6 @@
     <Compile Include="Configurations\WorkActivityConfiguration.cs" />
     <Compile Include="Configurations\WorkOrderConfiguration.cs" />
     <Compile Include="GenericRepository.cs" />
-    <Compile Include="Migrations\201505121737109_InitialCreate.cs" />
-    <Compile Include="Migrations\201505121737109_InitialCreate.Designer.cs">
-      <DependentUpon>201505121737109_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NemesisContext.cs" />
     <Compile Include="NemesisInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,11 +96,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201505121737109_InitialCreate.resx">
-      <DependentUpon>201505121737109_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -7,9 +7,11 @@ namespace Nemesis.Domain
 {
 	public class TeamMember : EntityBase
 	{
-		public virtual string FirstName { get; set; }
+		public virtual string Username { get; set; }
 
-		public virtual string LastName { get; set; }
+		public virtual string UserShortCode { get; set; }
+
+		public string AspNetID { get; set; }
 
 		public int? TeamId { get; set; }
 		public virtual Team MemberOfTheTeam { get; set; }
@@ -27,15 +29,15 @@ namespace Nemesis.Domain
 
 		public override string Display
 		{
-            get { return FirstName + " " + LastName; }
+            get { return Username; }
 		}
 
 		public TeamMember() { }
 
-		public TeamMember(string firstName, string lastName)
+		public TeamMember(string userName, string userCode)
 		{
-            FirstName = firstName;
-            LastName = lastName;
+            Username = userName;
+            UserShortCode = userCode;
 		}
 
 	}

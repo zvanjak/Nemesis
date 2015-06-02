@@ -86,7 +86,19 @@ namespace Nemesis.Web.Models
 
     public class RegisterViewModel
     {
-        [Required]
+		[Required]
+		[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 5)]
+		[DataType(DataType.Text)]
+		[Display(Name = "Username")]
+		public string Username { get; set; }
+
+		[Required]
+		[StringLength(4, ErrorMessage = "The {0} can be max 4 characters long.")]
+		[DataType(DataType.Text)]
+		[Display(Name = "UserShortCode")]
+		public string UserShortCode { get; set; }
+
+		[Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }

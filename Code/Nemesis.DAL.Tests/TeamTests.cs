@@ -17,7 +17,7 @@ namespace Nemesis.DAL.Tests
 		{
 			NemesisContext context = new NemesisContext("NemesisContextTest");
 
-			var zvone = new TeamMember() { FirstName = "Zvonimir", LastName = "Vanjak" };
+			var zvone = new TeamMember() { Username = "Zvonimir", UserShortCode = "ZV" };
 			var nemesisTeam = new Team() { Name = "Nemesis d.o.o" };
 			zvone.MemberOfTheTeam = nemesisTeam;
 			nemesisTeam.Members.Add(zvone);
@@ -38,7 +38,7 @@ namespace Nemesis.DAL.Tests
 		{
 			NemesisContext context = new NemesisContext("NemesisContextTest");
 
-			var zvone = new TeamMember() { FirstName = "Zvonimir", LastName = "Vanjak" };
+			var zvone = new TeamMember() { Username = "Zvonimir" };
 			var nemesisTeam = new Team() { Name = "Nemesis d.o.o", Leader = zvone };
 			zvone.MemberOfTheTeam = nemesisTeam;
 			nemesisTeam.Members.Add(zvone);

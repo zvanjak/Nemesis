@@ -17,13 +17,13 @@ namespace Nemesis.DAL.Tests
 		{
 			NemesisContext context = new NemesisContext("NemesisContextTest");
 
-			var zvone = new TeamMember() { FirstName = "Zvonimir", LastName = "Vanjak" };
-			var anja = new TeamMember() { FirstName = "Anja", LastName = "Hula" };
-			var sime = new TeamMember() { FirstName = "Šime", LastName = "Gverić" };
-			var daria = new TeamMember() { FirstName = "Daria", LastName = "Bužić" };
-			var ivana = new TeamMember() { FirstName = "Ivana", LastName = "Vanjak" };
-			var mauro = new TeamMember() { FirstName = "Mauro", LastName = "Barešić" };
-			var ivan = new TeamMember() { FirstName = "Ivan", LastName = "Cutvarić" };
+			var zvone = new TeamMember() { Username = "Zvonimir" };
+			var anja = new TeamMember() { Username = "Anja" };
+			var sime = new TeamMember() { Username = "Šime" };
+			var daria = new TeamMember() { Username = "Daria" };
+			var ivana = new TeamMember() { Username = "Ivana" };
+			var mauro = new TeamMember() { Username = "Mauro" };
+			var ivan = new TeamMember() { Username = "Ivan" };
 
 			context.TeamMembers.Add(zvone);
 			context.TeamMembers.Add(anja);

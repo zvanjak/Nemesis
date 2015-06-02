@@ -14,6 +14,9 @@ using Nemesis.Domain.Security;
 using System.Collections.Generic;
 using Microsoft.AspNet.Identity.EntityFramework;
 
+using Nemesis.Domain;
+using Nemesis.Services;
+
 namespace Nemesis.Web.Controllers
 {
     [Authorize]
@@ -174,12 +177,24 @@ namespace Nemesis.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Username, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 
 
                 if (result.Succeeded)
                 {
+					// sad treba dodati novog TeamMembera
+					var teamMember = new TeamMember();
+					teamMember.Username = model.Username;
+					teamMember.UserShortCode = model.UserShortCode;
+					teamMember.IsArchived = false;
+
+					// i povezati ga s ovim kreiranim accountom
+					teamMember.AspNetID = user.Id;
+
+					// i dodati u bazu
+					TeamMemberService.AddNewTeamMember(teamMember);
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771

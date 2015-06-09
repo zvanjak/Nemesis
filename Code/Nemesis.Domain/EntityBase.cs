@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nemesis.Domain.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Nemesis.Domain
 {
-	public abstract class EntityBase : IEntity
+	public abstract class EntityBase : ITeamSpace
 	{
 		/// <summary>
 		/// Gets or sets the unique identifier of the entity.
@@ -20,6 +21,8 @@ namespace Nemesis.Domain
 		/// Gets or sets a value that indicates whether the entity is archived.
 		/// </summary>
 		public virtual bool IsArchived { get; set; }
+
+        public virtual int TeamSpaceId { get; set; }
 
 		public override int GetHashCode()
 		{
@@ -48,5 +51,5 @@ namespace Nemesis.Domain
 
 			return false;
 		}
-	}
+    }
 }

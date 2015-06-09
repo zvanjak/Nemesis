@@ -178,6 +178,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ObjectiveController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
+    <Compile Include="Controllers\TeamSpaceController.cs" />
     <Compile Include="Controllers\WorkOrderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -192,6 +193,7 @@
     <Compile Include="Models\Objective\QuartalObjectiveViewModel.cs" />
     <Compile Include="Models\TeamModels.cs" />
     <Compile Include="Models\Objective\WeekObjectiveViewModel.cs" />
+    <Compile Include="Models\TeamSpaceViewModel.cs" />
     <Compile Include="Models\WorkOrderViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -368,6 +370,7 @@
     <Content Include="Views\Activity\Partials\_ShowWeekActivities.cshtml" />
     <Content Include="Views\Activity\ShowDailyActivities.cshtml" />
     <Content Include="Views\Activity\ShowWeekActivities.cshtml" />
+    <Content Include="Views\TeamSpace\CreateTeamSpace.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

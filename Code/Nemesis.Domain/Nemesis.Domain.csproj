@@ -60,6 +60,7 @@
     <Compile Include="EntityBase.cs" />
     <Compile Include="Feature.cs" />
     <Compile Include="Interface\IEntity.cs" />
+    <Compile Include="Interface\ITeamSpace.cs" />
     <Compile Include="Issue.cs" />
     <Compile Include="MonthObjective.cs" />
     <Compile Include="Objective.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Team.cs" />
     <Compile Include="TeamMember.cs" />
     <Compile Include="TeamType.cs" />
+    <Compile Include="TeamSpace.cs" />
     <Compile Include="WeekObjective.cs" />
     <Compile Include="WorkActivity.cs" />
     <Compile Include="WorkActivityGrade.cs" />

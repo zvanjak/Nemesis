@@ -28,6 +28,7 @@ namespace Nemesis.Web.Controllers
 							assetsView.Add(new AssetViewModel(asset));
 						}
 
+
 						return View(assetsView); 
 					}
         }
